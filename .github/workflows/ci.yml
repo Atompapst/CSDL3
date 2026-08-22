@@ -1,0 +1,276 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: self-hosted-sdl
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  DOTNET_ROOT: /home/github-runner/.dotnet
+  SDL_SOURCE_ROOT: /home/github-runner/source
+  SDL_BUILD_ROOT: /home/github-runner/.cache/csdl3/sdl-build
+  SDL_PREFIX: /home/github-runner/.local/csdl3/sdl-install
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+jobs:
+  build-and-test:
+    name: Build and test
+    timeout-minutes: 90
+
+    # Local source checkouts are shared runner state;
+    # never run fork PR code on this machine.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+
+    runs-on: [self-hosted, linux, x64]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Use runner .NET SDK
+        run: |
+          set -euo pipefail
+
+          echo "DOTNET_ROOT=$DOTNET_ROOT" >> "$GITHUB_ENV"
+          echo "$DOTNET_ROOT" >> "$GITHUB_PATH"
+          echo "$DOTNET_ROOT/tools" >> "$GITHUB_PATH"
+
+          "$DOTNET_ROOT/dotnet" --info
+
+      - name: Prepare SDL environment
+        run: |
+          set -euo pipefail
+
+          mkdir -p "$SDL_BUILD_ROOT" "$SDL_PREFIX"
+
+          echo "$SDL_PREFIX/lib" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$SDL_PREFIX/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+
+          echo
+          echo "┌──────────────────────────────────────────────┐"
+          echo "│ Environment                                  │"
+          echo "├──────────────────────────────────────────────┤"
+          printf "│ %-44s │\n" "DOTNET_ROOT=$DOTNET_ROOT"
+          printf "│ %-44s │\n" "SDL_PREFIX=$SDL_PREFIX"
+          echo "└──────────────────────────────────────────────┘"
+          echo
+
+          {
+            echo "## CI Environment"
+            echo
+            echo "| Variable | Value |"
+            echo "|---|---|"
+            echo "| \`DOTNET_ROOT\` | \`$DOTNET_ROOT\` |"
+            echo "| \`SDL_SOURCE_ROOT\` | \`$SDL_SOURCE_ROOT\` |"
+            echo "| \`SDL_BUILD_ROOT\` | \`$SDL_BUILD_ROOT\` |"
+            echo "| \`SDL_PREFIX\` | \`$SDL_PREFIX\` |"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Update SDL sources
+        run: |
+          set -euo pipefail
+
+          sources=(SDL SDL_image SDL_mixer SDL_net SDL_ttf)
+
+          {
+            echo "## SDL Sources"
+            echo
+            echo "| Component | Revision |"
+            echo "|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          for source in "${sources[@]}"; do
+            repository="$SDL_SOURCE_ROOT/$source"
+
+            echo "::group::Update $source"
+
+            test -d "$repository/.git"
+
+            git -C "$repository" pull --ff-only
+            revision="$(git -C "$repository" rev-parse --short HEAD)"
+
+            echo "$source @ $revision"
+            echo "::endgroup::"
+
+            echo "| \`$source\` | \`$revision\` |" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+          echo >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build and install SDL runtimes
+        run: |
+          set -euo pipefail
+
+          sources=(SDL SDL_image SDL_mixer SDL_net SDL_ttf)
+
+          {
+            echo "## SDL Build"
+            echo
+            echo "| Component | Build directory | Install prefix |"
+            echo "|---|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          for source in "${sources[@]}"; do
+            repository="$SDL_SOURCE_ROOT/$source"
+            build_directory="$SDL_BUILD_ROOT/$source"
+
+            echo "::group::Configure $source"
+            cmake -S "$repository" -B "$build_directory" \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX="$SDL_PREFIX" \
+              -DCMAKE_PREFIX_PATH="$SDL_PREFIX" \
+              -DSDL_SHARED=ON \
+              -DSDL_STATIC=OFF \
+              -DSDL_TESTS=OFF \
+              -DSDL_TEST_LIBRARY=OFF \
+              -DSDL_EXAMPLES=OFF
+            echo "::endgroup::"
+
+            echo "::group::Build $source"
+            cmake --build "$build_directory" --parallel
+            echo "::endgroup::"
+
+            echo "::group::Install $source"
+            cmake --install "$build_directory"
+            echo "::endgroup::"
+
+            echo "| \`$source\` | \`$build_directory\` | \`$SDL_PREFIX\` |" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+          echo >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Summarize SDL runtimes
+        run: |
+          set -euo pipefail
+
+          test -d "$SDL_PREFIX/lib"
+
+          mapfile -t runtimes < <(
+            find "$SDL_PREFIX/lib" -maxdepth 1 -type f -name 'libSDL3*.so*' -print | sort
+          )
+
+          if [ "${#runtimes[@]}" -eq 0 ]; then
+            echo "No SDL runtime files found in $SDL_PREFIX/lib"
+            exit 1
+          fi
+
+          echo
+          echo "SDL runtimes:"
+          for file in "${runtimes[@]}"; do
+            printf "  - %s\n" "$(basename "$file")"
+          done
+          echo
+
+          {
+            echo "## Installed SDL Runtimes"
+            echo
+            echo "| Runtime | Size |"
+            echo "|---|---:|"
+
+            for file in "${runtimes[@]}"; do
+              name="$(basename "$file")"
+              size="$(numfmt --to=iec --suffix=B "$(stat -c%s "$file")")"
+              echo "| \`$name\` | $size |"
+            done
+
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Restore
+        run: |
+          set -euo pipefail
+
+          if find . -name packages.lock.json -print -quit | grep -q .; then
+            dotnet restore --locked-mode --verbosity minimal
+          else
+            dotnet restore --verbosity minimal
+          fi
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore --verbosity minimal
+
+      - name: Stage locally built SDL runtimes
+        run: |
+          set -euo pipefail
+
+          test_dll="$(find CSDL.Tests/bin/Release -name CSDL.Tests.dll -print -quit)"
+          test -n "$test_dll"
+
+          test_output="$(dirname "$test_dll")"
+
+          find "$SDL_PREFIX/lib" -maxdepth 1 -name 'libSDL3*.so*' -exec cp -a {} "$test_output/" \;
+
+          echo
+          echo "┌──────────────────────────────────────────────┐"
+          echo "│ SDL runtimes staged for tests                │"
+          echo "├──────────────────────────────────────────────┤"
+          printf "│ %-44s │\n" "$test_output"
+          echo "└──────────────────────────────────────────────┘"
+          echo
+
+          {
+            echo "## Test Runtime Staging"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| Test output | \`$test_output\` |"
+            echo "| Runtime source | \`$SDL_PREFIX/lib\` |"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Test
+        env:
+          SDL_VIDEODRIVER: x11
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: >
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24 -nolisten tcp"
+          dotnet test CSDL.Tests/CSDL.Tests.csproj --configuration Release --no-build --nologo --verbosity minimal --logger trx
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-results
+          path: "**/TestResults/*.trx"
+          if-no-files-found: ignore
+
+      - name: Write test summary
+        if: always()
+        run: |
+          set -euo pipefail
+
+          trx_file="$(find CSDL.Tests/TestResults -name '*.trx' -print -quit || true)"
+
+          if [ -z "$trx_file" ]; then
+            echo "No TRX file found."
+            exit 0
+          fi
+
+          total="$(grep -o 'total="[0-9]*"' "$trx_file" | head -n1 | grep -o '[0-9]*' || echo '?')"
+          passed="$(grep -o 'passed="[0-9]*"' "$trx_file" | head -n1 | grep -o '[0-9]*' || echo '?')"
+          failed="$(grep -o 'failed="[0-9]*"' "$trx_file" | head -n1 | grep -o '[0-9]*' || echo '?')"
+          skipped="$(grep -o 'notExecuted="[0-9]*"' "$trx_file" | head -n1 | grep -o '[0-9]*' || echo '?')"
+
+          {
+            echo "## Test Result"
+            echo
+            echo "| Metric | Value |"
+            echo "|---|---:|"
+            echo "| Total | $total |"
+            echo "| Passed | $passed |"
+            echo "| Failed | $failed |"
+            echo "| Skipped | $skipped |"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,4 @@
+root = true
+
+[**/_Generated/*Docs.g.cs]
+dotnet_diagnostic.CS1572.severity = none

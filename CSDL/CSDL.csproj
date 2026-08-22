@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Platforms>AnyCPU</Platforms>
+        <RootNamespace>CSDL</RootNamespace>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <NoWarn>CS1587;CS0626;CS0419;CS8669;CS1580;CS1574;CS1658;CS1584</NoWarn>
+        <OutputType>library</OutputType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DefineConstants>$(DefineConstants);ASSERT_LEVEL_1_OR_GREATER;ASSERT_LEVEL_2_OR_GREATER</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DefineConstants>$(DefineConstants)</DefineConstants>
+    </PropertyGroup>
+
+    <!--
+        Version is (YYYY.M.D): the SDL wiki docs this wraps change continuously
+        without SDL3's own major version moving, so a hand-picked major/minor would be meaningless.
+        Falls back to today's UTC date for local packs; CI passes an explicit -p:Version for releases.
+    -->
+    <PropertyGroup Label="Versioning" Condition="'$(Version)' == ''">
+        <Version>$([System.DateTime]::UtcNow.ToString(`yyyy.M.d`))</Version>
+    </PropertyGroup>
+
+    <PropertyGroup Label="NuGet">
+        <Title>CSDL3</Title>
+        <Authors>Christof Ignacy</Authors>
+        <PackageId>CSDL3</PackageId>
+        <Company>Christof Ignacy</Company>
+        <Description>An Idomatic, object-oriented C# wrapper for SDL3</Description>
+        <PackageProjectUrl>https://github.com/Atompapst/CSDL3</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Atompapst/CSDL3</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>CSDL;SDL3-CS;SDL3;SDL;</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>logo.png</PackageIcon>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../README.md" Pack="true" Visible="false" PackagePath="\"/>
+        <None Include="../LICENSE" Pack="true" Visible="false" PackagePath="\"/>
+        <None Include="../logo.png" Pack="true" Visible="false" PackagePath="\"/>
+    </ItemGroup>
+
+</Project>
