@@ -12,6 +12,7 @@ namespace CSDL.Input {
         private static readonly object _transformLock = new object();
 
         static Mouse() {
+            Init.InitSubSystem(InitFlags.Video);
             Refresh();
         }
 

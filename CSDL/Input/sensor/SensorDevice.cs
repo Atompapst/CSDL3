@@ -4,6 +4,10 @@
 using CSDL.Extensions;
 namespace CSDL.Input {
     public sealed class SensorDevice : NativeHandle<Opaque.SdlSensor> {
+        static SensorDevice() {
+            Init.InitSubSystem(InitFlags.Sensor);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Sensor.GetSensorID"/>
         public uint Id => SDL.GetSensorID(Handle);
 

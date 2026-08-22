@@ -7,6 +7,10 @@ namespace CSDL.Input {
     public static class Pens {
         private static readonly Dictionary<uint, PenItem> _pens = new Dictionary<uint, PenItem>();
 
+        static Pens() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         public static IReadOnlyCollection<PenItem> Devices => _pens.Values;
 
         internal static void OnPenAdded(uint id, ulong timestamp) {

@@ -7,6 +7,10 @@ using CSDL.Extensions;
 namespace CSDL.Input {
     /// <summary>An opened SDL haptic device.</summary>
     public sealed class HapticDevice : NativeHandle<Opaque.SdlHaptic> {
+        static HapticDevice() {
+            Init.InitSubSystem(InitFlags.Haptic);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Haptic.OpenHaptic"/>
         public HapticDevice(HapticID id) {
             Handle = SDL.OpenHaptic(id).ThrowIfInvalid();

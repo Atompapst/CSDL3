@@ -11,6 +11,8 @@ namespace CSDL.TTF {
     /// <see cref="Surface"/>s.
     /// </summary>
     public sealed class Font : NativeHandle<Opaque.SdlFont> {
+        private IOStream? _streamClosedWithFont;
+
         static Font() {
             TTF.EnsureInitialized();
         }
@@ -23,6 +25,7 @@ namespace CSDL.TTF {
         /// <inheritdoc cref="CSDL.Internal.Docs.TTF.OpenFontIO"/>
         public Font(IOStream stream, float pointSize, bool closeStream = false) {
             Handle = SDL.OpenFontIO(stream.Handle, closeStream, pointSize).ThrowIfInvalid();
+            _streamClosedWithFont = closeStream ? stream : null;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.TTF.OpenFontWithProperties"/>
@@ -340,7 +343,14 @@ namespace CSDL.TTF {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.TTF.CloseFont"/>
         protected override void DisposeResource() {
-            SDL.CloseFont(Handle);
+            try {
+                SDL.CloseFont(Handle);
+            } finally {
+                // SDL_ttf closes a closeStream source together with the font, so its wrapper must
+                // stop exposing the now-invalid native handle.
+                _streamClosedWithFont?.Invalidate();
+                _streamClosedWithFont = null;
+            }
         }
     }
 }

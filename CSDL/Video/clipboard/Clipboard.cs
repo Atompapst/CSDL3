@@ -5,6 +5,10 @@ using System;
 using CSDL.Extensions;
 namespace CSDL.Video {
     public static class Clipboard {
+        static Clipboard() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Clipboard.ClearClipboardData"/>
         public static bool ClearData() {
             return SDL.ClearClipboardData().LogIfFalse();

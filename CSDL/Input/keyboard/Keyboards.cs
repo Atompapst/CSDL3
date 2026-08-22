@@ -11,6 +11,7 @@ namespace CSDL.Input {
         private static readonly Dictionary<uint, KeyboardItem> _keyboards = new Dictionary<uint, KeyboardItem>();
 
         static Keyboards() {
+            Init.InitSubSystem(InitFlags.Video);
             Refresh();
         }
 

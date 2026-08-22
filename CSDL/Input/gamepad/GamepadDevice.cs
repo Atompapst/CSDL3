@@ -5,6 +5,10 @@ using System;
 using CSDL.Extensions;
 namespace CSDL.Input {
     public sealed class GamepadDevice : NativeHandle<Opaque.SdlGamepad> {
+        static GamepadDevice() {
+            Init.InitSubSystem(InitFlags.Gamepad);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Gamepad.GetGamepadID"/>
         public uint Id => GetGamepadID();
 

@@ -11,6 +11,10 @@ namespace CSDL {
         private string[]? _clickCallbackIds;
         private GCHandle[]? _clickUserdataHandles;
 
+        static Tray() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.CreateTray"/>
         /// <remarks>
         ///     SDL keeps using <paramref name="icon"/> only for the duration of this call, so the surface

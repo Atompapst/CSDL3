@@ -9,6 +9,7 @@ namespace CSDL.Input {
         private static readonly Dictionary<TouchID, TouchItem> _touchDevices = new Dictionary<TouchID, TouchItem>();
 
         static Touch() {
+            Init.InitSubSystem(InitFlags.Video);
             Refresh();
         }
 

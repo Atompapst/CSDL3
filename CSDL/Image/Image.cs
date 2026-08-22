@@ -73,6 +73,7 @@ namespace CSDL.Image {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Image.GetClipboardImage"/>
         public static Surface GetClipboardImage() {
+            Init.InitSubSystem(InitFlags.Video);
             NativePtr<SurfaceData> surface = SDL.GetClipboardImage().ThrowIfInvalid();
             return new Surface(surface, true);
         }

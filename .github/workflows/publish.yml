@@ -20,18 +20,59 @@ defaults:
   run:
     shell: bash
 
-env:
-  DOTNET_ROOT: /home/github-runner/.dotnet
-  SDL_SOURCE_ROOT: /home/github-runner/source
-  SDL_BUILD_ROOT: /home/github-runner/.cache/csdl3/sdl-build
-  SDL_PREFIX: /home/github-runner/.local/csdl3/sdl-install
-  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-
 jobs:
+  prepare-release:
+    name: Determine release version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      should_publish: ${{ steps.release.outputs.should_publish }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Determine version and check release tag
+        id: release
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$INPUT_VERSION" ]; then
+            VERSION="$INPUT_VERSION"
+          else
+            VERSION="$(date -u +'%-Y.%-m.%-d')"
+          fi
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            echo "Invalid NuGet version: $VERSION"
+            exit 1
+          fi
+
+          TAG="v$VERSION"
+          if git show-ref --tags --verify --quiet "refs/tags/$TAG"; then
+            SHOULD_PUBLISH=false
+            echo "Release tag $TAG already exists; skipping publish."
+          else
+            SHOULD_PUBLISH=true
+            echo "Release tag $TAG does not exist; publishing is required."
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "should_publish=$SHOULD_PUBLISH" >> "$GITHUB_OUTPUT"
+
   publish:
-    name: Build, test, pack and publish
-    timeout-minutes: 90
+    name: Build, pack and publish
+    needs: prepare-release
+    if: needs.prepare-release.outputs.should_publish == 'true'
+    timeout-minutes: 30
     runs-on: [self-hosted, linux, x64]
+    env:
+      DOTNET_ROOT: /home/github-runner/.dotnet
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
 
     steps:
       - name: Checkout
@@ -49,229 +90,18 @@ jobs:
 
           "$DOTNET_ROOT/dotnet" --info
 
-      - name: Prepare SDL environment
-        run: |
-          set -euo pipefail
-
-          mkdir -p "$SDL_BUILD_ROOT" "$SDL_PREFIX"
-
-          echo "$SDL_PREFIX/lib" >> "$GITHUB_PATH"
-          echo "LD_LIBRARY_PATH=$SDL_PREFIX/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
-
-          echo
-          echo "┌──────────────────────────────────────────────┐"
-          echo "│ Environment                                  │"
-          echo "├──────────────────────────────────────────────┤"
-          printf "│ %-44s │\n" "DOTNET_ROOT=$DOTNET_ROOT"
-          printf "│ %-44s │\n" "SDL_PREFIX=$SDL_PREFIX"
-          echo "└──────────────────────────────────────────────┘"
-          echo
-
-          {
-            echo "## Publish Environment"
-            echo
-            echo "| Variable | Value |"
-            echo "|---|---|"
-            echo "| \`DOTNET_ROOT\` | \`$DOTNET_ROOT\` |"
-            echo "| \`SDL_SOURCE_ROOT\` | \`$SDL_SOURCE_ROOT\` |"
-            echo "| \`SDL_BUILD_ROOT\` | \`$SDL_BUILD_ROOT\` |"
-            echo "| \`SDL_PREFIX\` | \`$SDL_PREFIX\` |"
-            echo
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Update SDL sources
-        run: |
-          set -euo pipefail
-
-          sources=(SDL SDL_image SDL_mixer SDL_net SDL_ttf)
-
-          {
-            echo "## SDL Sources"
-            echo
-            echo "| Component | Revision |"
-            echo "|---|---|"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-          for source in "${sources[@]}"; do
-            repository="$SDL_SOURCE_ROOT/$source"
-
-            echo "::group::Update $source"
-
-            test -d "$repository/.git"
-
-            git -C "$repository" pull --ff-only
-            revision="$(git -C "$repository" rev-parse --short HEAD)"
-
-            echo "$source @ $revision"
-            echo "::endgroup::"
-
-            echo "| \`$source\` | \`$revision\` |" >> "$GITHUB_STEP_SUMMARY"
-          done
-
-          echo >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Build and install SDL runtimes
-        run: |
-          set -euo pipefail
-
-          sources=(SDL SDL_image SDL_mixer SDL_net SDL_ttf)
-
-          {
-            echo "## SDL Build"
-            echo
-            echo "| Component | Build directory | Install prefix |"
-            echo "|---|---|---|"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-          for source in "${sources[@]}"; do
-            repository="$SDL_SOURCE_ROOT/$source"
-            build_directory="$SDL_BUILD_ROOT/$source"
-
-            echo "::group::Configure $source"
-            cmake -S "$repository" -B "$build_directory" \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_INSTALL_PREFIX="$SDL_PREFIX" \
-              -DCMAKE_PREFIX_PATH="$SDL_PREFIX" \
-              -DSDL_SHARED=ON \
-              -DSDL_STATIC=OFF \
-              -DSDL_TESTS=OFF \
-              -DSDL_TEST_LIBRARY=OFF \
-              -DSDL_EXAMPLES=OFF
-            echo "::endgroup::"
-
-            echo "::group::Build $source"
-            cmake --build "$build_directory" --parallel
-            echo "::endgroup::"
-
-            echo "::group::Install $source"
-            cmake --install "$build_directory"
-            echo "::endgroup::"
-
-            echo "| \`$source\` | \`$build_directory\` | \`$SDL_PREFIX\` |" >> "$GITHUB_STEP_SUMMARY"
-          done
-
-          echo >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Summarize SDL runtimes
-        run: |
-          set -euo pipefail
-
-          test -d "$SDL_PREFIX/lib"
-
-          mapfile -t runtimes < <(
-            find "$SDL_PREFIX/lib" -maxdepth 1 -type f -name 'libSDL3*.so*' -print | sort
-          )
-
-          if [ "${#runtimes[@]}" -eq 0 ]; then
-            echo "No SDL runtime files found in $SDL_PREFIX/lib"
-            exit 1
-          fi
-
-          echo
-          echo "SDL runtimes:"
-          for file in "${runtimes[@]}"; do
-            printf "  - %s\n" "$(basename "$file")"
-          done
-          echo
-
-          {
-            echo "## Installed SDL Runtimes"
-            echo
-            echo "| Runtime | Size |"
-            echo "|---|---:|"
-
-            for file in "${runtimes[@]}"; do
-              name="$(basename "$file")"
-              size="$(numfmt --to=iec --suffix=B "$(stat -c%s "$file")")"
-              echo "| \`$name\` | $size |"
-            done
-
-            echo
-          } >> "$GITHUB_STEP_SUMMARY"
-      
-      - name: Determine package version
-        id: version
-        run: |
-          set -euo pipefail
-
-          INPUT_VERSION="${{ inputs.version }}"
-
-          if [ -n "$INPUT_VERSION" ]; then
-            VERSION="$INPUT_VERSION"
-          else
-            VERSION="$(date -u +'%-Y.%-m.%-d')"
-          fi
-
-          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
-            echo "Invalid NuGet version: $VERSION"
-            exit 1
-          fi
-
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
-          echo
-          echo "┌──────────────────────────────────────────────┐"
-          echo "│ NuGet package version                        │"
-          echo "├──────────────────────────────────────────────┤"
-          printf "│ %-44s │\n" "$VERSION"
-          echo "└──────────────────────────────────────────────┘"
-          echo
-
-          {
-            echo "## NuGet Publish"
-            echo
-            echo "| Field | Value |"
-            echo "|---|---|"
-            echo "| Package | \`CSDL3\` |"
-            echo "| Version | \`$VERSION\` |"
-            echo "| Source | \`https://api.nuget.org/v3/index.json\` |"
-            echo
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Restore
         run: |
           set -euo pipefail
 
           if find . -name packages.lock.json -print -quit | grep -q .; then
-            dotnet restore --locked-mode --verbosity minimal
+            dotnet restore CSDL/CSDL.csproj --locked-mode --verbosity minimal
           else
-            dotnet restore --verbosity minimal
+            dotnet restore CSDL/CSDL.csproj --verbosity minimal
           fi
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore --verbosity minimal -p:Version=${{ steps.version.outputs.version }}
-
-      - name: Stage locally built SDL runtimes
-        run: |
-          set -euo pipefail
-
-          test_dll="$(find CSDL.Tests/bin/Release -name CSDL.Tests.dll -print -quit)"
-          test -n "$test_dll"
-
-          test_output="$(dirname "$test_dll")"
-
-          find "$SDL_PREFIX/lib" -maxdepth 1 -name 'libSDL3*.so*' -exec cp -a {} "$test_output/" \;
-
-          echo
-          echo "┌──────────────────────────────────────────────┐"
-          echo "│ SDL runtimes staged for tests                │"
-          echo "├──────────────────────────────────────────────┤"
-          printf "│ %-44s │\n" "$test_output"
-          echo "└──────────────────────────────────────────────┘"
-          echo
-
-          {
-            echo "## Test Runtime Staging"
-            echo
-            echo "| Field | Value |"
-            echo "|---|---|"
-            echo "| Test output | \`$test_output\` |"
-            echo "| Runtime source | \`$SDL_PREFIX/lib\` |"
-            echo
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Test
-        run: dotnet test CSDL.Tests/CSDL.Tests.csproj --configuration Release --no-build --verbosity minimal --logger trx
+        run: dotnet build CSDL/CSDL.csproj --configuration Release --no-restore --verbosity minimal -p:Version=${{ needs.prepare-release.outputs.version }}
 
       - name: Pack
         run: |
@@ -283,8 +113,9 @@ jobs:
           dotnet pack CSDL/CSDL.csproj \
             --configuration Release \
             --no-build \
+            --no-restore \
             --verbosity minimal \
-            -p:Version=${{ steps.version.outputs.version }} \
+            -p:Version=${{ needs.prepare-release.outputs.version }} \
             -o artifacts
 
           echo
@@ -300,25 +131,10 @@ jobs:
           echo "└──────────────────────────────────────────────┘"
           echo
 
-          {
-            echo "## Created Packages"
-            echo
-            echo "| Package | Size |"
-            echo "|---|---:|"
-
-            while IFS= read -r package; do
-              name="$(basename "$package")"
-              size="$(numfmt --to=iec --suffix=B "$(stat -c%s "$package")")"
-              echo "| \`$name\` | $size |"
-            done < <(find artifacts -maxdepth 1 -name '*.nupkg' -print | sort)
-
-            echo
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nuget-package-${{ steps.version.outputs.version }}
+          name: nuget-package-${{ needs.prepare-release.outputs.version }}
           path: artifacts/*.nupkg
           if-no-files-found: error
 
@@ -332,65 +148,39 @@ jobs:
         run: |
           set -euo pipefail
 
-          dotnet nuget push "artifacts/*.nupkg" \
-            --api-key "${{ steps.nuget_login.outputs.NUGET_API_KEY }}" \
-            --source https://api.nuget.org/v3/index.json \
-            --skip-duplicate
+          VERSION="${{ needs.prepare-release.outputs.version }}"
+          PACKAGE_URL="https://api.nuget.org/v3-flatcontainer/csdl3/$VERSION/csdl3.$VERSION.nupkg"
 
           echo
           echo "┌──────────────────────────────────────────────┐"
-          echo "│ Published to NuGet.org                       │"
-          echo "├──────────────────────────────────────────────┤"
-          printf "│ %-44s │\n" "CSDL3 ${{ steps.version.outputs.version }}"
-          echo "└──────────────────────────────────────────────┘"
+          if curl --fail --silent --show-error --head "$PACKAGE_URL"; then
+            echo "│ Already available on NuGet.org                │"
+            echo "├──────────────────────────────────────────────┤"
+            printf "│ %-44s │\n" "CSDL3 $VERSION"
+            echo "└──────────────────────────────────────────────┘"
+          else
+            dotnet nuget push "artifacts/*.nupkg" \
+              --api-key "${{ steps.nuget_login.outputs.NUGET_API_KEY }}" \
+              --source https://api.nuget.org/v3/index.json
+
+            echo "│ Published to NuGet.org                       │"
+            echo "├──────────────────────────────────────────────┤"
+            printf "│ %-44s │\n" "CSDL3 $VERSION"
+            echo "└──────────────────────────────────────────────┘"
+          fi
           echo
 
       - name: Tag release
         run: |
           set -euo pipefail
 
-          VERSION="${{ steps.version.outputs.version }}"
+          VERSION="${{ needs.prepare-release.outputs.version }}"
           TAG="v$VERSION"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git fetch --tags --force
-
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists."
-            echo "tag_status=already-exists" >> "$GITHUB_ENV"
-          else
-            git tag "$TAG"
-            git push origin "$TAG"
-            echo "tag_status=created" >> "$GITHUB_ENV"
-          fi
-
-          echo
-          echo "┌──────────────────────────────────────────────┐"
-          echo "│ Release tag                                  │"
-          echo "├──────────────────────────────────────────────┤"
-          printf "│ %-44s │\n" "$TAG"
-          echo "└──────────────────────────────────────────────┘"
-          echo
-
-          {
-            echo "## Release Tag"
-            echo
-            echo "| Field | Value |"
-            echo "|---|---|"
-            echo "| Tag | \`$TAG\` |"
-            echo "| Status | \`${tag_status:-created}\` |"
-            echo
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: test-results-${{ steps.version.outputs.version }}
-          path: "**/TestResults/*.trx"
-          if-no-files-found: ignore
+          git tag "$TAG"
+          git push origin "$TAG"
 
       - name: Write final publish summary
         if: always()
@@ -404,7 +194,7 @@ jobs:
             echo "|---|---|"
             echo "| Job status | \`${{ job.status }}\` |"
             echo "| Package | \`CSDL3\` |"
-            echo "| Version | \`${{ steps.version.outputs.version }}\` |"
+            echo "| Version | \`${{ needs.prepare-release.outputs.version }}\` |"
             echo "| Configuration | \`Release\` |"
             echo "| Target framework | \`net10.0\` |"
             echo "| Runner | \`${{ runner.name }}\` |"

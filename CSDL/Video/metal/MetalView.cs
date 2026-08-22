@@ -6,6 +6,10 @@ using CSDL.Extensions;
 
 namespace CSDL.Video {
     public sealed class MetalView : NativeHandle<CSDL.Opaque.SdlMetalView> {
+        static MetalView() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Metal.Metal_CreateView"/>
         public MetalView(Window window) {
             ArgumentNullException.ThrowIfNull(window);
