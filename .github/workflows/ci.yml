@@ -201,6 +201,14 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore --verbosity minimal
 
+      - name: Report unresolved inheritdoc tags
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r documentation; do
+            grep -nH -o '<inheritdoc[^>]*>' "$documentation" || true
+          done < <(find CSDL/bin/Release -maxdepth 2 -type f -name 'CSDL.xml' -print | sort)
+
       - name: Stage locally built SDL runtimes
         run: |
           set -euo pipefail
