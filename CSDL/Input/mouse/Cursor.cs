@@ -8,6 +8,10 @@ using CSDL.Video;
 namespace CSDL.Input {
     /// <summary>A native cursor owned by the caller.</summary>
     public sealed class Cursor : NativeHandle<Opaque.SdlCursor> {
+        static Cursor() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Mouse.CreateSystemCursor"/>
         public Cursor(SystemCursor cursor) {
             Handle = SDL.CreateSystemCursor(cursor).ThrowIfInvalid();

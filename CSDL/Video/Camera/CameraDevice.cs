@@ -6,6 +6,9 @@ using CSDL.Extensions;
 namespace CSDL.Video {
 
     public sealed class CameraDevice : NativeHandle<CSDL.Opaque.SdlCamera> {
+        static CameraDevice() {
+            Init.InitSubSystem(InitFlags.Camera);
+        }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Camera.OpenCamera"/>
         public CameraDevice(CameraID id, CameraSpec spec) {

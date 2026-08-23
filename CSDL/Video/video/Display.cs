@@ -35,6 +35,7 @@ namespace CSDL.Video {
         }
 
         static Display() {
+            Init.InitSubSystem(InitFlags.Video);
             Refresh();
         }
 

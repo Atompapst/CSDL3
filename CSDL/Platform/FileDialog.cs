@@ -15,6 +15,9 @@ namespace CSDL {
     ///     are kept alive until it fires, so nothing needs to be rooted by the caller.
     /// </remarks>
     public static class FileDialog {
+        static FileDialog() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Dialog.ShowOpenFileDialog"/>
         /// <param name="callback">invoked with the chosen file(s), or an empty list if the user cancelled.</param>

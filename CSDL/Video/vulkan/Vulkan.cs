@@ -5,6 +5,10 @@ using System;
 using CSDL.Extensions;
 namespace CSDL.Video {
     public static class Vulkan {
+        static Vulkan() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Vulkan.Vulkan_LoadLibrary"/>
         public static bool LoadLibrary(string? path = null) {
             return SDL.Vulkan_LoadLibrary(path).LogIfFalse();

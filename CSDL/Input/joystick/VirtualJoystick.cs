@@ -13,6 +13,10 @@ namespace CSDL.Input {
         private readonly string _callbackId;
         private bool _disposed;
 
+        static VirtualJoystick() {
+            Init.InitSubSystem(InitFlags.Joystick);
+        }
+
         /// <summary>The instance ID SDL assigned this virtual joystick, usable with every other joystick/gamepad API.</summary>
         public JoystickID Id { get; }
 

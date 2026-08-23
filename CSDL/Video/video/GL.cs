@@ -11,6 +11,10 @@ namespace CSDL.Video {
     /// operations, see <see cref="Window"/> and <see cref="GLContext"/>.
     /// </summary>
     public static class GL {
+        static GL() {
+            Init.InitSubSystem(InitFlags.Video);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Video.GL_GetCurrentContext"/>
         public static GLContext? CurrentContext {
             get {

@@ -5,6 +5,10 @@ using System;
 using CSDL.Extensions;
 namespace CSDL.Input {
     public sealed class JoystickDevice : NativeHandle<Opaque.SdlJoystick> {
+        static JoystickDevice() {
+            Init.InitSubSystem(InitFlags.Joystick);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.GetJoystickID"/>
         public uint Id => GetJoystickID();
 

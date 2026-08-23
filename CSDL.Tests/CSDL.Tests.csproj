@@ -22,4 +22,10 @@
     <ItemGroup>
         <ProjectReference Include="..\CSDL\CSDL.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Assets\TTF\pixelbasel.medium.ttf">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 </Project>

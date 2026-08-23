@@ -101,8 +101,8 @@ namespace CSDL3.Example {
             using (var window = new Window("My Application", 800, 600)) {
                 using (var renderer = new Renderer(window)) {
                     string text = (string)userdata;
-                    // DefaultClearColor Applied when Clear() is called across all Renderers; adjust to your liking
-                    Renderer.DefaultClearColor = Color.Random();
+                    // ClearColor Applied when Clear() is called; adjust to your liking
+                    renderer.ClearColor = Color.Random();
 
                     // Window queries must stay on the main thread, so cache the size once and
                     // hand it to the timer callback instead of touching `window` from its thread.
