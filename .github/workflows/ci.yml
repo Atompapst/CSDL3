@@ -194,8 +194,10 @@ jobs:
 
           if find . -name packages.lock.json -print -quit | grep -q .; then
             dotnet restore --locked-mode --verbosity minimal
+            dotnet restore tools/ExpandInheritDoc/ExpandInheritDoc.csproj --locked-mode --verbosity minimal
           else
             dotnet restore --verbosity minimal
+            dotnet restore tools/ExpandInheritDoc/ExpandInheritDoc.csproj --verbosity minimal
           fi
 
       - name: Build
