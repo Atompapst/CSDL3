@@ -194,12 +194,22 @@ jobs:
 
           if find . -name packages.lock.json -print -quit | grep -q .; then
             dotnet restore --locked-mode --verbosity minimal
+            dotnet restore tools/ExpandInheritDoc/ExpandInheritDoc.csproj --locked-mode --verbosity minimal
           else
             dotnet restore --verbosity minimal
+            dotnet restore tools/ExpandInheritDoc/ExpandInheritDoc.csproj --verbosity minimal
           fi
 
       - name: Build
         run: dotnet build --configuration Release --no-restore --verbosity minimal
+
+      - name: Report unresolved inheritdoc tags
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r documentation; do
+            grep -nH -o '<inheritdoc[^>]*>' "$documentation" || true
+          done < <(find CSDL/bin/Release -maxdepth 2 -type f -name 'CSDL.xml' -print | sort)
 
       - name: Stage locally built SDL runtimes
         run: |

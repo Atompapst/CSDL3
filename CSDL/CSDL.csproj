@@ -52,4 +52,9 @@
         <None Include="../logo.png" Pack="true" Visible="false" PackagePath="\"/>
     </ItemGroup>
 
+
+    <Target Name="ExpandInheritDoc" AfterTargets="CoreCompile" Condition="'$(GenerateDocumentationFile)' == 'true'">
+        <Exec Command="dotnet run --project &quot;$(MSBuildProjectDirectory)/../tools/ExpandInheritDoc/ExpandInheritDoc.csproj&quot; --no-restore -- &quot;$(MSBuildProjectDirectory)/$(DocumentationFile)&quot;" />
+    </Target>
+
 </Project>

@@ -38,7 +38,7 @@ namespace CSDL {
                 SDL.SetLogPriorities(priority);
             }
 
-            /// <inheritdoc cref="CSDL.Internal.Docs.Log.Reset"/>
+            /// <inheritdoc cref="CSDL.Internal.Docs.Log.ResetLogPriorities"/>
             public void Reset() {
                 SDL.ResetLogPriorities();
             }
