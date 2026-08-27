@@ -5,7 +5,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using CSDL.Extensions;
 
 namespace CSDL.Video {
     public partial struct FRect : IEquatable<FRect> {
@@ -48,49 +47,89 @@ namespace CSDL.Video {
         /// </summary>
         /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
         public bool IsEmpty => W < 0f || H < 0f;
+        
+        #region CSDL_IMPL SDL_RECT_CAN_OVERFLOW : SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
+        
+        /// <summary>Shared with <see cref="Rect"/> and <see cref="LineUtils"/> - mirrors SDL_RECT_CAN_OVERFLOW.</summary>
+        internal static bool RectCanOverflow(ref FRect r) {
+            const float halfMax = (float)(int.MaxValue / 2);
+            const float halfMin = (float)(int.MinValue / 2);
+            return r.X <= halfMin || r.X >= halfMax ||
+                   r.Y <= halfMin || r.Y >= halfMax ||
+                   r.W >= halfMax || r.H >= halfMax;
+        }
+        #endregion
+        
+        #region CSDL_IMPL SDL_HasRectIntersectionFloat : SDL_rect_impl#SDL_HASINTERSECTION, SDL_RECT_CAN_OVERFLOW
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
         public bool Intersects(FRect other) {
-            return SDL.HasRectIntersectionFloat(other, this);
+            return Intersects(this, other);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
         public static bool Intersects(FRect a, FRect b) {
-            return SDL.HasRectIntersectionFloat(a, b);
+            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) return false;
+            return HasRectIntersection(ref a, ref b);
         }
+
+        private static bool HasRectIntersection(ref FRect a, ref FRect b) {
+            // Horizontal intersection - float's ENCLOSEPOINTS_EPSILON is 0, unlike Rect's 1.
+            float aMin = a.X;
+            float aMax = aMin + a.W;
+            float bMin = b.X;
+            float bMax = bMin + b.W;
+            if (bMin > aMin) aMin = bMin;
+            if (bMax < aMax) aMax = bMax;
+            if (aMax < aMin) return false;
+
+            // Vertical intersection
+            aMin = a.Y;
+            aMax = aMin + a.H;
+            bMin = b.Y;
+            bMax = bMin + b.H;
+            if (bMin > aMin) aMin = bMin;
+            if (bMax < aMax) aMax = bMax;
+            if (aMax < aMin) return false;
+            return true;
+        }
+        #endregion
+
+        #region CSDL_IMPL SDL_GetRectIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECT, SDL_RECT_CAN_OVERFLOW
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
         public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
-            // false just means "these rects don't overlap" - not an SDL error, so no LogIfFalse.
-            return SDL.GetRectIntersectionFloat(a, b, out result);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnionFloat"/>
-        public static FRect Union(FRect a, FRect b) {
-            SDL.GetRectUnionFloat(a, b, out FRect result).LogIfFalse();
-            return result;
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPointsFloat"/>
-        public static bool TryGetEnclosingPoints(FPoint[] points, FRect? clip, out FRect result) {
-            if (points == null || points.Length == 0) {
+            // false just means "these rects don't overlap" (or overflow) - not an SDL error.
+            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
                 result = default;
                 return false;
             }
 
-            NativePtr<FPoint> raw = points.ToUnmanaged();
-            try {
-                // false here just means "all points were outside the clip rect" - not an SDL error.
-                if (clip.HasValue) {
-                    FRect clipValue = clip.Value;
-                    return SDL.GetRectEnclosingPointsFloat(raw, points.Length, NativePtr<FRect>.FromRef(ref clipValue), out result);
-                }
-                return SDL.GetRectEnclosingPointsFloat(raw, points.Length, NativePtr<FRect>.Zero, out result);
-            }
-            finally {
-                raw.Free();
-            }
+            // Horizontal intersection
+            float aMin = a.X;
+            float aMax = aMin + a.W;
+            float bMin = b.X;
+            float bMax = bMin + b.W;
+            if (bMin > aMin) aMin = bMin;
+            float x = aMin;
+            if (bMax < aMax) aMax = bMax;
+            float w = aMax - aMin;
+
+            // Vertical intersection
+            aMin = a.Y;
+            aMax = aMin + a.H;
+            bMin = b.Y;
+            bMax = bMin + b.H;
+            if (bMin > aMin) aMin = bMin;
+            float y = aMin;
+            if (bMax < aMax) aMax = bMax;
+            float h = aMax - aMin;
+
+            result = new FRect(x, y, w, h);
+            return !result.IsEmpty;
         }
+        #endregion
+
 
         // public static explicit operator FRect(Rect r) {
         //     SDL.RectToFRect(r, out FRect result);

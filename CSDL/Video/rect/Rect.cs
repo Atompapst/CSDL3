@@ -1,9 +1,10 @@
 // SPDX-FileCopyrightText: 2026 Christof Ignacy
 // SPDX-License-Identifier: Zlib
 
+using CSDL.Extensions;
 using System;
 using System.Numerics;
-using CSDL.Extensions;
+using System.Runtime.CompilerServices;
 
 namespace CSDL.Video {
 
@@ -27,6 +28,7 @@ namespace CSDL.Video {
             Y = topLeft.Y;
             W = size.X;
             H = size.Y;
+            Rect res = Unsafe.NullRef<Rect>();
         }
 
         public static Rect One => new Rect(0, 0, 1, 1);
@@ -47,16 +49,99 @@ namespace CSDL.Video {
         /// </summary>
         /// <seealso><c>SDL_RectEmpty</c></seealso>
         public bool IsEmpty => W <= 0 || H <= 0;
+        
+        #region CSDL_IMPL SDL_RECT_CAN_OVERFLOW : SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
+        
+        /// <summary>Shared with <see cref="FRect"/> and <see cref="LineUtils"/> - mirrors SDL_RECT_CAN_OVERFLOW.</summary>
+        private static bool RectCanOverflow(in Rect r) {
+            const int halfMax = int.MaxValue / 2;
+            const int halfMin = int.MinValue / 2;
+            return r.X <= halfMin || r.X >= halfMax ||
+                   r.Y <= halfMin || r.Y >= halfMax ||
+                   r.W >= halfMax || r.H >= halfMax;
+        }
+        
+        #endregion
 
+        #region CSDL_IMPL SDL_HasRectIntersection : SDL_rect_impl#SDL_HASINTERSECTION, SDL_RECT_CAN_OVERFLOW
+        
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
-        public bool Intersects(Rect other) {
-            return SDL.HasRectIntersection(other, this);
+        public bool HasIntersection(in Rect other) {
+            if (RectCanOverflow(in this) || RectCanOverflow(in other)) return false;
+            return HasRectIntersection(in this, in other);
+        }
+        
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
+        public bool HasIntersectionUnchecked(in Rect other) {
+            return HasRectIntersection(in this, in other);
+        }
+        
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
+        public static bool HasIntersection(in Rect a, in Rect b) {
+            if (RectCanOverflow(in a) || RectCanOverflow(in b)) return false;
+            return HasRectIntersection(in a, in b);
+        }
+        
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
+        public static bool IntersectsUnchecked(in Rect a, in Rect b) {
+            return HasRectIntersection(in a, in b);
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
-        public static bool Intersects(Rect a, Rect b) {
-            return SDL.HasRectIntersection(a, b);
+        private static bool HasRectIntersection(in Rect a, in Rect b) {
+            // Horizontal intersection
+            int aMin = a.X;
+            int aMax = aMin + a.W;
+            int bMin = b.X;
+            int bMax = bMin + b.W;
+            if (bMin > aMin) aMin = bMin;
+            if (bMax < aMax) aMax = bMax;
+            if (aMax - 1 < aMin) return false;
+
+            // Vertical intersection
+            aMin = a.Y;
+            aMax = aMin + a.H;
+            bMin = b.Y;
+            bMax = bMin + b.H;
+            if (bMin > aMin) aMin = bMin;
+            if (bMax < aMax) aMax = bMax;
+            if (aMax - 1 < aMin) return false;
+            return true;
         }
+        #endregion
+
+        #region CSDL_IMPL SDL_GetRectIntersection : SDL_rect_impl#SDL_INTERSECTRECT, SDL_RECT_CAN_OVERFLOW
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersection"/>
+        public static bool GetRectIntersection(in Rect a, in Rect b, out Rect result) {
+            if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
+                result = default;
+                return false;
+            }
+
+            // Horizontal intersection
+            int aMin = a.X;
+            int aMax = aMin + a.W;
+            int bMin = b.X;
+            int bMax = bMin + b.W;
+            if (bMin > aMin) aMin = bMin;
+            int x = aMin;
+            if (bMax < aMax) aMax = bMax;
+            int w = aMax - aMin;
+
+            // Vertical intersection
+            aMin = a.Y;
+            aMax = aMin + a.H;
+            bMin = b.Y;
+            bMax = bMin + b.H;
+            if (bMin > aMin) aMin = bMin;
+            int y = aMin;
+            if (bMax < aMax) aMax = bMax;
+            int h = aMax - aMin;
+
+            result = new Rect(x, y, w, h);
+            return !result.IsEmpty;
+        }
+        #endregion
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnion"/>
         public static Rect Union(Rect a, Rect b) {
