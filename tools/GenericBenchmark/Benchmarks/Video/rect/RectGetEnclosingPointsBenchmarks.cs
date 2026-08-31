@@ -7,7 +7,7 @@ using Rect = RealCSDL::CSDL.Video.Rect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="Rect.TryGetEnclosingPoints"/>, CSDL/Video/rect/Rect.Extension.cs)
+    ///     Managed CSDL_IMPL port (<see cref="Rect.TryGetEnclosingPoints"/>, CSDL/Video/rect/Rect.CSDL_IMPL.cs)
     ///     vs the native SDL_GetRectEnclosingPoints it stands in for. Runs unclipped (clip = null), which
     ///     is the cheaper of the two code paths in both implementations.
     /// </summary>

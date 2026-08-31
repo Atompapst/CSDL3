@@ -6,7 +6,7 @@ using FRect = RealCSDL::CSDL.Video.FRect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="FRect.GetRectAndLineIntersection"/>, CSDL/Video/rect/FRect.Extension.cs)
+    ///     Managed CSDL_IMPL port (<see cref="FRect.GetRectAndLineIntersection"/>, CSDL/Video/rect/FRect.CSDL_IMPL.cs)
     ///     vs the native SDL_GetRectAndLineIntersectionFloat it stands in for. The line runs diagonally
     ///     through the rect (x1 != x2 and y1 != y2) so both implementations exercise the full
     ///     Cohen-Sutherland clip loop rather than the horizontal/vertical fast paths.

@@ -6,8 +6,8 @@ using FRect = RealCSDL::CSDL.Video.FRect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="FRect.TryUnion(FRect, FRect, out FRect)"/>,
-    ///     CSDL/Video/rect/FRect.Extension.cs) vs the native SDL_GetRectUnionFloat it stands in for.
+    ///     Managed CSDL_IMPL port (<see cref="FRect.Union(FRect, FRect, out FRect)"/>,
+    ///     CSDL/Video/rect/FRect.CSDL_IMPL.cs) vs the native SDL_GetRectUnionFloat it stands in for.
     /// </summary>
     [MediumRunJob]
     [MemoryDiagnoser]

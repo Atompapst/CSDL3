@@ -7,7 +7,7 @@ using FRect = RealCSDL::CSDL.Video.FRect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="FRect.TryGetEnclosingPoints"/>, CSDL/Video/rect/FRect.Extension.cs)
+    ///     Managed CSDL_IMPL port (<see cref="FRect.TryGetEnclosingPoints"/>, CSDL/Video/rect/FRect.CSDL_IMPL.cs)
     ///     vs the native SDL_GetRectEnclosingPointsFloat it stands in for. Runs unclipped (clip = null),
     ///     which is the cheaper of the two code paths in both implementations.
     /// </summary>

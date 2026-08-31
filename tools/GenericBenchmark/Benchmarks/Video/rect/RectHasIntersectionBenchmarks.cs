@@ -6,7 +6,7 @@ using Rect = RealCSDL::CSDL.Video.Rect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="Rect.HasIntersection(in Rect)"/>, CSDL/Video/rect/Rect.Extension.cs)
+    ///     Managed CSDL_IMPL port (<see cref="Rect.HasIntersection(in Rect)"/>, CSDL/Video/rect/Rect.CSDL_IMPL.cs)
     ///     vs the native SDL_HasRectIntersection it stands in for. Confirms the managed port is worth
     ///     it for this call shape (two small structs, almost no native work) rather than assuming it.
     /// </summary>

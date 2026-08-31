@@ -7,7 +7,7 @@ using Rect = RealCSDL::CSDL.Video.Rect;
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
     ///     Managed CSDL_IMPL port (<see cref="Rect.GetRectIntersection(in Rect, in Rect, out Rect)"/>,
-    ///     CSDL/Video/rect/Rect.Extension.cs) vs the native SDL_GetRectIntersection it stands in for.
+    ///     CSDL/Video/rect/Rect.CSDL_IMPL.cs) vs the native SDL_GetRectIntersection it stands in for.
     /// </summary>
     [MediumRunJob]
     [MemoryDiagnoser]

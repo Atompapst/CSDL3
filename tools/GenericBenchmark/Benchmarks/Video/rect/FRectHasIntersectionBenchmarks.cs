@@ -6,7 +6,7 @@ using FRect = RealCSDL::CSDL.Video.FRect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="FRect.Intersects(FRect, FRect)"/>, CSDL/Video/rect/FRect.Extension.cs)
+    ///     Managed CSDL_IMPL port (<see cref="FRect.Intersects(FRect, FRect)"/>, CSDL/Video/rect/FRect.CSDL_IMPL.cs)
     ///     vs the native SDL_HasRectIntersectionFloat it stands in for.
     /// </summary>
     [MediumRunJob]

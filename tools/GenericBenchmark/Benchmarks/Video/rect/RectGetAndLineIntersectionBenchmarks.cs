@@ -6,7 +6,7 @@ using Rect = RealCSDL::CSDL.Video.Rect;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
-    ///     Managed CSDL_IMPL port (<see cref="Rect.GetRectAndLineIntersection"/>, CSDL/Video/rect/Rect.Extension.cs)
+    ///     Managed CSDL_IMPL port (<see cref="Rect.GetRectAndLineIntersection"/>, CSDL/Video/rect/Rect.CSDL_IMPL.cs)
     ///     vs the native SDL_GetRectAndLineIntersection it stands in for. The line runs diagonally through
     ///     the rect (x1 != x2 and y1 != y2) so both implementations exercise the full Cohen-Sutherland clip
     ///     loop rather than the horizontal/vertical fast paths.
