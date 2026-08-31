@@ -33,21 +33,6 @@ namespace CSDL.Video {
         public Point Size => new Point(W, H);
 
         /// <summary>
-        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches SDL_PointInRect's
-        /// half-open semantics: the right/bottom edge is excluded).
-        /// </summary>
-        /// <seealso><c>SDL_PointInRect</c></seealso>
-        public bool Contains(Point point) {
-            return point.X >= X && point.X < X + W && point.Y >= Y && point.Y < Y + H;
-        }
-
-        /// <summary>
-        /// <c>true</c> if this rect has no area, i.e. width or height is zero or negative.
-        /// </summary>
-        /// <seealso><c>SDL_RectEmpty</c></seealso>
-        public bool IsEmpty => W <= 0 || H <= 0;
-
-        /// <summary>
         /// Clips <paramref name="line"/> to this rect, writing the clipped segment to
         /// <paramref name="res"/> and returning whether it intersects at all.
         /// </summary>
@@ -79,10 +64,6 @@ namespace CSDL.Video {
             return new Vector4(r.X, r.Y, r.W, r.H);
         }
 
-        /// <seealso><c>SDL_RectsEqual</c></seealso>
-        public bool Equals(Rect other) {
-            return X == other.X && Y == other.Y && W == other.W && H == other.H;
-        }
         public override bool Equals(object? obj) {
             return obj is Rect other && Equals(other);
         }

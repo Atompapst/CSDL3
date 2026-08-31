@@ -1,9 +1,77 @@
 // SPDX-FileCopyrightText: 2026 Christof Ignacy
 // SPDX-License-Identifier: Zlib
 
+using System;
+
 namespace CSDL.Video {
 
     public partial struct FRect {
+
+        #region CSDL_IMPL SDL_PointInRectFloat : SDL_rect#SDL_PointInRectFloat
+
+        /// <summary>
+        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches
+        /// SDL_PointInRectFloat's closed semantics: the right/bottom edge is included).
+        /// </summary>
+        /// <seealso><c>SDL_PointInRectFloat</c></seealso>
+        public bool Contains(FPoint point) {
+            return point.X >= X && point.X <= X + W && point.Y >= Y && point.Y <= Y + H;
+        }
+
+        #endregion
+
+        #region CSDL_IMPL SDL_RectEmptyFloat : SDL_rect#SDL_RectEmptyFloat
+
+        /// <summary>
+        /// <c>true</c> if this rect has no area, i.e. width or height is negative. Unlike
+        /// <see cref="Rect.IsEmpty"/>, a zero-sized float rect is NOT considered empty
+        /// (matches SDL_RectEmptyFloat).
+        /// </summary>
+        /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
+        public bool IsEmpty => W < 0f || H < 0f;
+
+        #endregion
+
+        #region CSDL_IMPL SDL_RectsEqualEpsilon : SDL_rect#SDL_RectsEqualEpsilon
+
+        /// <summary>
+        /// Compares this rect to <paramref name="other"/> allowing each field to differ by up to
+        /// <paramref name="epsilon"/>, to absorb floating point precision drift.
+        /// </summary>
+        /// <seealso><c>SDL_RectsEqualEpsilon</c></seealso>
+        public bool EqualsEpsilon(FRect other, float epsilon) {
+            return MathF.Abs(X - other.X) <= epsilon &&
+                   MathF.Abs(Y - other.Y) <= epsilon &&
+                   MathF.Abs(W - other.W) <= epsilon &&
+                   MathF.Abs(H - other.H) <= epsilon;
+        }
+
+        #endregion
+
+        #region CSDL_IMPL SDL_RectsEqualFloat : SDL_rect#SDL_RectsEqualFloat, SDL_RectsEqualEpsilon
+
+        /// <summary>
+        /// Compares this rect to <paramref name="other"/> within <see cref="CSDL.Macros.FltEpsilon"/>,
+        /// SDL's default tolerance for floating point rect comparisons.
+        /// </summary>
+        /// <seealso><c>SDL_RectsEqualFloat</c></seealso>
+        public bool EqualsApprox(FRect other) {
+            return EqualsEpsilon(other, CSDL.Macros.FltEpsilon);
+        }
+
+        #endregion
+
+        #region CSDL_IMPL SDL_RectToFRect : SDL_rect#SDL_RectToFRect
+
+        /// <summary>
+        ///     Converts a <see cref="Rect" /> to an <see cref="FRect" /> by widening each integer
+        ///     component to <see cref="float" />.
+        /// </summary>
+        public static explicit operator FRect(Rect r) {
+            return new FRect(r.X, r.Y, r.W, r.H);
+        }
+
+        #endregion
 
         #region CSDL_IMPL SDL_RECT_CAN_OVERFLOW : SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
 
@@ -71,7 +139,7 @@ namespace CSDL.Video {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
+        #region CSDL_IMPL SDL_GetRectIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW, SDL_RectEmptyFloat
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
         public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
@@ -115,7 +183,7 @@ namespace CSDL.Video {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectUnionFloat : SDL_rect_impl#SDL_UNIONRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
+        #region CSDL_IMPL SDL_GetRectUnionFloat : SDL_rect_impl#SDL_UNIONRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW, SDL_RectEmptyFloat
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnionFloat"/>
         public static bool Union(FRect a, FRect b, out FRect result) {
@@ -168,7 +236,7 @@ namespace CSDL.Video {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectEnclosingPointsFloat : SDL_rect_impl#SDL_ENCLOSEPOINTS
+        #region CSDL_IMPL SDL_GetRectEnclosingPointsFloat : SDL_rect_impl#SDL_ENCLOSEPOINTS, SDL_RectEmptyFloat
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPointsFloat"/>
         public static bool TryGetEnclosingPoints(FPoint[] points, FRect? clip, out FRect result) {
@@ -249,7 +317,7 @@ namespace CSDL.Video {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectAndLineIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECTANDLINE, SDL_rect_impl#COMPUTEOUTCODE, SDL_RECT_CAN_OVERFLOW
+        #region CSDL_IMPL SDL_GetRectAndLineIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECTANDLINE, SDL_rect_impl#COMPUTEOUTCODE, SDL_RECT_CAN_OVERFLOW, SDL_RectEmptyFloat
 
         private const int CodeBottom = 1;
         private const int CodeTop = 2;

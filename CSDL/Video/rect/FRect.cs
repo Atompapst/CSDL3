@@ -32,23 +32,6 @@ namespace CSDL.Video {
         public FPoint Position => new FPoint(X, Y);
 
         /// <summary>
-        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches
-        /// SDL_PointInRectFloat's closed semantics: the right/bottom edge is included).
-        /// </summary>
-        /// <seealso><c>SDL_PointInRectFloat</c></seealso>
-        public bool Contains(FPoint point) {
-            return point.X >= X && point.X <= X + W && point.Y >= Y && point.Y <= Y + H;
-        }
-
-        /// <summary>
-        /// <c>true</c> if this rect has no area, i.e. width or height is negative. Unlike
-        /// <see cref="Rect.IsEmpty"/>, a zero-sized float rect is NOT considered empty
-        /// (matches SDL_RectEmptyFloat).
-        /// </summary>
-        /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
-        public bool IsEmpty => W < 0f || H < 0f;
-
-        /// <summary>
         /// Clips <paramref name="line"/> to this rect, writing the clipped segment to
         /// <paramref name="res"/> and returning whether it intersects at all.
         /// </summary>
@@ -59,11 +42,6 @@ namespace CSDL.Video {
             res = intersects ? new Line(x1, y1, x2, y2) : default(Line);
             return intersects;
         }
-
-        // public static explicit operator FRect(Rect r) {
-        //     SDL.RectToFRect(r, out FRect result);
-        //     return result;
-        // }
 
         /// <summary>
         ///     Reinterprets the bits of a <see cref="Vector4" /> as an <see cref="FRect" /> - both are four
@@ -109,27 +87,6 @@ namespace CSDL.Video {
         }
         public override int GetHashCode() {
             return HashCode.Combine(X, Y, W, H);
-        }
-
-        /// <summary>
-        /// Compares this rect to <paramref name="other"/> allowing each field to differ by up to
-        /// <paramref name="epsilon"/>, to absorb floating point precision drift.
-        /// </summary>
-        /// <seealso><c>SDL_RectsEqualEpsilon</c></seealso>
-        public bool EqualsEpsilon(FRect other, float epsilon) {
-            return MathF.Abs(X - other.X) <= epsilon &&
-                   MathF.Abs(Y - other.Y) <= epsilon &&
-                   MathF.Abs(W - other.W) <= epsilon &&
-                   MathF.Abs(H - other.H) <= epsilon;
-        }
-
-        /// <summary>
-        /// Compares this rect to <paramref name="other"/> within <see cref="CSDL.Macros.FltEpsilon"/>,
-        /// SDL's default tolerance for floating point rect comparisons.
-        /// </summary>
-        /// <seealso><c>SDL_RectsEqualFloat</c></seealso>
-        public bool EqualsApprox(FRect other) {
-            return EqualsEpsilon(other, CSDL.Macros.FltEpsilon);
         }
     }
 }
