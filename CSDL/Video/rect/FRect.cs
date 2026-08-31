@@ -47,89 +47,18 @@ namespace CSDL.Video {
         /// </summary>
         /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
         public bool IsEmpty => W < 0f || H < 0f;
-        
-        #region CSDL_IMPL SDL_RECT_CAN_OVERFLOW : SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
-        
-        /// <summary>Shared with <see cref="Rect"/> and <see cref="LineUtils"/> - mirrors SDL_RECT_CAN_OVERFLOW.</summary>
-        internal static bool RectCanOverflow(ref FRect r) {
-            const float halfMax = (float)(int.MaxValue / 2);
-            const float halfMin = (float)(int.MinValue / 2);
-            return r.X <= halfMin || r.X >= halfMax ||
-                   r.Y <= halfMin || r.Y >= halfMax ||
-                   r.W >= halfMax || r.H >= halfMax;
+
+        /// <summary>
+        /// Clips <paramref name="line"/> to this rect, writing the clipped segment to
+        /// <paramref name="res"/> and returning whether it intersects at all.
+        /// </summary>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersectionFloat"/>
+        public bool GetIntersection(Line line, out Line res) {
+            float x1 = line.X1, y1 = line.Y1, x2 = line.X2, y2 = line.Y2;
+            bool intersects = GetRectAndLineIntersection(this, ref x1, ref y1, ref x2, ref y2);
+            res = intersects ? new Line(x1, y1, x2, y2) : default(Line);
+            return intersects;
         }
-        #endregion
-        
-        #region CSDL_IMPL SDL_HasRectIntersectionFloat : SDL_rect_impl#SDL_HASINTERSECTION, SDL_RECT_CAN_OVERFLOW
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
-        public bool Intersects(FRect other) {
-            return Intersects(this, other);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
-        public static bool Intersects(FRect a, FRect b) {
-            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) return false;
-            return HasRectIntersection(ref a, ref b);
-        }
-
-        private static bool HasRectIntersection(ref FRect a, ref FRect b) {
-            // Horizontal intersection - float's ENCLOSEPOINTS_EPSILON is 0, unlike Rect's 1.
-            float aMin = a.X;
-            float aMax = aMin + a.W;
-            float bMin = b.X;
-            float bMax = bMin + b.W;
-            if (bMin > aMin) aMin = bMin;
-            if (bMax < aMax) aMax = bMax;
-            if (aMax < aMin) return false;
-
-            // Vertical intersection
-            aMin = a.Y;
-            aMax = aMin + a.H;
-            bMin = b.Y;
-            bMax = bMin + b.H;
-            if (bMin > aMin) aMin = bMin;
-            if (bMax < aMax) aMax = bMax;
-            if (aMax < aMin) return false;
-            return true;
-        }
-        #endregion
-
-        #region CSDL_IMPL SDL_GetRectIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECT, SDL_RECT_CAN_OVERFLOW
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
-        public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
-            // false just means "these rects don't overlap" (or overflow) - not an SDL error.
-            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
-                result = default;
-                return false;
-            }
-
-            // Horizontal intersection
-            float aMin = a.X;
-            float aMax = aMin + a.W;
-            float bMin = b.X;
-            float bMax = bMin + b.W;
-            if (bMin > aMin) aMin = bMin;
-            float x = aMin;
-            if (bMax < aMax) aMax = bMax;
-            float w = aMax - aMin;
-
-            // Vertical intersection
-            aMin = a.Y;
-            aMax = aMin + a.H;
-            bMin = b.Y;
-            bMax = bMin + b.H;
-            if (bMin > aMin) aMin = bMin;
-            float y = aMin;
-            if (bMax < aMax) aMax = bMax;
-            float h = aMax - aMin;
-
-            result = new FRect(x, y, w, h);
-            return !result.IsEmpty;
-        }
-        #endregion
-
 
         // public static explicit operator FRect(Rect r) {
         //     SDL.RectToFRect(r, out FRect result);
@@ -155,8 +84,12 @@ namespace CSDL.Video {
         }
 
         public static bool operator ==(FRect? left, FRect? right) {
-            if (ReferenceEquals(left, right)) return true;
-            if (left is null || right is null) return false;
+            if (ReferenceEquals(left, right)) {
+                return true;
+            }
+            if (left is null || right is null) {
+                return false;
+            }
 
             return left.Value.X == right.Value.X &&
                    left.Value.Y == right.Value.Y &&

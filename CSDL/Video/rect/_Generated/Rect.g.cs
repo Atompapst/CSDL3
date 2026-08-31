@@ -18,7 +18,7 @@ namespace CSDL.Video {
     /// <seealso><c>SDL_RectsEqual</c></seealso>
     /// <seealso><see cref="CSDL.Video.Rect.Intersects">Intersects</see></seealso>
     /// <seealso><see cref="CSDL.Video.Rect.GetRectIntersection">GetRectIntersection</see></seealso>
-    /// <seealso><see cref="CSDL.Video.LineUtils.GetIntersection">GetIntersection</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.GetIntersection">GetIntersection</see></seealso>
     /// <seealso><see cref="CSDL.Video.Rect.Union">Union</see></seealso>
     /// <seealso><see cref="CSDL.Video.Rect.TryGetEnclosingPoints">TryGetEnclosingPoints</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
