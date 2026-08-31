@@ -1,14 +1,13 @@
 // SPDX-FileCopyrightText: 2026 Christof Ignacy
 // SPDX-License-Identifier: Zlib
 
-using System;
 using CSDL.Extensions;
 
 namespace CSDL.TTF {
     /// <summary>
     /// Entry point for the SDL_ttf subsystem: initialization and version info.
     /// </summary>
-    public static class TTF {
+    public static partial class TTF {
         static TTF() {
             Init.OnQuit += Quit;
         }
@@ -51,21 +50,6 @@ namespace CSDL.TTF {
         /// <inheritdoc cref="CSDL.Internal.Docs.TTF.WasInit"/>
         public static int WasInit() {
             return SDL.WasInit();
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.TTF.StringToTag"/>
-        public static uint StringToTag(string tag) {
-            return SDL.StringToTag(tag);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.TTF.TagToString"/>
-        public static unsafe string TagToString(uint tag) {
-            Span<byte> buffer = stackalloc byte[8];
-            fixed (byte* p = buffer) {
-                NativePtr<byte> ptr = p;
-                SDL.TagToString(tag, ptr, (nuint)buffer.Length);
-                return ptr.ToUtf8String() ?? string.Empty;
-            }
         }
     }
 }
