@@ -2,7 +2,6 @@ extern alias RealCSDL;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 using Point = RealCSDL::CSDL.Video.Point;
 using Rect = RealCSDL::CSDL.Video.Rect;
 

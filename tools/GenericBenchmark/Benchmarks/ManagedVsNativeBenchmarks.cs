@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using BenchmarkDotNet.Attributes;
-
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
     ///     Common shape for a benchmark that compares a managed CSDL_IMPL port against the native SDL

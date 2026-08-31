@@ -2,7 +2,6 @@ extern alias RealCSDL;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 using FPoint = RealCSDL::CSDL.Video.FPoint;
 using FRect = RealCSDL::CSDL.Video.FRect;
 

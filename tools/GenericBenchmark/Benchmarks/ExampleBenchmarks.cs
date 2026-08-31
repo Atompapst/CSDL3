@@ -1,6 +1,5 @@
 using System.Text;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 
 namespace GenericBenchmark.Benchmarks {
     /// <summary>
