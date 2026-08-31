@@ -3,7 +3,6 @@
 
 using System;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace CSDL.Video {
 
@@ -27,7 +26,6 @@ namespace CSDL.Video {
             Y = topLeft.Y;
             W = size.X;
             H = size.Y;
-            Rect res = Unsafe.NullRef<Rect>();
         }
 
         public static Rect One => new Rect(0, 0, 1, 1);
@@ -96,29 +94,6 @@ namespace CSDL.Video {
         }
         public static bool operator !=(Rect left, Rect right) {
             return !left.Equals(right);
-        }
-
-        public readonly struct OptionalRect {
-            private readonly NativePtr<Rect> _ptr;
-
-            private OptionalRect(NativePtr<Rect> ptr) {
-                _ptr = ptr;
-            }
-
-            public static OptionalRect None
-                => default;
-
-            public static OptionalRect From(scoped in Rect value) {
-                return new OptionalRect(NativePtr<Rect>.FromIn(in value));
-            }
-
-            public bool HasValue => !_ptr.IsNull;
-
-            internal nint Ptr => _ptr.Ptr;
-
-            public static implicit operator OptionalRect(scoped in Rect rect) {
-                return From(in rect);
-            }
         }
     }
 }

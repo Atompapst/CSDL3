@@ -128,7 +128,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnion"/>
         public static bool TryUnion(Rect a, Rect b, out Rect result) {
-            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
+            if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(Rect);
                 return false;
             }

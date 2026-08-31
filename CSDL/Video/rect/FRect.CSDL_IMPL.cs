@@ -8,7 +8,7 @@ namespace CSDL.Video {
         #region CSDL_IMPL SDL_RECT_CAN_OVERFLOW : SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
 
         /// <summary>Shared with <see cref="Rect"/> - mirrors SDL_RECT_CAN_OVERFLOW.</summary>
-        internal static bool RectCanOverflow(ref FRect r) {
+        private static bool RectCanOverflow(in FRect r) {
             const float halfMax = (float)(int.MaxValue / 2);
             const float halfMin = (float)(int.MinValue / 2);
             return r.X <= halfMin ||
@@ -30,13 +30,13 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
         public static bool Intersects(FRect a, FRect b) {
-            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
+            if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 return false;
             }
-            return HasRectIntersection(ref a, ref b);
+            return HasRectIntersection(in a, in b);
         }
 
-        private static bool HasRectIntersection(ref FRect a, ref FRect b) {
+        private static bool HasRectIntersection(in FRect a, in FRect b) {
             // Horizontal intersection - float's ENCLOSEPOINTS_EPSILON is 0, unlike Rect's 1.
             float aMin = a.X;
             float aMax = aMin + a.W;
@@ -76,7 +76,7 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
         public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
             // false just means "these rects don't overlap" (or overflow) - not an SDL error.
-            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
+            if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(FRect);
                 return false;
             }
@@ -119,7 +119,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnionFloat"/>
         public static bool Union(FRect a, FRect b, out FRect result) {
-            if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
+            if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(FRect);
                 return false;
             }
@@ -256,7 +256,7 @@ namespace CSDL.Video {
         private const int CodeLeft = 4;
         private const int CodeRight = 8;
 
-        private static int ComputeOutCode(ref FRect rect, float x, float y) {
+        private static int ComputeOutCode(in FRect rect, float x, float y) {
             int code = 0;
             if (y < rect.Y) {
                 code |= CodeTop;
@@ -273,7 +273,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersectionFloat"/>
         public static bool GetRectAndLineIntersection(FRect rect, ref float x1, ref float y1, ref float x2, ref float y2) {
-            if (RectCanOverflow(ref rect)) {
+            if (RectCanOverflow(in rect)) {
                 return false;
             }
             if (rect.IsEmpty) {
@@ -328,8 +328,8 @@ namespace CSDL.Video {
             }
 
             // More complicated Cohen-Sutherland algorithm
-            int outcode1 = ComputeOutCode(ref rect, x1, y1);
-            int outcode2 = ComputeOutCode(ref rect, x2, y2);
+            int outcode1 = ComputeOutCode(in rect, x1, y1);
+            int outcode2 = ComputeOutCode(in rect, x2, y2);
             while (outcode1 != 0 || outcode2 != 0) {
                 if ((outcode1 & outcode2) != 0) {
                     return false;
@@ -352,7 +352,7 @@ namespace CSDL.Video {
                     }
                     x1 = x;
                     y1 = y;
-                    outcode1 = ComputeOutCode(ref rect, x, y);
+                    outcode1 = ComputeOutCode(in rect, x, y);
                 } else {
                     if ((outcode2 & CodeTop) != 0) {
                         y = rectY1;
@@ -369,7 +369,7 @@ namespace CSDL.Video {
                     }
                     x2 = x;
                     y2 = y;
-                    outcode2 = ComputeOutCode(ref rect, x, y);
+                    outcode2 = ComputeOutCode(in rect, x, y);
                 }
             }
             return true;
