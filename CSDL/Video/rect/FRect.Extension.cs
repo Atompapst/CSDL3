@@ -71,7 +71,7 @@ namespace CSDL.Video {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW, SDL_rect, ~SDL_internal
+        #region CSDL_IMPL SDL_GetRectIntersectionFloat : SDL_rect_impl#SDL_INTERSECTRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
         public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
@@ -115,10 +115,10 @@ namespace CSDL.Video {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectUnionFloat : SDL_rect_impl#SDL_UNIONRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW, SDL_rect, ~SDL_internal
+        #region CSDL_IMPL SDL_GetRectUnionFloat : SDL_rect_impl#SDL_UNIONRECT, SDL_rect_impl#SDL_RECT_CAN_OVERFLOW
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnionFloat"/>
-        public static bool TryUnion(FRect a, FRect b, out FRect result) {
+        public static bool Union(FRect a, FRect b, out FRect result) {
             if (RectCanOverflow(ref a) || RectCanOverflow(ref b)) {
                 result = default(FRect);
                 return false;
@@ -166,15 +166,9 @@ namespace CSDL.Video {
             return true;
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnionFloat"/>
-        public static FRect Union(FRect a, FRect b) {
-            TryUnion(a, b, out FRect result);
-            return result;
-        }
-
         #endregion
 
-        #region CSDL_IMPL SDL_GetRectEnclosingPointsFloat : SDL_rect_impl#SDL_ENCLOSEPOINTS, SDL_rect, ~SDL_internal
+        #region CSDL_IMPL SDL_GetRectEnclosingPointsFloat : SDL_rect_impl#SDL_ENCLOSEPOINTS
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPointsFloat"/>
         public static bool TryGetEnclosingPoints(FPoint[] points, FRect? clip, out FRect result) {
