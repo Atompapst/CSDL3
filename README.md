@@ -187,8 +187,8 @@ A small number of tiny, frequently called SDL helpers are reimplemented directly
 through P/Invoke, because the native transition overhead can exceed the actual work done.
 
 Each managed port is marked with a `CSDL_IMPL` region and tracked against the SDL source it mirrors, so it gets
-flagged for review once the SDL side changes. See [CONTRIBUTING.md](CONTRIBUTING.md) for the region format and the
-full guide on adding or updating a managed port.
+flagged for review once the SDL side changes. Live tracking status: [csdl.spieleins.de](https://csdl.spieleins.de/?lang=en).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the region format and the full guide on adding or updating a managed port.
 
 ## Contributing
 

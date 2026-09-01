@@ -69,7 +69,8 @@ private static bool HasRectIntersection(in Rect a, in Rect b) {
 ### How tracking works
 
 A tool parses `CSDL_IMPL` regions in this repo and cross-references them against the SDL source tree. For each
-tracked port it resolves the referenced SDL range and compares commit history to flag one of:
+tracked port it resolves the referenced SDL range and compares commit history to flag one of the states below. Live
+results: [csdl.spieleins.de](https://csdl.spieleins.de/?lang=en).
 
 - **Current** - the referenced SDL source isn't newer than the managed port.
 - **Maintenance needed** - the referenced SDL source changed after the managed port was last touched.
