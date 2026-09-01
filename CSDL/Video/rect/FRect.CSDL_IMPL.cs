@@ -99,7 +99,7 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
         public static bool Intersects(FRect a, FRect b) {
             if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
             return HasRectIntersection(in a, in b);
         }
@@ -143,10 +143,10 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
         public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
-            // false just means "these rects don't overlap" (or overflow) - not an SDL error.
+            // A plain "no overlap" false doesn't set an SDL error - only overflow does.
             if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(FRect);
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
 
             // Horizontal intersection
@@ -189,7 +189,7 @@ namespace CSDL.Video {
         public static bool Union(FRect a, FRect b, out FRect result) {
             if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(FRect);
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
 
             // Special cases for empty rects
@@ -241,8 +241,8 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPointsFloat"/>
         public static bool TryGetEnclosingPoints(FPoint[] points, FRect? clip, out FRect result) {
             result = default(FRect);
-            if (points.Length == 0) {
-                return false;
+            if (points == null || points.Length == 0) {
+                return CSDL.Error.SetInvalidParamError("points");
             }
 
             float minX, minY, maxX, maxY;
@@ -342,7 +342,7 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersectionFloat"/>
         public static bool GetRectAndLineIntersection(FRect rect, ref float x1, ref float y1, ref float x2, ref float y2) {
             if (RectCanOverflow(in rect)) {
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
             if (rect.IsEmpty) {
                 return false;

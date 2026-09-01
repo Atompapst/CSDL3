@@ -54,7 +54,7 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
         public bool HasIntersection(in Rect other) {
             if (RectCanOverflow(in this) || RectCanOverflow(in other)) {
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
             return HasRectIntersection(in this, in other);
         }
@@ -67,7 +67,7 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
         public static bool HasIntersection(in Rect a, in Rect b) {
             if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
             return HasRectIntersection(in a, in b);
         }
@@ -118,7 +118,7 @@ namespace CSDL.Video {
         public static bool GetRectIntersection(in Rect a, in Rect b, out Rect result) {
             if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(Rect);
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
 
             // Horizontal intersection
@@ -161,7 +161,7 @@ namespace CSDL.Video {
         public static bool TryUnion(Rect a, Rect b, out Rect result) {
             if (RectCanOverflow(in a) || RectCanOverflow(in b)) {
                 result = default(Rect);
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
 
             // Special cases for empty rects
@@ -219,8 +219,8 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPoints"/>
         public static bool TryGetEnclosingPoints(Point[] points, Rect? clip, out Rect result) {
             result = default(Rect);
-            if (points.Length == 0) {
-                return false;
+            if (points == null || points.Length == 0) {
+                return CSDL.Error.SetInvalidParamError("points");
             }
 
             int minX, minY, maxX, maxY;
@@ -304,8 +304,14 @@ namespace CSDL.Video {
         /// <seealso><c>SDL_GetSpanEnclosingRect</c></seealso>
         public static bool TryGetEnclosingSpan(int width, int height, Rect[] rects, out Rect span) {
             span = default(Rect);
-            if (width < 1 || height < 1 || rects.Length < 1) {
-                return false;
+            if (width < 1) {
+                return CSDL.Error.SetInvalidParamError("width");
+            }
+            if (height < 1) {
+                return CSDL.Error.SetInvalidParamError("height");
+            }
+            if (rects == null || rects.Length < 1) {
+                return CSDL.Error.SetInvalidParamError("rects");
             }
 
             int spanY1 = height;
@@ -363,7 +369,7 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersection"/>
         public static bool GetRectAndLineIntersection(in Rect rect, ref int x1, ref int y1, ref int x2, ref int y2) {
             if (RectCanOverflow(in rect)) {
-                return false;
+                return CSDL.Error.SetError("Potential rect math overflow");
             }
             if (rect.IsEmpty) {
                 return false;
