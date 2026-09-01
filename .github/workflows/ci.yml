@@ -143,7 +143,8 @@ jobs:
             echo "::endgroup::"
 
             echo "::group::Build $source"
-            cmake --build "$build_directory" --parallel
+            # Please dont kill me little Servi
+            cmake --build "$build_directory" --parallel 2
             echo "::endgroup::"
 
             echo "::group::Install $source"
