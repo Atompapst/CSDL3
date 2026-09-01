@@ -1,15 +1,15 @@
 # CSDL3
 
-**CSDL3 is an idiomatic, object-oriented C# wrapper for working with [SDL3](https://github.com/libsdl-org/SDL), making
-it easier to build cross-platform games and multimedia applications in .NET.**
+**CSDL3 is an idiomatic, object-oriented C# wrapper for working with [SDL3](https://wiki.libsdl.org/SDL3/FrontPage),
+making it easier to build cross-platform games and multimedia applications in .NET.**
 
 [![NuGet](https://img.shields.io/nuget/v/CSDL3)](https://www.nuget.org/packages/CSDL3)
 [![License: zlib](https://img.shields.io/badge/license-zlib-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-10-purple)](https://dotnet.microsoft.com)
 
-> **Status**: SDL3 is essentially fully implemented across the high-level wrappers.
-> It hasn't been exhaustively tested yet though, so occasional bugs can still show
-> up here and there. Issues and PRs are appreciated. Going forward, the primary focus is adding new convenience
+> **Status**: SDL3 is essentially fully implemented across the high-level wrappers - this isn't a partial wrapper
+> covering just a few subsystems. It hasn't been exhaustively tested yet though, so occasional bugs can still show
+> up here and there. Issues and PRs are very welcome. Going forward, the primary focus is adding new convenience
 > methods to the high-level wrappers.
 
 ## What's covered
@@ -181,12 +181,19 @@ structs, enums, and documentation all come from there automatically.
 Properties are handled specially since the SDL wiki doesn't document them well. They're derived from reading the actual
 SDL source code, parsing the surrounding syntax, and inferring return values from context.
 
+## Managed Implementations (`CSDL_IMPL`)
+
+A small number of tiny, frequently called SDL helpers are reimplemented directly in managed C# instead of calling
+through P/Invoke, because the native transition overhead can exceed the actual work done.
+
+Each managed port is marked with a `CSDL_IMPL` region and tracked against the SDL source it mirrors, so it gets
+flagged for review once the SDL side changes. Live tracking status: [csdl.spieleins.de](https://csdl.spieleins.de/?lang=en).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the region format and the full guide on adding or updating a managed port.
+
 ## Contributing
 
-Issues and PRs are appreciated! Please note:
-
-- `_Generated/*.g.cs` files are auto-generated. Don't modify them
-- For new features or fixes, target the high-level API in the main source directories
+Issues and PRs are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, including the `CSDL_IMPL`
+convention for managed SDL ports.
 
 ## License
 

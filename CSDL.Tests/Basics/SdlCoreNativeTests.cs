@@ -142,9 +142,9 @@ namespace CSDL3.Tests.Basics {
 
         [Fact]
         public void GetNumLogicalCpuCores_FromNativeLibrary_MatchesTheRuntimesView() {
-            // Two independent probes of the same hardware fact - a decoding or calling-convention
-            // mistake would show up as a nonsense core count.
-            Assert.Equal(System.Environment.ProcessorCount, Sdl.CPUInfo.NumLogicalCores);
+            // Not strict equality: .NET's ProcessorCount is cgroup-aware and shrinks under a
+            // CPU quota (e.g. this CI runner's CPUQuota=200%), unlike SDL's sysconf-based count.
+            Assert.True(Sdl.CPUInfo.NumLogicalCores >= System.Environment.ProcessorCount);
         }
 
         [Fact]

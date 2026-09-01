@@ -3,7 +3,6 @@
 
 using System;
 using System.Numerics;
-using CSDL.Extensions;
 
 namespace CSDL.Video {
 
@@ -34,65 +33,19 @@ namespace CSDL.Video {
         public Point Size => new Point(W, H);
 
         /// <summary>
-        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches SDL_PointInRect's
-        /// half-open semantics: the right/bottom edge is excluded).
+        /// Clips <paramref name="line"/> to this rect, writing the clipped segment to
+        /// <paramref name="res"/> and returning whether it intersects at all.
         /// </summary>
-        /// <seealso><c>SDL_PointInRect</c></seealso>
-        public bool Contains(Point point) {
-            return point.X >= X && point.X < X + W && point.Y >= Y && point.Y < Y + H;
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersection"/>
+        public bool GetIntersection(Line line, out Line res) {
+            // Round rather than truncate - a plain (int) cast biases towards zero (-1.9f -> -1
+            // instead of -2), which skews clipping results for lines with negative coordinates.
+            int x1 = (int)MathF.Round(line.X1), y1 = (int)MathF.Round(line.Y1);
+            int x2 = (int)MathF.Round(line.X2), y2 = (int)MathF.Round(line.Y2);
+            bool intersects = GetRectAndLineIntersection(in this, ref x1, ref y1, ref x2, ref y2);
+            res = intersects ? new Line(x1, y1, x2, y2) : default(Line);
+            return intersects;
         }
-
-        /// <summary>
-        /// <c>true</c> if this rect has no area, i.e. width or height is zero or negative.
-        /// </summary>
-        /// <seealso><c>SDL_RectEmpty</c></seealso>
-        public bool IsEmpty => W <= 0 || H <= 0;
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
-        public bool Intersects(Rect other) {
-            return SDL.HasRectIntersection(other, this);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersection"/>
-        public static bool Intersects(Rect a, Rect b) {
-            return SDL.HasRectIntersection(a, b);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnion"/>
-        public static Rect Union(Rect a, Rect b) {
-            SDL.GetRectUnion(a, b, out Rect r).LogIfFalse();
-            return (Rect)r;
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersection"/>
-        public static bool GetRectIntersection(Rect a, Rect b, out Rect result) {
-            return SDL.GetRectIntersection(a, b, out result);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPoints"/>
-        public static bool TryGetEnclosingPoints(Point[] points, Rect? clip, out Rect result) {
-            if (points == null || points.Length == 0) {
-                result = default;
-                return false;
-            }
-
-            NativePtr<Point> raw = points.ToUnmanaged();
-            try {
-                // false here just means "all points were outside the clip rect" - not an SDL error.
-                if (clip.HasValue) {
-                    Rect clipValue = clip.Value;
-                    return SDL.GetRectEnclosingPoints(raw, points.Length, NativePtr<Rect>.FromRef(ref clipValue), out result);
-                }
-                return SDL.GetRectEnclosingPoints(raw, points.Length, NativePtr<Rect>.Zero, out result);
-            }
-            finally {
-                raw.Free();
-            }
-        }
-
-        // public static explicit operator Rect(FRect r) {
-        //     return new Rect((int)r.X, (int)r.Y, (int)r.W, (int)r.H);
-        // }
 
         /// <summary>
         ///     Converts a <see cref="Vector4" /> to a <see cref="Rect" />, truncating each component to
@@ -111,10 +64,6 @@ namespace CSDL.Video {
             return new Vector4(r.X, r.Y, r.W, r.H);
         }
 
-        /// <seealso><c>SDL_RectsEqual</c></seealso>
-        public bool Equals(Rect other) {
-            return X == other.X && Y == other.Y && W == other.W && H == other.H;
-        }
         public override bool Equals(object? obj) {
             return obj is Rect other && Equals(other);
         }

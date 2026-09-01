@@ -5,7 +5,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using CSDL.Extensions;
 
 namespace CSDL.Video {
     public partial struct FRect : IEquatable<FRect> {
@@ -33,69 +32,16 @@ namespace CSDL.Video {
         public FPoint Position => new FPoint(X, Y);
 
         /// <summary>
-        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches
-        /// SDL_PointInRectFloat's closed semantics: the right/bottom edge is included).
+        /// Clips <paramref name="line"/> to this rect, writing the clipped segment to
+        /// <paramref name="res"/> and returning whether it intersects at all.
         /// </summary>
-        /// <seealso><c>SDL_PointInRectFloat</c></seealso>
-        public bool Contains(FPoint point) {
-            return point.X >= X && point.X <= X + W && point.Y >= Y && point.Y <= Y + H;
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersectionFloat"/>
+        public bool GetIntersection(Line line, out Line res) {
+            float x1 = line.X1, y1 = line.Y1, x2 = line.X2, y2 = line.Y2;
+            bool intersects = GetRectAndLineIntersection(this, ref x1, ref y1, ref x2, ref y2);
+            res = intersects ? new Line(x1, y1, x2, y2) : default(Line);
+            return intersects;
         }
-
-        /// <summary>
-        /// <c>true</c> if this rect has no area, i.e. width or height is negative. Unlike
-        /// <see cref="Rect.IsEmpty"/>, a zero-sized float rect is NOT considered empty
-        /// (matches SDL_RectEmptyFloat).
-        /// </summary>
-        /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
-        public bool IsEmpty => W < 0f || H < 0f;
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
-        public bool Intersects(FRect other) {
-            return SDL.HasRectIntersectionFloat(other, this);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.HasRectIntersectionFloat"/>
-        public static bool Intersects(FRect a, FRect b) {
-            return SDL.HasRectIntersectionFloat(a, b);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectIntersectionFloat"/>
-        public static bool GetRectIntersection(FRect a, FRect b, out FRect result) {
-            // false just means "these rects don't overlap" - not an SDL error, so no LogIfFalse.
-            return SDL.GetRectIntersectionFloat(a, b, out result);
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectUnionFloat"/>
-        public static FRect Union(FRect a, FRect b) {
-            SDL.GetRectUnionFloat(a, b, out FRect result).LogIfFalse();
-            return result;
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectEnclosingPointsFloat"/>
-        public static bool TryGetEnclosingPoints(FPoint[] points, FRect? clip, out FRect result) {
-            if (points == null || points.Length == 0) {
-                result = default;
-                return false;
-            }
-
-            NativePtr<FPoint> raw = points.ToUnmanaged();
-            try {
-                // false here just means "all points were outside the clip rect" - not an SDL error.
-                if (clip.HasValue) {
-                    FRect clipValue = clip.Value;
-                    return SDL.GetRectEnclosingPointsFloat(raw, points.Length, NativePtr<FRect>.FromRef(ref clipValue), out result);
-                }
-                return SDL.GetRectEnclosingPointsFloat(raw, points.Length, NativePtr<FRect>.Zero, out result);
-            }
-            finally {
-                raw.Free();
-            }
-        }
-
-        // public static explicit operator FRect(Rect r) {
-        //     SDL.RectToFRect(r, out FRect result);
-        //     return result;
-        // }
 
         /// <summary>
         ///     Reinterprets the bits of a <see cref="Vector4" /> as an <see cref="FRect" /> - both are four
@@ -116,8 +62,12 @@ namespace CSDL.Video {
         }
 
         public static bool operator ==(FRect? left, FRect? right) {
-            if (ReferenceEquals(left, right)) return true;
-            if (left is null || right is null) return false;
+            if (ReferenceEquals(left, right)) {
+                return true;
+            }
+            if (left is null || right is null) {
+                return false;
+            }
 
             return left.Value.X == right.Value.X &&
                    left.Value.Y == right.Value.Y &&
@@ -137,27 +87,6 @@ namespace CSDL.Video {
         }
         public override int GetHashCode() {
             return HashCode.Combine(X, Y, W, H);
-        }
-
-        /// <summary>
-        /// Compares this rect to <paramref name="other"/> allowing each field to differ by up to
-        /// <paramref name="epsilon"/>, to absorb floating point precision drift.
-        /// </summary>
-        /// <seealso><c>SDL_RectsEqualEpsilon</c></seealso>
-        public bool EqualsEpsilon(FRect other, float epsilon) {
-            return MathF.Abs(X - other.X) <= epsilon &&
-                   MathF.Abs(Y - other.Y) <= epsilon &&
-                   MathF.Abs(W - other.W) <= epsilon &&
-                   MathF.Abs(H - other.H) <= epsilon;
-        }
-
-        /// <summary>
-        /// Compares this rect to <paramref name="other"/> within <see cref="CSDL.Macros.FltEpsilon"/>,
-        /// SDL's default tolerance for floating point rect comparisons.
-        /// </summary>
-        /// <seealso><c>SDL_RectsEqualFloat</c></seealso>
-        public bool EqualsApprox(FRect other) {
-            return EqualsEpsilon(other, CSDL.Macros.FltEpsilon);
         }
     }
 }

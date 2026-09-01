@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSDL", "CSDL\CSDL.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSDL.Tests", "CSDL.Tests\CSDL.Tests.csproj", "{BFC1F2B7-1162-4C76-B5CC-BD35434CF10A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0537D858-0FD1-4332-986F-D3EC68680B16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericBenchmark", "tools\GenericBenchmark\GenericBenchmark.csproj", "{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,11 +45,20 @@ Global
 		{BFC1F2B7-1162-4C76-B5CC-BD35434CF10A}.Release|x64.Build.0 = Release|Any CPU
 		{BFC1F2B7-1162-4C76-B5CC-BD35434CF10A}.Release|x86.ActiveCfg = Release|Any CPU
 		{BFC1F2B7-1162-4C76-B5CC-BD35434CF10A}.Release|x86.Build.0 = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Release|x64.ActiveCfg = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Release|x64.Build.0 = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Release|x86.Build.0 = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8}.Debug|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{CD74492A-02BC-4DC1-8DA2-7F569267DCE8} = {0537D858-0FD1-4332-986F-D3EC68680B16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C137939F-FC42-4908-8F9D-0D45DFB6ACEC}

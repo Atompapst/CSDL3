@@ -154,8 +154,8 @@ namespace CSDL {
         }
 
         /// <inheritdoc cref="CSDL.Macros.InvalidParamError"/>
-        public static void SetInvalidParamError(string paramName) {
-            Macros.InvalidParamError(paramName);
+        public static bool SetInvalidParamError(string paramName) {
+            return Macros.InvalidParamError(paramName);
         }
 
         /// <inheritdoc cref="CSDL.Macros.Unsupported"/>

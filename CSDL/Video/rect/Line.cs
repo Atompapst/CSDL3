@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Zlib
 
 namespace CSDL.Video {
-    public struct Line {
+    public partial struct Line {
         public float X1 { get; set; }
         public float Y1 { get; set; }
         public float X2 { get; set; }
@@ -51,27 +51,14 @@ namespace CSDL.Video {
             return new Line(tuple.Item1, tuple.Item2);
         }
 
-    }
-
-    public static class LineUtils {
-        /// <summary>
-        /// Clips <paramref name="line"/> to <paramref name="rect"/>, writing the clipped segment to
-        /// <paramref name="res"/> and returning whether it intersects at all.
-        /// </summary>
-        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.GetRectAndLineIntersection"/>
-        public static bool GetIntersection(this Rect rect, Line line, out Line res) {
-            int x1 = (int)line.X1, y1 = (int)line.Y1, x2 = (int)line.X2, y2 = (int)line.Y2;
-            bool intersects = SDL.GetRectAndLineIntersection(in rect, ref x1, ref y1, ref x2, ref y2);
-            res = intersects ? new Line(x1, y1, x2, y2) : default;
-            return intersects;
+        /// <inheritdoc cref="Rect.GetIntersection(Line,out Line)"/>
+        public bool GetIntersection(Rect rect, out Line res) {
+            return rect.GetIntersection(this, out res);
         }
 
-        /// <inheritdoc cref="GetIntersection(Rect,Line,out Line)"/>
-        public static bool GetIntersection(this FRect rect, Line line, out Line res) {
-            float x1 = line.X1, y1 = line.Y1, x2 = line.X2, y2 = line.Y2;
-            bool intersects = SDL.GetRectAndLineIntersectionFloat(in rect, ref x1, ref y1, ref x2, ref y2);
-            res = intersects ? new Line(x1, y1, x2, y2) : default;
-            return intersects;
+        /// <inheritdoc cref="FRect.GetIntersection(Line,out Line)"/>
+        public bool GetIntersection(FRect rect, out Line res) {
+            return rect.GetIntersection(this, out res);
         }
     }
 }
