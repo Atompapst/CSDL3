@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace CSDL {
     public partial class Timer {
-        #region CSDL_IMPL SDL_GetPerformanceCounter : SDL_systimer#SDL_GetPerformanceCounter
+        #region CSDL_IMPL SDL_GetPerformanceCounter : ~SDL_systimer#SDL_GetPerformanceCounter
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Timer.GetPerformanceCounter"/>
         public static ulong GetPerformanceCounter() {
@@ -16,7 +16,7 @@ namespace CSDL {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetPerformanceFrequency : SDL_systimer#SDL_GetPerformanceFrequency
+        #region CSDL_IMPL SDL_GetPerformanceFrequency : ~SDL_systimer#SDL_GetPerformanceFrequency
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Timer.GetPerformanceFrequency"/>
         public static ulong GetPerformanceFrequency() {
