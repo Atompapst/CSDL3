@@ -84,6 +84,9 @@ namespace CSDL.Input {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetTextInputArea"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetTextInputArea(NativePtr<CSDL.Opaque.SdlWindow> window, in CSDL.Video.Rect rect, int cursor);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetTextInputArea"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool SetTextInputAreaNullable(NativePtr<CSDL.Opaque.SdlWindow> window, NativePtr<CSDL.Video.Rect> rect, int cursor);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_StartTextInput"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool StartTextInput(NativePtr<CSDL.Opaque.SdlWindow> window);
 

@@ -201,6 +201,9 @@ namespace CSDL.Video {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderFillRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderFillRect(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.FRect rect);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderFillRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderFillRectNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.FRect> rect);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderFillRects"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderFillRects(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.FRect> rects, int count);
 
@@ -243,8 +246,14 @@ namespace CSDL.Video {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderReadPixels"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<CSDL.Video.SurfaceData> RenderReadPixels(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.Rect rect);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderReadPixels"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial NativePtr<CSDL.Video.SurfaceData> RenderReadPixelsNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.Rect> rect);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderRect(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.FRect rect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderRectNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.FRect> rect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderRects"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderRects(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.FRect> rects, int count);
@@ -255,20 +264,38 @@ namespace CSDL.Video {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTexture"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderTexture(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.FRect srcrect, in CSDL.Video.FRect dstrect);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTexture"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderTextureNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.FRect> srcrect, NativePtr<CSDL.Video.FRect> dstrect);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTexture9Grid"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderTexture9Grid(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.FRect srcrect, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, in CSDL.Video.FRect dstrect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTexture9Grid"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderTexture9GridNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.FRect> srcrect, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, NativePtr<CSDL.Video.FRect> dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTexture9GridTiled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderTexture9GridTiled(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.FRect srcrect, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, in CSDL.Video.FRect dstrect, float tileScale);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTexture9GridTiled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderTexture9GridTiledNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.FRect> srcrect, float leftWidth, float rightWidth, float topHeight, float bottomHeight, float scale, NativePtr<CSDL.Video.FRect> dstrect, float tileScale);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTextureAffine"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderTextureAffine(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.FRect srcrect, in CSDL.Video.FPoint origin, in CSDL.Video.FPoint right, in CSDL.Video.FPoint down);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTextureAffine"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderTextureAffineNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.FRect> srcrect, NativePtr<CSDL.Video.FPoint> origin, NativePtr<CSDL.Video.FPoint> right, NativePtr<CSDL.Video.FPoint> down);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTextureRotated"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderTextureRotated(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.FRect srcrect, in CSDL.Video.FRect dstrect, double angle, in CSDL.Video.FPoint center, CSDL.Video.FlipMode flip);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTextureRotated"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderTextureRotatedNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.FRect> srcrect, NativePtr<CSDL.Video.FRect> dstrect, double angle, in CSDL.Video.FPoint center, CSDL.Video.FlipMode flip);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTextureTiled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderTextureTiled(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.FRect srcrect, float scale, in CSDL.Video.FRect dstrect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderTextureTiled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RenderTextureTiledNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.FRect> srcrect, float scale, NativePtr<CSDL.Video.FRect> dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RenderViewportSet"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RenderViewportSet(NativePtr<CSDL.Opaque.SdlRenderer> renderer);
@@ -297,6 +324,9 @@ namespace CSDL.Video {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderClipRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetRenderClipRect(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.Rect rect);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderClipRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool SetRenderClipRectNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.Rect> rect);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderColorScale"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetRenderColorScale(NativePtr<CSDL.Opaque.SdlRenderer> renderer, float scale);
 
@@ -323,6 +353,9 @@ namespace CSDL.Video {
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderViewport"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetRenderViewport(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.Rect rect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderViewport"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool SetRenderViewportNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, NativePtr<CSDL.Video.Rect> rect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderVSync"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetRenderVSync(NativePtr<CSDL.Opaque.SdlRenderer> renderer, int vsync);
@@ -356,6 +389,9 @@ namespace CSDL.Video {
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_UpdateTexture"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool UpdateTexture(NativePtr<CSDL.Video.TextureData> texture, in CSDL.Video.Rect rect, IntPtr pixels, int pitch);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_UpdateTexture"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool UpdateTextureNullable(NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.Rect> rect, IntPtr pixels, int pitch);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_UpdateYUVTexture"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool UpdateYUVTexture(NativePtr<CSDL.Video.TextureData> texture, NativePtr<CSDL.Video.Rect> rect, NativePtr<byte> yplane, int ypitch, NativePtr<byte> uplane, int upitch, NativePtr<byte> vplane, int vpitch);
