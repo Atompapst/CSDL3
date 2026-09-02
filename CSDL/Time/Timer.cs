@@ -82,11 +82,5 @@ namespace CSDL {
         public static void DelayNs(ulong ns) {
             SDL.DelayNS(ns);
         }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Timer.DelayPrecise"/>
-        public static void DelayPrecise(ulong ns) {
-            SDL.DelayPrecise(ns);
-        }
-
     }
 }
