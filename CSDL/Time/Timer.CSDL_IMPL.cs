@@ -16,7 +16,7 @@ namespace CSDL {
 
         #endregion
 
-        #region CSDL_IMPL SDL_GetPerformanceFrequency : SDL_timer#SDL_GetPerformanceFrequency
+        #region CSDL_IMPL SDL_GetPerformanceFrequency : SDL_systimer#SDL_GetPerformanceFrequency
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Timer.GetPerformanceFrequency"/>
         public static ulong GetPerformanceFrequency() {
