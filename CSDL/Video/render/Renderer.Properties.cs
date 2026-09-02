@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Zlib
 
 using System;
-using System.Runtime.CompilerServices;
 using CSDL.Extensions;
 
 namespace CSDL.Video {
@@ -133,6 +132,12 @@ namespace CSDL.Video {
         private bool SetViewport(Rect rect) {
             return SDL.SetRenderViewport(Handle, rect).LogIfFalse();
         }
+        
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderViewport"/>
+        public bool SetViewport(Rect? rect) {
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect value);
+            return SDL.SetRenderViewport(Handle, in rectRef).LogIfFalse();
+        }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRenderVSync"/>
         private int GetVsync() {
@@ -154,6 +159,15 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderClipRect"/>
         private bool SetClipRect(Rect rect) {
             return SDL.SetRenderClipRect(Handle, rect).LogIfFalse();
+        }
+
+        /// <summary>
+        /// Sets the clip rectangle, or disables clipping if <paramref name="rect"/> is <see langword="null"/>.
+        /// </summary>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderClipRect"/>
+        public bool SetClipRect(Rect? rect) {
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect value);
+            return SDL.SetRenderClipRect(Handle, in rectRef).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRenderColorScale"/>

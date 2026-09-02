@@ -210,17 +210,21 @@ namespace CSDL.Mixer {
         public long FadeFrames => SDL.GetTrackFadeFrames(Handle);
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackStereo"/>
-        public unsafe bool SetStereo(StereoGains? gains) {
+        public bool SetStereo(StereoGains? gains) {
             StereoGains value = gains.GetValueOrDefault();
-            NativePtr<StereoGains> ptr = gains.HasValue ? NativePtr<StereoGains>.FromIn(in value) : NativePtr<StereoGains>.Zero;
-            return SDL.SetTrackStereoNullable(Handle, ptr).LogIfFalse();
+            unsafe {
+                StereoGains* ptr = gains.HasValue ? &value : null;
+                return SDL.SetTrackStereoNullable(Handle, ptr).LogIfFalse();
+            }
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrack3DPosition"/>
-        public unsafe bool Set3DPosition(Point3D? position) {
+        public bool Set3DPosition(Point3D? position) {
             Point3D value = position.GetValueOrDefault();
-            NativePtr<Point3D> ptr = position.HasValue ? NativePtr<Point3D>.FromIn(in value) : NativePtr<Point3D>.Zero;
-            return SDL.SetTrack3DPositionNullable(Handle, ptr).LogIfFalse();
+            unsafe {
+                Point3D* ptr = position.HasValue ? &value : null;
+                return SDL.SetTrack3DPositionNullable(Handle, ptr).LogIfFalse();
+            }
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetTrack3DPosition"/>
