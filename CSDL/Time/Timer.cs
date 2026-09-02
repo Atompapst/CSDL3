@@ -73,16 +73,6 @@ namespace CSDL {
             return SDL.GetTicksNS();
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Timer.GetPerformanceCounter"/>
-        public static ulong GetPerformanceCounter() {
-            return SDL.GetPerformanceCounter();
-        }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Timer.GetPerformanceFrequency"/>
-        public static ulong GetPerformanceFrequency() {
-            return SDL.GetPerformanceFrequency();
-        }
-
         /// <inheritdoc cref="CSDL.Internal.Docs.Timer.Delay"/>
         public static void Delay(uint ms) {
             SDL.Delay(ms);
