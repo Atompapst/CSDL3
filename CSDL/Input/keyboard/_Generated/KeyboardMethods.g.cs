@@ -46,7 +46,7 @@ namespace CSDL.Input {
         internal static partial CSDL.Input.Scancode GetScancodeFromKey(CSDL.Input.Keycode key, ref CSDL.Input.Keymod modstate);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetScancodeFromKey"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CSDL.Input.Scancode GetScancodeFromKeyNullable(CSDL.Input.Keycode key, NativePtr<CSDL.Input.Keymod> modstate);
+        internal static unsafe partial CSDL.Input.Scancode GetScancodeFromKeyNullable(CSDL.Input.Keycode key, CSDL.Input.Keymod* modstate);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetScancodeFromName"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CSDL.Input.Scancode GetScancodeFromName([MarshalAs(UnmanagedType.LPUTF8Str)] string? name);
@@ -85,7 +85,7 @@ namespace CSDL.Input {
         internal static partial CBool SetTextInputArea(NativePtr<CSDL.Opaque.SdlWindow> window, in CSDL.Video.Rect rect, int cursor);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetTextInputArea"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool SetTextInputAreaNullable(NativePtr<CSDL.Opaque.SdlWindow> window, NativePtr<CSDL.Video.Rect> rect, int cursor);
+        internal static unsafe partial CBool SetTextInputAreaNullable(NativePtr<CSDL.Opaque.SdlWindow> window, CSDL.Video.Rect* rect, int cursor);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_StartTextInput"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool StartTextInput(NativePtr<CSDL.Opaque.SdlWindow> window);

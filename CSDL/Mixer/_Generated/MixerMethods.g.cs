@@ -37,7 +37,7 @@ namespace CSDL.Mixer {
         internal static partial NativePtr<CSDL.Opaque.SdlMixer> CreateMixerDevice(CSDL.Audio.AudioDeviceID devid, in CSDL.Audio.AudioSpec spec);
 
         [LibraryImport(MixerLibrary, EntryPoint = "MIX_CreateMixerDevice"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial NativePtr<CSDL.Opaque.SdlMixer> CreateMixerDeviceNullable(CSDL.Audio.AudioDeviceID devid, NativePtr<CSDL.Audio.AudioSpec> spec);
+        internal static unsafe partial NativePtr<CSDL.Opaque.SdlMixer> CreateMixerDeviceNullable(CSDL.Audio.AudioDeviceID devid, CSDL.Audio.AudioSpec* spec);
 
         [LibraryImport(MixerLibrary, EntryPoint = "MIX_CreateSineWaveAudio"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<CSDL.Opaque.SdlAudio> CreateSineWaveAudio(NativePtr<CSDL.Opaque.SdlMixer> mixer, int hz, float amplitude, long ms);
@@ -244,7 +244,7 @@ namespace CSDL.Mixer {
         internal static partial CBool SetTrack3DPosition(NativePtr<CSDL.Opaque.SdlTrack> track, in CSDL.Mixer.Point3D position);
 
         [LibraryImport(MixerLibrary, EntryPoint = "MIX_SetTrack3DPosition"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool SetTrack3DPositionNullable(NativePtr<CSDL.Opaque.SdlTrack> track, NativePtr<CSDL.Mixer.Point3D> position);
+        internal static unsafe partial CBool SetTrack3DPositionNullable(NativePtr<CSDL.Opaque.SdlTrack> track, CSDL.Mixer.Point3D* position);
 
         [LibraryImport(MixerLibrary, EntryPoint = "MIX_SetTrackAudio"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetTrackAudio(NativePtr<CSDL.Opaque.SdlTrack> track, NativePtr<CSDL.Opaque.SdlAudio> audio);
@@ -289,7 +289,7 @@ namespace CSDL.Mixer {
         internal static partial CBool SetTrackStereo(NativePtr<CSDL.Opaque.SdlTrack> track, in CSDL.Mixer.StereoGains gains);
 
         [LibraryImport(MixerLibrary, EntryPoint = "MIX_SetTrackStereo"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool SetTrackStereoNullable(NativePtr<CSDL.Opaque.SdlTrack> track, NativePtr<CSDL.Mixer.StereoGains> gains);
+        internal static unsafe partial CBool SetTrackStereoNullable(NativePtr<CSDL.Opaque.SdlTrack> track, CSDL.Mixer.StereoGains* gains);
 
         [LibraryImport(MixerLibrary, EntryPoint = "MIX_SetTrackStoppedCallback"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetTrackStoppedCallback(NativePtr<CSDL.Opaque.SdlTrack> track, MIX_TrackStoppedCallbackNative cb, IntPtr userData);

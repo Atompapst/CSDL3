@@ -19,31 +19,31 @@ namespace CSDL.Video {
         internal static partial CBool BlitSurface(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurface"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool BlitSurfaceNullable(NativePtr<CSDL.Video.SurfaceData> src, NativePtr<CSDL.Video.Rect> srcrect, NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> dstrect);
+        internal static unsafe partial CBool BlitSurfaceNullable(NativePtr<CSDL.Video.SurfaceData> src, CSDL.Video.Rect* srcrect, NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurface9Grid"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool BlitSurface9Grid(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, int leftWidth, int rightWidth, int topHeight, int bottomHeight, float scale, CSDL.Video.ScaleMode scaleMode, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurface9Grid"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool BlitSurface9GridNullable(NativePtr<CSDL.Video.SurfaceData> src, NativePtr<CSDL.Video.Rect> srcrect, int leftWidth, int rightWidth, int topHeight, int bottomHeight, float scale, CSDL.Video.ScaleMode scaleMode, NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> dstrect);
+        internal static unsafe partial CBool BlitSurface9GridNullable(NativePtr<CSDL.Video.SurfaceData> src, CSDL.Video.Rect* srcrect, int leftWidth, int rightWidth, int topHeight, int bottomHeight, float scale, CSDL.Video.ScaleMode scaleMode, NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceScaled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool BlitSurfaceScaled(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect, CSDL.Video.ScaleMode scaleMode);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceScaled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool BlitSurfaceScaledNullable(NativePtr<CSDL.Video.SurfaceData> src, NativePtr<CSDL.Video.Rect> srcrect, NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> dstrect, CSDL.Video.ScaleMode scaleMode);
+        internal static unsafe partial CBool BlitSurfaceScaledNullable(NativePtr<CSDL.Video.SurfaceData> src, CSDL.Video.Rect* srcrect, NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* dstrect, CSDL.Video.ScaleMode scaleMode);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceTiled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool BlitSurfaceTiled(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceTiled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool BlitSurfaceTiledNullable(NativePtr<CSDL.Video.SurfaceData> src, NativePtr<CSDL.Video.Rect> srcrect, NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> dstrect);
+        internal static unsafe partial CBool BlitSurfaceTiledNullable(NativePtr<CSDL.Video.SurfaceData> src, CSDL.Video.Rect* srcrect, NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceTiledWithScale"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool BlitSurfaceTiledWithScale(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, float scale, CSDL.Video.ScaleMode scaleMode, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceTiledWithScale"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool BlitSurfaceTiledWithScaleNullable(NativePtr<CSDL.Video.SurfaceData> src, NativePtr<CSDL.Video.Rect> srcrect, float scale, CSDL.Video.ScaleMode scaleMode, NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> dstrect);
+        internal static unsafe partial CBool BlitSurfaceTiledWithScaleNullable(NativePtr<CSDL.Video.SurfaceData> src, CSDL.Video.Rect* srcrect, float scale, CSDL.Video.ScaleMode scaleMode, NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* dstrect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BlitSurfaceUnchecked"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool BlitSurfaceUnchecked(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect);
@@ -85,7 +85,7 @@ namespace CSDL.Video {
         internal static partial CBool FillSurfaceRect(NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect rect, uint color);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_FillSurfaceRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool FillSurfaceRectNullable(NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> rect, uint color);
+        internal static unsafe partial CBool FillSurfaceRectNullable(NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* rect, uint color);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_FillSurfaceRects"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool FillSurfaceRects(NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> rects, int count, uint color);
@@ -211,7 +211,7 @@ namespace CSDL.Video {
         internal static partial CBool SetSurfaceClipRect(NativePtr<CSDL.Video.SurfaceData> surface, in CSDL.Video.Rect rect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetSurfaceClipRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool SetSurfaceClipRectNullable(NativePtr<CSDL.Video.SurfaceData> surface, NativePtr<CSDL.Video.Rect> rect);
+        internal static unsafe partial CBool SetSurfaceClipRectNullable(NativePtr<CSDL.Video.SurfaceData> surface, CSDL.Video.Rect* rect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetSurfaceColorKey"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetSurfaceColorKey(NativePtr<CSDL.Video.SurfaceData> surface, CBool enabled, uint key);
@@ -232,7 +232,7 @@ namespace CSDL.Video {
         internal static partial CBool StretchSurface(NativePtr<CSDL.Video.SurfaceData> src, in CSDL.Video.Rect srcrect, NativePtr<CSDL.Video.SurfaceData> dst, in CSDL.Video.Rect dstrect, CSDL.Video.ScaleMode scaleMode);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_StretchSurface"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool StretchSurfaceNullable(NativePtr<CSDL.Video.SurfaceData> src, NativePtr<CSDL.Video.Rect> srcrect, NativePtr<CSDL.Video.SurfaceData> dst, NativePtr<CSDL.Video.Rect> dstrect, CSDL.Video.ScaleMode scaleMode);
+        internal static unsafe partial CBool StretchSurfaceNullable(NativePtr<CSDL.Video.SurfaceData> src, CSDL.Video.Rect* srcrect, NativePtr<CSDL.Video.SurfaceData> dst, CSDL.Video.Rect* dstrect, CSDL.Video.ScaleMode scaleMode);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SurfaceHasAlternateImages"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SurfaceHasAlternateImages(NativePtr<CSDL.Video.SurfaceData> surface);

@@ -40,7 +40,7 @@ namespace CSDL.Audio {
         internal static partial NativePtr<CSDL.Opaque.SdlAudioStream> CreateAudioStream(in CSDL.Audio.AudioSpec srcSpec, in CSDL.Audio.AudioSpec dstSpec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_CreateAudioStream"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial NativePtr<CSDL.Opaque.SdlAudioStream> CreateAudioStreamNullable(NativePtr<CSDL.Audio.AudioSpec> srcSpec, NativePtr<CSDL.Audio.AudioSpec> dstSpec);
+        internal static unsafe partial NativePtr<CSDL.Opaque.SdlAudioStream> CreateAudioStreamNullable(CSDL.Audio.AudioSpec* srcSpec, CSDL.Audio.AudioSpec* dstSpec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_DestroyAudioStream"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial void DestroyAudioStream(NativePtr<CSDL.Opaque.SdlAudioStream> stream);
@@ -136,13 +136,13 @@ namespace CSDL.Audio {
         internal static partial CSDL.Audio.AudioDeviceID OpenAudioDevice(CSDL.Audio.AudioDeviceID devid, in CSDL.Audio.AudioSpec spec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_OpenAudioDevice"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CSDL.Audio.AudioDeviceID OpenAudioDeviceNullable(CSDL.Audio.AudioDeviceID devid, NativePtr<CSDL.Audio.AudioSpec> spec);
+        internal static unsafe partial CSDL.Audio.AudioDeviceID OpenAudioDeviceNullable(CSDL.Audio.AudioDeviceID devid, CSDL.Audio.AudioSpec* spec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_OpenAudioDeviceStream"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<CSDL.Opaque.SdlAudioStream> OpenAudioDeviceStream(CSDL.Audio.AudioDeviceID devid, in CSDL.Audio.AudioSpec spec, SDL_AudioStreamCallbackNative callback, IntPtr userData);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_OpenAudioDeviceStream"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial NativePtr<CSDL.Opaque.SdlAudioStream> OpenAudioDeviceStreamNullable(CSDL.Audio.AudioDeviceID devid, NativePtr<CSDL.Audio.AudioSpec> spec, SDL_AudioStreamCallbackNative callback, IntPtr userData);
+        internal static unsafe partial NativePtr<CSDL.Opaque.SdlAudioStream> OpenAudioDeviceStreamNullable(CSDL.Audio.AudioDeviceID devid, CSDL.Audio.AudioSpec* spec, SDL_AudioStreamCallbackNative callback, IntPtr userData);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_PauseAudioDevice"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool PauseAudioDevice(CSDL.Audio.AudioDeviceID devid);
@@ -175,7 +175,7 @@ namespace CSDL.Audio {
         internal static partial CBool SetAudioStreamFormat(NativePtr<CSDL.Opaque.SdlAudioStream> stream, in CSDL.Audio.AudioSpec srcSpec, in CSDL.Audio.AudioSpec dstSpec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetAudioStreamFormat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool SetAudioStreamFormatNullable(NativePtr<CSDL.Opaque.SdlAudioStream> stream, NativePtr<CSDL.Audio.AudioSpec> srcSpec, NativePtr<CSDL.Audio.AudioSpec> dstSpec);
+        internal static unsafe partial CBool SetAudioStreamFormatNullable(NativePtr<CSDL.Opaque.SdlAudioStream> stream, CSDL.Audio.AudioSpec* srcSpec, CSDL.Audio.AudioSpec* dstSpec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetAudioStreamFrequencyRatio"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetAudioStreamFrequencyRatio(NativePtr<CSDL.Opaque.SdlAudioStream> stream, float ratio);
