@@ -8,9 +8,9 @@ namespace CSDL.Video {
     public partial class Renderer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.CreateTexture"/>
         public Texture CreateTexture(PixelFormat format, TextureAccess access, int width, int height) {
-            Texture gpuTexture = new Texture(SDL.CreateTexture(Handle, format, access, width, height).ThrowIfInvalid(), true);
-            RegisterChild(gpuTexture.Invalidation);
-            return gpuTexture;
+            Texture texture = new Texture(SDL.CreateTexture(Handle, format, access, width, height).ThrowIfInvalid(), true);
+            RegisterChild(texture.Invalidation);
+            return texture;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.CreateTextureFromSurface"/>
