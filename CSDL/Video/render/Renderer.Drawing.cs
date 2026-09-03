@@ -12,9 +12,18 @@ namespace CSDL.Video {
             return SDL.RenderFillRect(Handle, in rect).LogIfFalse();
         }
 
+        /// <summary>
+        /// Fills the given rect, or the entire rendering target if <paramref name="rect"/> is <see langword="null"/>.
+        /// </summary>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderFillRect"/>
+        public bool RenderFillRect(FRect? rect) {
+            ref readonly FRect rectRef = ref rect.AsRef(out FRect value);
+            return SDL.RenderFillRect(Handle, in rectRef).LogIfFalse();
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderFillRects"/>
         public bool RenderFillRects(FRect[] rects) {
-            if (rects == null || rects.Length <= 0) return true;
+            if (rects.Length <= 0) return true;
             unsafe {
                 fixed (FRect* fr = rects) {
                     return SDL.RenderFillRects(Handle, fr, rects.Length).LogIfFalse();
@@ -25,6 +34,15 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderRect"/>
         public bool RenderRect(FRect rect) {
             return SDL.RenderRect(Handle.Ptr, rect).LogIfFalse();
+        }
+
+        /// <summary>
+        /// Outlines the given rect, or the entire rendering target if <paramref name="rect"/> is <see langword="null"/>.
+        /// </summary>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderRect"/>
+        public bool RenderRect(FRect? rect) {
+            ref readonly FRect rectRef = ref rect.AsRef(out FRect value);
+            return SDL.RenderRect(Handle, in rectRef).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderRects"/>
