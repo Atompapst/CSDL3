@@ -12,13 +12,15 @@ Thanks for considering a contribution! A few guidelines to keep things consisten
 
 ## Managed implementations (`CSDL_IMPL`)
 
-CSDL3 calls into native SDL through P/Invoke almost everywhere. For a small number of very small, frequently-called
-helpers, the native call overhead can be larger than the work the function actually does. In those specific cases, a
-managed C# reimplementation can be faster (benchmarked with e.g. BenchmarkDotNet).
+CSDL3 calls into native SDL through P/Invoke almost everywhere. The bar for a managed C# reimplementation is not the
+size of the function, it's proof: benchmark it against the native call (e.g. with GenericBenchmark) and show the
+managed port is actually faster. A `CSDL_IMPL` region is tracked against the SDL source it mirrors, so a port that
+falls behind gets flagged for review automatically so that tracking is what makes it safe to take a managed port
+even when it isn't a one-line helper.
 
-This does **not** mean managed code is generally preferable to native SDL. Anything beyond a tiny helper - pixel
-processing, rendering, anything with real work per call - should stay a native P/Invoke call. If you're unsure whether
-a managed port is worth it, benchmark it and include the numbers in your PR.
+This does **not** mean managed code is generally preferable to native SDL. If you're unsure whether a managed port is
+worth it, benchmark it and include the numbers in your PR either way, since "I checked and it wasn't faster" is useful
+information too.
 
 ### Marking a managed port
 
