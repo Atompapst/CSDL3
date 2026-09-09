@@ -20,7 +20,9 @@ namespace CSDL.Video {
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Camera.OpenCamera"/>
         public CameraDevice(CameraID id) {
-            Handle = SDL.OpenCameraNullable(id, NativePtr<CameraSpec>.Zero).ThrowIfInvalid();
+            unsafe {
+                Handle = SDL.OpenCameraNullable(id, null).ThrowIfInvalid();
+            }
         }
 
         internal CameraDevice(NativePtr<CSDL.Opaque.SdlCamera> handle) : base(handle, false) {

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Zlib
 
 using System;
-using System.Runtime.CompilerServices;
 using CSDL.Extensions;
 using CSDL.File;
 
@@ -139,8 +138,14 @@ namespace CSDL.Video {
         /// </summary>
         /// <param name="dst">The destination surface.</param>
         public bool Blit(Surface dst) {
-            ref readonly Rect nullRect = ref Unsafe.NullRef<Rect>();
-            return SDL.BlitSurface(Handle, in nullRect, dst.Handle, in nullRect).LogIfFalse();
+            return Blit(null, dst, null);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurface"/>
+        public bool Blit(Rect? srcRect, Surface dst, Rect? dstRect) {
+            ref readonly Rect srcRef = ref srcRect.AsRef(out Rect srcVal);
+            ref readonly Rect dstRef = ref dstRect.AsRef(out Rect dstVal);
+            return SDL.BlitSurface(Handle, in srcRef, dst.Handle, in dstRef).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurfaceUnchecked"/>
@@ -158,9 +163,23 @@ namespace CSDL.Video {
             return SDL.BlitSurfaceTiled(Handle, in srcRect, dst.Handle, in dstRect).LogIfFalse();
         }
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurfaceTiled"/>
+        public bool BlitTiled(Rect? srcRect, Surface dst, Rect? dstRect) {
+            ref readonly Rect srcRef = ref srcRect.AsRef(out Rect srcVal);
+            ref readonly Rect dstRef = ref dstRect.AsRef(out Rect dstVal);
+            return SDL.BlitSurfaceTiled(Handle, in srcRef, dst.Handle, in dstRef).LogIfFalse();
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurfaceTiledWithScale"/>
         public bool BlitTiled(Rect srcRect, float scale, ScaleMode scaleMode, Surface dst, Rect dstRect) {
             return SDL.BlitSurfaceTiledWithScale(Handle, in srcRect, scale, scaleMode, dst.Handle, in dstRect).LogIfFalse();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurfaceTiledWithScale"/>
+        public bool BlitTiled(Rect? srcRect, float scale, ScaleMode scaleMode, Surface dst, Rect? dstRect) {
+            ref readonly Rect srcRef = ref srcRect.AsRef(out Rect srcVal);
+            ref readonly Rect dstRef = ref dstRect.AsRef(out Rect dstVal);
+            return SDL.BlitSurfaceTiledWithScale(Handle, in srcRef, scale, scaleMode, dst.Handle, in dstRef).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurface9Grid"/>
@@ -168,9 +187,23 @@ namespace CSDL.Video {
             return SDL.BlitSurface9Grid(Handle, in srcRect, leftWidth, rightWidth, topHeight, bottomHeight, scale, scaleMode, dst.Handle, in dstRect).LogIfFalse();
         }
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurface9Grid"/>
+        public bool Blit9Grid(Rect? srcRect, int leftWidth, int rightWidth, int topHeight, int bottomHeight, float scale, ScaleMode scaleMode, Surface dst, Rect? dstRect) {
+            ref readonly Rect srcRef = ref srcRect.AsRef(out Rect srcVal);
+            ref readonly Rect dstRef = ref dstRect.AsRef(out Rect dstVal);
+            return SDL.BlitSurface9Grid(Handle, in srcRef, leftWidth, rightWidth, topHeight, bottomHeight, scale, scaleMode, dst.Handle, in dstRef).LogIfFalse();
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.StretchSurface"/>
         public bool Stretch(Rect srcRect, Surface dst, Rect dstRect, ScaleMode scaleMode) {
             return SDL.StretchSurface(Handle, in srcRect, dst.Handle, in dstRect, scaleMode).LogIfFalse();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.StretchSurface"/>
+        public bool Stretch(Rect? srcRect, Surface dst, Rect? dstRect, ScaleMode scaleMode) {
+            ref readonly Rect srcRef = ref srcRect.AsRef(out Rect srcVal);
+            ref readonly Rect dstRef = ref dstRect.AsRef(out Rect dstVal);
+            return SDL.StretchSurface(Handle, in srcRef, dst.Handle, in dstRef, scaleMode).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.SurfaceHasAlternateImages"/>
@@ -315,10 +348,8 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.BlitSurfaceScaled"/>
         public bool BlitScaled(Rect? srcRect, Surface dst, Rect? dstRect, ScaleMode scaleMode = ScaleMode.Nearest) {
-            Rect srcVal = srcRect.GetValueOrDefault();
-            Rect dstVal = dstRect.GetValueOrDefault();
-            ref readonly Rect srcRef = ref srcRect.HasValue ? ref srcVal : ref Unsafe.NullRef<Rect>();
-            ref readonly Rect dstRef = ref dstRect.HasValue ? ref dstVal : ref Unsafe.NullRef<Rect>();
+            ref readonly Rect srcRef = ref srcRect.AsRef(out Rect srcVal);
+            ref readonly Rect dstRef = ref dstRect.AsRef(out Rect dstVal);
             return SDL.BlitSurfaceScaled(Handle, in srcRef, dst.Handle, in dstRef, scaleMode).LogIfFalse();
         }
 
@@ -368,8 +399,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.SetSurfaceClipRect"/>
         public bool SetClipRect(Rect? rect) {
-            Rect rectVal = rect.GetValueOrDefault();
-            ref readonly Rect rectRef = ref rect.HasValue ? ref rectVal : ref Unsafe.NullRef<Rect>();
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect rectVal);
             return SDL.SetSurfaceClipRect(Handle, in rectRef).LogIfFalse();
         }
 
@@ -391,8 +421,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.FillSurfaceRect"/>
         public bool FillRect(Rect? rect, uint color) {
-            Rect rectVal = rect.GetValueOrDefault();
-            ref readonly Rect rectRef = ref rect.HasValue ? ref rectVal : ref Unsafe.NullRef<Rect>();
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect rectVal);
             return SDL.FillSurfaceRect(Handle, in rectRef, color).LogIfFalse();
         }
 

@@ -40,8 +40,8 @@ namespace CSDL.Video {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRendererFromTexture"/>
-        public static Renderer GetRenderer(Texture gpuTexture) {
-            NativePtr<CSDL.Opaque.SdlRenderer> r = SDL.GetRendererFromTexture(gpuTexture.Handle).LogIfInvalid();
+        public static Renderer GetRenderer(Texture texture) {
+            NativePtr<CSDL.Opaque.SdlRenderer> r = SDL.GetRendererFromTexture(texture.Handle).LogIfInvalid();
             return new Renderer(r);
         }
 

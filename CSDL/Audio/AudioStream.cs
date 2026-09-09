@@ -13,12 +13,14 @@ namespace CSDL.Audio {
         private NativePtr<Opaque.SdlAudioStream> _deferredHandle;
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Audio.CreateAudioStream"/>
-        public unsafe AudioStream(AudioSpec? srcSpec, AudioSpec? dstSpec) {
+        public AudioStream(AudioSpec? srcSpec, AudioSpec? dstSpec) {
             AudioSpec src = srcSpec.GetValueOrDefault();
             AudioSpec dst = dstSpec.GetValueOrDefault();
-            NativePtr<AudioSpec> srcPtr = srcSpec.HasValue ? NativePtr<AudioSpec>.FromIn(in src) : NativePtr<AudioSpec>.Zero;
-            NativePtr<AudioSpec> dstPtr = dstSpec.HasValue ? NativePtr<AudioSpec>.FromIn(in dst) : NativePtr<AudioSpec>.Zero;
-            Handle = SDL.CreateAudioStreamNullable(srcPtr, dstPtr).ThrowIfInvalid();
+            unsafe {
+                AudioSpec* srcPtr = srcSpec.HasValue ? &src : null;
+                AudioSpec* dstPtr = dstSpec.HasValue ? &dst : null;
+                Handle = SDL.CreateAudioStreamNullable(srcPtr, dstPtr).ThrowIfInvalid();
+            }
             SourceSpec = src;
             DestinationSpec = dst;
         }
@@ -217,12 +219,15 @@ namespace CSDL.Audio {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Audio.SetAudioStreamFormat"/>
-        public unsafe bool SetAudioStreamFormat(AudioSpec? srcSpec, AudioSpec? dstSpec) {
+        public bool SetAudioStreamFormat(AudioSpec? srcSpec, AudioSpec? dstSpec) {
             AudioSpec src = srcSpec.GetValueOrDefault();
             AudioSpec dst = dstSpec.GetValueOrDefault();
-            NativePtr<AudioSpec> srcPtr = srcSpec.HasValue ? NativePtr<AudioSpec>.FromIn(in src) : NativePtr<AudioSpec>.Zero;
-            NativePtr<AudioSpec> dstPtr = dstSpec.HasValue ? NativePtr<AudioSpec>.FromIn(in dst) : NativePtr<AudioSpec>.Zero;
-            bool ok = SDL.SetAudioStreamFormatNullable(Handle, srcPtr, dstPtr).LogIfFalse();
+            bool ok;
+            unsafe {
+                AudioSpec* srcPtr = srcSpec.HasValue ? &src : null;
+                AudioSpec* dstPtr = dstSpec.HasValue ? &dst : null;
+                ok = SDL.SetAudioStreamFormatNullable(Handle, srcPtr, dstPtr).LogIfFalse();
+            }
             if (ok) {
                 if (srcSpec.HasValue) SourceSpec = src;
                 if (dstSpec.HasValue) DestinationSpec = dst;

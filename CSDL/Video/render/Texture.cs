@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Zlib
 
 using System;
-using System.Runtime.CompilerServices;
 using CSDL.Extensions;
 namespace CSDL.Video {
 
@@ -206,15 +205,13 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.LockTexture"/>
         public bool Lock(Rect? rect, out IntPtr pixels, out int pitch) {
-            Rect rectVal = rect.GetValueOrDefault();
-            ref readonly Rect rectRef = ref rect.HasValue ? ref rectVal : ref Unsafe.NullRef<Rect>();
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect rectVal);
             return SDL.LockTexture(Handle, in rectRef, out pixels, out pitch).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.LockTextureToSurface"/>
         public Surface? LockToSurface(Rect? rect) {
-            Rect rectVal = rect.GetValueOrDefault();
-            ref readonly Rect rectRef = ref rect.HasValue ? ref rectVal : ref Unsafe.NullRef<Rect>();
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect rectVal);
             nint surface = 0;
             if (!SDL.LockTextureToSurface(Handle, in rectRef, NativePtr<nint>.FromRef(ref surface)).LogIfFalse()) {
                 return null;
@@ -230,8 +227,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.UpdateTexture"/>
         public bool Update(Rect? rect, IntPtr pixels, int pitch) {
-            Rect rectVal = rect.GetValueOrDefault();
-            ref readonly Rect rectRef = ref rect.HasValue ? ref rectVal : ref Unsafe.NullRef<Rect>();
+            ref readonly Rect rectRef = ref rect.AsRef(out Rect rectVal);
             return SDL.UpdateTexture(Handle, in rectRef, pixels, pitch).LogIfFalse();
         }
 

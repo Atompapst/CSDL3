@@ -28,10 +28,10 @@ namespace CSDL.GPU {
         internal static partial NativePtr<CSDL.Opaque.SdlGPUCopyPass> BeginGPUCopyPass(NativePtr<CSDL.Opaque.SdlGPUCommandBuffer> commandBuffer);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BeginGPURenderPass"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial NativePtr<CSDL.Opaque.SdlGPURenderPass> BeginGPURenderPass(NativePtr<CSDL.Opaque.SdlGPUCommandBuffer> commandBuffer, NativePtr<CSDL.GPU.GPUColorTargetInfo> colorTargetInfos, uint numColorTargets, NativePtr<CSDL.GPU.GPUDepthStencilTargetInfo> depthStencilTargetInfo);
+        internal static unsafe partial NativePtr<CSDL.Opaque.SdlGPURenderPass> BeginGPURenderPass(NativePtr<CSDL.Opaque.SdlGPUCommandBuffer> commandBuffer, NativePtr<CSDL.GPU.GPUColorTargetInfo> colorTargetInfos, uint numColorTargets, CSDL.GPU.GPUDepthStencilTargetInfo* depthStencilTargetInfo);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BeginGPURenderPass"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial NativePtr<CSDL.Opaque.SdlGPURenderPass> BeginGPURenderPass(NativePtr<CSDL.Opaque.SdlGPUCommandBuffer> commandBuffer, ReadOnlySpan<CSDL.GPU.GPUColorTargetInfo> colorTargetInfos, uint numColorTargets, NativePtr<CSDL.GPU.GPUDepthStencilTargetInfo> depthStencilTargetInfo);
+        internal static unsafe partial NativePtr<CSDL.Opaque.SdlGPURenderPass> BeginGPURenderPass(NativePtr<CSDL.Opaque.SdlGPUCommandBuffer> commandBuffer, ReadOnlySpan<CSDL.GPU.GPUColorTargetInfo> colorTargetInfos, uint numColorTargets, CSDL.GPU.GPUDepthStencilTargetInfo* depthStencilTargetInfo);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_BindGPUComputePipeline"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial void BindGPUComputePipeline(NativePtr<CSDL.Opaque.SdlGPUComputePass> computePass, NativePtr<CSDL.Opaque.SdlGPUComputePipeline> computePipeline);

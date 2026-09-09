@@ -304,7 +304,7 @@ namespace CSDL.Video {
         internal static partial CBool SetWindowFullscreenMode(NativePtr<CSDL.Opaque.SdlWindow> window, in CSDL.Video.DisplayMode mode);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetWindowFullscreenMode"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial CBool SetWindowFullscreenModeNullable(NativePtr<CSDL.Opaque.SdlWindow> window, NativePtr<CSDL.Video.DisplayMode> mode);
+        internal static unsafe partial CBool SetWindowFullscreenModeNullable(NativePtr<CSDL.Opaque.SdlWindow> window, CSDL.Video.DisplayMode* mode);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetWindowHitTest"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetWindowHitTest(NativePtr<CSDL.Opaque.SdlWindow> window, SDL_HitTestNative callback, IntPtr callbackData);

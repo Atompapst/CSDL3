@@ -1,7 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Christof Ignacy
 // SPDX-License-Identifier: Zlib
 
-using System.Runtime.CompilerServices;
 using CSDL.Extensions;
 
 namespace CSDL.Video {
@@ -124,8 +123,7 @@ namespace CSDL.Video {
                 return ptr.IsNull ? null : ptr.Read();
             }
             set {
-                Rect rectVal = value.GetValueOrDefault();
-                ref readonly Rect rectRef = ref value.HasValue ? ref rectVal : ref Unsafe.NullRef<Rect>();
+                ref readonly Rect rectRef = ref value.AsRef(out Rect rectVal);
                 SDL.SetWindowMouseRect(Handle, in rectRef).LogIfFalse();
             }
         }
@@ -197,8 +195,7 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Video.SetWindowFullscreenMode"/>
         private bool SetWindowFullscreenMode(DisplayMode? mode) {
-            DisplayMode modeVal = mode.GetValueOrDefault();
-            ref readonly DisplayMode modeRef = ref mode.HasValue ? ref modeVal : ref Unsafe.NullRef<DisplayMode>();
+            ref readonly DisplayMode modeRef = ref mode.AsRef(out DisplayMode modeVal);
             return SDL.SetWindowFullscreenMode(Handle, in modeRef).LogIfFalse();
         }
 

@@ -8,9 +8,9 @@ namespace CSDL.Video {
     public partial class Renderer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.CreateTexture"/>
         public Texture CreateTexture(PixelFormat format, TextureAccess access, int width, int height) {
-            Texture gpuTexture = new Texture(SDL.CreateTexture(Handle, format, access, width, height).ThrowIfInvalid(), true);
-            RegisterChild(gpuTexture.Invalidation);
-            return gpuTexture;
+            Texture texture = new Texture(SDL.CreateTexture(Handle, format, access, width, height).ThrowIfInvalid(), true);
+            RegisterChild(texture.Invalidation);
+            return texture;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.CreateTextureFromSurface"/>
@@ -121,6 +121,16 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderReadPixels"/>
         public Surface ReadPixels(Rect area) {
             NativePtr<SurfaceData> surface = SDL.RenderReadPixels(Handle, area).ThrowIfInvalid();
+            return new Surface(surface, true);
+        }
+
+        /// <summary>
+        /// Reads the given area of pixels, or the entire rendering target if <paramref name="area"/> is <see langword="null"/>.
+        /// </summary>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.RenderReadPixels"/>
+        public Surface ReadPixels(Rect? area) {
+            ref readonly Rect areaRef = ref area.AsRef(out Rect value);
+            NativePtr<SurfaceData> surface = SDL.RenderReadPixels(Handle, in areaRef).ThrowIfInvalid();
             return new Surface(surface, true);
         }
     }

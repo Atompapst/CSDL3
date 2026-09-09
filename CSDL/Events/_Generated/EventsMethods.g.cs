@@ -31,7 +31,7 @@ namespace CSDL {
         internal static partial int GetEventDescription(in CSDL.Event @event, NativePtr<byte> buf, int buflen);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetEventDescription"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial int GetEventDescriptionNullable(NativePtr<CSDL.Event> @event, NativePtr<byte> buf, int buflen);
+        internal static unsafe partial int GetEventDescriptionNullable(CSDL.Event* @event, NativePtr<byte> buf, int buflen);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetEventDescription"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial int GetEventDescription(in CSDL.Event @event, Span<byte> buf, int buflen);

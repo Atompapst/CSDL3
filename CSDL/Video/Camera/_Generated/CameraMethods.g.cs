@@ -55,7 +55,7 @@ namespace CSDL.Video {
         internal static partial NativePtr<CSDL.Opaque.SdlCamera> OpenCamera(CSDL.Video.CameraID instanceID, in CSDL.Video.CameraSpec spec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_OpenCamera"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-        internal static partial NativePtr<CSDL.Opaque.SdlCamera> OpenCameraNullable(CSDL.Video.CameraID instanceID, NativePtr<CSDL.Video.CameraSpec> spec);
+        internal static unsafe partial NativePtr<CSDL.Opaque.SdlCamera> OpenCameraNullable(CSDL.Video.CameraID instanceID, CSDL.Video.CameraSpec* spec);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_ReleaseCameraFrame"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial void ReleaseCameraFrame(NativePtr<CSDL.Opaque.SdlCamera> camera, NativePtr<CSDL.Video.SurfaceData> frame);
