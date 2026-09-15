@@ -172,7 +172,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_DestroyAudioStream">SDL_DestroyAudioStream</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Audio.AudioStream(AudioSpec,AudioSpec)">AudioStream(AudioSpec,AudioSpec)</see></seealso>
+        /// <seealso><see cref="CSDL.Audio.AudioStream(AudioSpec?,AudioSpec?)">AudioStream(AudioSpec?,AudioSpec?)</see></seealso>
         public static extern void DestroyAudioStream();
 
         /// <summary>
@@ -694,7 +694,7 @@ namespace CSDL.Internal.Docs {
         /// <para>You can open both playback and recording devices through this function. Playback devices will take data from bound audio streams, mix it, and send it to the hardware. Recording devices will feed any bound audio streams with a copy of any incoming data.</para>
         /// <para>An opened audio device starts out with no audio streams bound. To start audio playing, bind a stream and supply audio data to it. Unlike SDL2, there is no audio callback; you only bind audio streams and make sure they have data flowing into them (however, you can simulate SDL2's semantics fairly closely by using <c>SDL_OpenAudioDeviceStream</c> instead of this function).</para>
         /// <para>If you don't care about opening a specific device, pass a <c>devid</c> of either <see cref="CSDL.Audio.Macros.AudioDeviceDefaultPlayback">AudioDeviceDefaultPlayback</see> or <see cref="CSDL.Audio.Macros.AudioDeviceDefaultRecording">AudioDeviceDefaultRecording</see>. In this case, SDL will try to pick the most reasonable default, and may also switch between physical devices seamlessly later, if the most reasonable default changes during the lifetime of this opened device (user changed the default in the OS's system preferences, the default got unplugged so the system jumped to a new default, the user plugged in headphones on a mobile device, etc). Unless you have a good reason to choose a specific device, this is probably what you want.</para>
-        /// <para>You may request a specific format for the audio device, but there is no promise the device will honor that request for several reasons. As such, it's only meant to be a hint as to what data your app will provide. Audio streams will accept data in whatever format you specify and manage conversion for you as appropriate. <see cref="CSDL.Audio.PlaybackDevice.ResolveDefaultSpec">ResolveDefaultSpec</see> can tell you the preferred format for the device before opening and the actual format the device is using after opening.</para>
+        /// <para>You may request a specific format for the audio device, but there is no promise the device will honor that request for several reasons. As such, it's only meant to be a hint as to what data your app will provide. Audio streams will accept data in whatever format you specify and manage conversion for you as appropriate. <see cref="CSDL.Audio.PlaybackDeviceInfo.TryGetSpec">TryGetSpec</see> can tell you the preferred format for the device before opening and the actual format the device is using after opening.</para>
         /// <para>It's legal to open the same device ID more than once; each successful open will generate a new logical <see cref="CSDL.Audio.AudioDeviceID">AudioDeviceID</see> that is managed separately from others on the same physical device. This allows libraries to open a device separately from the main app and bind its own streams without conflicting.</para>
         /// <para>It is also legal to open a device ID returned by a previous call to this function; doing so just creates another logical device on the same physical device. This may be useful for making logical groupings of audio streams.</para>
         /// <para>This function returns the opened device ID on success. This is a new, unique <see cref="CSDL.Audio.AudioDeviceID">AudioDeviceID</see> that represents a logical device.</para>
@@ -710,7 +710,7 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_OpenAudioDevice">SDL_OpenAudioDevice</seealso></SDLWiki>
         /// <seealso><c>SDL_CloseAudioDevice</c></seealso>
-        /// <seealso><see cref="CSDL.Audio.PlaybackDevice.ResolveDefaultSpec">ResolveDefaultSpec</see></seealso>
+        /// <seealso><see cref="CSDL.Audio.PlaybackDeviceInfo.TryGetSpec">TryGetSpec</see></seealso>
         public static extern void OpenAudioDevice();
 
         /// <summary>

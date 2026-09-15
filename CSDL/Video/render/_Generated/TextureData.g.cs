@@ -14,9 +14,9 @@ namespace CSDL.Video {
     /// </summary>
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_Texture">SDL_Texture</seealso></SDLWiki>
-    /// <seealso><see cref="CSDL.Video.Texture(Renderer,int,int,PixelFormat,TextureAccess)">Texture(Renderer,int,int,PixelFormat,TextureAccess)</see></seealso>
-    /// <seealso><see cref="CSDL.Video.Texture(Renderer,Surface)">Texture(Renderer,Surface)</see></seealso>
-    /// <seealso><see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see></seealso>
     /// <seealso><see cref="CSDL.Video.Texture.DisposeResource">DisposeResource</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct TextureData {

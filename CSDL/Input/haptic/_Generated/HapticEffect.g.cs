@@ -58,12 +58,12 @@ namespace CSDL.Input {
     /// </remarks>
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HapticEffect">SDL_HapticEffect</seealso></SDLWiki>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticConstant">HapticConstant</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticPeriodic">HapticPeriodic</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticCondition">HapticCondition</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticRamp">HapticRamp</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticLeftRight">HapticLeftRight</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticCustom">HapticCustom</see></seealso>
+    /// <seealso><see cref="CSDL.Input.HapticConstant">HapticConstant</see></seealso>
+    /// <seealso><see cref="CSDL.Input.HapticPeriodic">HapticPeriodic</see></seealso>
+    /// <seealso><see cref="CSDL.Input.HapticCondition">HapticCondition</see></seealso>
+    /// <seealso><see cref="CSDL.Input.HapticRamp">HapticRamp</see></seealso>
+    /// <seealso><see cref="CSDL.Input.HapticLeftRight">HapticLeftRight</see></seealso>
+    /// <seealso><see cref="CSDL.Input.HapticCustom">HapticCustom</see></seealso>
     [StructLayout(LayoutKind.Explicit)]
     public partial struct HapticEffect {
         /// <summary>

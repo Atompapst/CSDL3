@@ -6,12 +6,8 @@ namespace CSDL.Video {
     public partial struct Rect {
 
         #region CSDL_IMPL SDL_PointInRect : SDL_rect#SDL_PointInRect
-        //TODO generate Docs for inline methods
-        /// <summary>
-        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches SDL_PointInRect's
-        /// half-open semantics: the right/bottom edge is excluded).
-        /// </summary>
-        /// <seealso><c>SDL_PointInRect</c></seealso>
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.PointInRect"/>
         public bool Contains(Point point) {
             return point.X >= X && point.X < X + W && point.Y >= Y && point.Y < Y + H;
         }
@@ -20,16 +16,14 @@ namespace CSDL.Video {
 
         #region CSDL_IMPL SDL_RectEmpty : SDL_rect#SDL_RectEmpty
 
-        /// <summary>
-        /// <c>true</c> if this rect has no area, i.e. width or height is zero or negative.
-        /// </summary>
-        /// <seealso><c>SDL_RectEmpty</c></seealso>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.RectEmpty"/>
         public bool IsEmpty => W <= 0 || H <= 0;
 
         #endregion
 
         #region CSDL_IMPL SDL_RectsEqual : SDL_rect#SDL_RectsEqual
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.RectsEqual"/>
         public bool Equals(Rect other) {
             return X == other.X && Y == other.Y && W == other.W && H == other.H;
         }

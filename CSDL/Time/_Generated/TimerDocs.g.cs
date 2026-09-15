@@ -17,7 +17,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Timing may be inexact due to OS scheduling. Be sure to note the current time with <see cref="CSDL.Timer.GetTicksNs">GetTicksNs</see> or <see cref="CSDL.Timer.GetPerformanceCounter">GetPerformanceCounter</see> in case your callback needs to adjust for variances.</para>
         /// </remarks>
         /// <param name="interval">the timer delay, in milliseconds, passed to <c>callback</c>.</param>
-        /// <param name="callback">the <c>SDL_TimerCallback</c> function to call when the specified <c>interval</c> elapses.</param>
+        /// <param name="callback">the <see cref="CSDL.TimerCallback">TimerCallback</see> function to call when the specified <c>interval</c> elapses.</param>
         /// <param name="userdata">a pointer that is passed to <c>callback</c>.</param>
         /// <returns>
         /// <para>(<see cref="CSDL.TimerID">TimerID</see>) Returns a timer ID or 0 on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -39,7 +39,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Timing may be inexact due to OS scheduling. Be sure to note the current time with <see cref="CSDL.Timer.GetTicksNs">GetTicksNs</see> or <see cref="CSDL.Timer.GetPerformanceCounter">GetPerformanceCounter</see> in case your callback needs to adjust for variances.</para>
         /// </remarks>
         /// <param name="interval">the timer delay, in nanoseconds, passed to <c>callback</c>.</param>
-        /// <param name="callback">the <c>SDL_TimerCallback</c> function to call when the specified <c>interval</c> elapses.</param>
+        /// <param name="callback">the <see cref="CSDL.TimerCallback">TimerCallback</see> function to call when the specified <c>interval</c> elapses.</param>
         /// <param name="userdata">a pointer that is passed to <c>callback</c>.</param>
         /// <returns>
         /// <para>(<see cref="CSDL.TimerID">TimerID</see>) Returns a timer ID or 0 on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>

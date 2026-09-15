@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace CSDL.Video {
     /// <summary>
-    /// <para>The flags on an <see cref="CSDL.Video.Surface">Surface</see>.</para>
+    /// <para>The flags on an <see cref="CSDL.Video.SurfaceData">SurfaceData</see>.</para>
     /// </summary>
     /// <remarks>
     /// <para>These are generally considered read-only.</para>

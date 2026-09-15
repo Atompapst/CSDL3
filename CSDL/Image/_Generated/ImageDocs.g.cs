@@ -253,12 +253,12 @@ namespace CSDL.Internal.Docs {
         public static extern void CreateAnimationEncoderWithProperties();
 
         /// <summary>
-        /// <para>Dispose of an <see cref="CSDL.Image.Animation">Animation</see> and free its resources.</para>
+        /// <para>Dispose of an <see cref="CSDL.Image.AnimationData">AnimationData</see> and free its resources.</para>
         /// </summary>
         /// <remarks>
         /// <para>The provided <c>anim</c> pointer is not valid once this call returns.</para>
         /// </remarks>
-        /// <param name="anim"><see cref="CSDL.Image.Animation">Animation</see> to dispose of.</param>
+        /// <param name="anim"><see cref="CSDL.Image.AnimationData">AnimationData</see> to dispose of.</param>
         /// <since>This function is available since SDL_image 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_FreeAnimation">IMG_FreeAnimation</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Image.Animation(string)">Animation(string)</see></seealso>
@@ -1056,7 +1056,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="src">an SDL_IOStream from which data will be read.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.4.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadANIAnimation_IO">IMG_LoadANIAnimation_IO</seealso></SDLWiki>
@@ -1079,7 +1079,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="file">path on the filesystem containing an animated image.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadAnimation">IMG_LoadAnimation</seealso></SDLWiki>
@@ -1104,7 +1104,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="src">an SDL_IOStream that data will be read from.</param>
         /// <param name="closeio">true to close/free the SDL_IOStream before returning, false to leave it open.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadAnimation_IO">IMG_LoadAnimation_IO</seealso></SDLWiki>
@@ -1131,7 +1131,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="closeio">true to close/free the SDL_IOStream before returning, false to leave it open.</param>
         /// <param name="type">a filename extension that represent this data ("GIF", etc).</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadAnimationTyped_IO">IMG_LoadAnimationTyped_IO</seealso></SDLWiki>
@@ -1155,7 +1155,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="src">an SDL_IOStream from which data will be read.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.4.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadAPNGAnimation_IO">IMG_LoadAPNGAnimation_IO</seealso></SDLWiki>
@@ -1211,7 +1211,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="src">an SDL_IOStream that data will be read from.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.4.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadAVIFAnimation_IO">IMG_LoadAVIFAnimation_IO</seealso></SDLWiki>
@@ -1330,7 +1330,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="src">an SDL_IOStream that data will be read from.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadGIFAnimation_IO">IMG_LoadGIFAnimation_IO</seealso></SDLWiki>
@@ -1928,7 +1928,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="src">an SDL_IOStream that data will be read from.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Image.Animation">Animation</see> *) Returns a new <see cref="CSDL.Image.Animation">Animation</see>, or NULL on error.</para>
+        /// <para>(<see cref="CSDL.Image.AnimationData">AnimationData</see> *) Returns a new <see cref="CSDL.Image.AnimationData">AnimationData</see>, or NULL on error.</para>
         /// </returns>
         /// <since>This function is available since SDL_image 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_image/IMG_LoadWEBPAnimation_IO">IMG_LoadWEBPAnimation_IO</seealso></SDLWiki>

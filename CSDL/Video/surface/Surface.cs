@@ -34,18 +34,21 @@ namespace CSDL.Video {
         public int Pitch  => Ref.Pitch;
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.SetSurfaceBlendMode"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.GetSurfaceBlendMode"/>
         public BlendMode BlendMode {
             get => GetBlendMode();
             set => SetBlendMode(value);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.SetSurfaceAlphaMod"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.GetSurfaceAlphaMod"/>
         public byte AlphaMod {
             get => GetAlphaMod();
             set => SetAlphaMod(value);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.SetSurfaceColorMod"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.GetSurfaceColorMod"/>
         public (byte R, byte G, byte B) ColorMod {
             get {
                 SDL.GetSurfaceColorMod(Handle, out byte r, out byte g, out byte b).LogIfFalse();
@@ -55,6 +58,7 @@ namespace CSDL.Video {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Surface.SetSurfaceColorKey"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Surface.GetSurfaceColorKey"/>
         public uint? ColorKey {
             get {
                 if (!HasColorKey) return null;

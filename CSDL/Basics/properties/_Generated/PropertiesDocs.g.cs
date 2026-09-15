@@ -339,7 +339,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetPointerPropertyWithCleanup">SDL_SetPointerPropertyWithCleanup</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Properties.PointerProperty.Get">Get</see></seealso>
         /// <seealso><see cref="CSDL.Properties.PointerProperty.Set">Set</see></seealso>
-        /// <seealso><c>SDL_CleanupPropertyCallback</c></seealso>
+        /// <seealso><see cref="CSDL.CleanupPropertyCallback">CleanupPropertyCallback</see></seealso>
         public static extern void SetPointerPropertyWithCleanup();
 
         /// <summary>

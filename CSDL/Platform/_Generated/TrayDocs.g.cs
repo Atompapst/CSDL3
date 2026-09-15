@@ -87,12 +87,12 @@ namespace CSDL.Internal.Docs {
         /// <para>Using tray icons require the video subsystem.</para>
         /// <para>These are the supported properties:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.TrayCreateIconPointer">TrayCreateIconPointer</see>: an <see cref="CSDL.Video.Surface">Surface</see> to be used as the tray icon. May be NULL.</description></item>
+        /// <item><description><see cref="CSDL.Props.TrayCreateIconPointer">TrayCreateIconPointer</see>: an <see cref="CSDL.Video.SurfaceData">SurfaceData</see> to be used as the tray icon. May be NULL.</description></item>
         /// <item><description><see cref="CSDL.Props.TrayCreateTooltipString">TrayCreateTooltipString</see>: a tooltip to be displayed when the mouse hovers the icon in UTF-8 encoding. Not supported on all platforms. May be NULL.</description></item>
         /// <item><description><see cref="CSDL.Props.TrayCreateUserdataPointer">TrayCreateUserdataPointer</see>: an optional pointer to associate with the tray, which will be passed to click callbacks. May be NULL.</description></item>
-        /// <item><description><see cref="CSDL.Props.TrayCreateLeftclickCallbackPointer">TrayCreateLeftclickCallbackPointer</see>: an <c>SDL_TrayClickCallback</c> to be invoked when the tray icon is left-clicked. Not supported on all platforms. The callback should return true to show the default menu, or false to skip showing it. May be NULL.</description></item>
-        /// <item><description><see cref="CSDL.Props.TrayCreateRightclickCallbackPointer">TrayCreateRightclickCallbackPointer</see>: an <c>SDL_TrayClickCallback</c> to be invoked when the tray icon is right-clicked. Not supported on all platforms. The callback should return true to show the default menu, or false to skip showing it. May be NULL.</description></item>
-        /// <item><description><see cref="CSDL.Props.TrayCreateMiddleclickCallbackPointer">TrayCreateMiddleclickCallbackPointer</see>: an <c>SDL_TrayClickCallback</c> to be invoked when the tray icon is middle-clicked. Not supported on all platforms. May be NULL.</description></item>
+        /// <item><description><see cref="CSDL.Props.TrayCreateLeftclickCallbackPointer">TrayCreateLeftclickCallbackPointer</see>: an <see cref="CSDL.TrayClickCallback">TrayClickCallback</see> to be invoked when the tray icon is left-clicked. Not supported on all platforms. The callback should return true to show the default menu, or false to skip showing it. May be NULL.</description></item>
+        /// <item><description><see cref="CSDL.Props.TrayCreateRightclickCallbackPointer">TrayCreateRightclickCallbackPointer</see>: an <see cref="CSDL.TrayClickCallback">TrayClickCallback</see> to be invoked when the tray icon is right-clicked. Not supported on all platforms. The callback should return true to show the default menu, or false to skip showing it. May be NULL.</description></item>
+        /// <item><description><see cref="CSDL.Props.TrayCreateMiddleclickCallbackPointer">TrayCreateMiddleclickCallbackPointer</see>: an <see cref="CSDL.TrayClickCallback">TrayClickCallback</see> to be invoked when the tray icon is middle-clicked. Not supported on all platforms. May be NULL.</description></item>
         /// </list>
         /// </remarks>
         /// <param name="props">the properties to use.</param>
@@ -332,7 +332,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetTrayEntryChecked">SDL_SetTrayEntryChecked</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.TrayMenu.Entries">Entries</see></seealso>
         /// <seealso><see cref="CSDL.TrayMenu.Insert">Insert</see></seealso>
-        /// <seealso><c>SDL_GetTrayEntryChecked</c></seealso>
+        /// <seealso><see cref="CSDL.TrayEntry.Checked">Checked</see></seealso>
         public static extern void SetTrayEntryChecked();
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetTrayEntryEnabled">SDL_SetTrayEntryEnabled</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.TrayMenu.Entries">Entries</see></seealso>
         /// <seealso><see cref="CSDL.TrayMenu.Insert">Insert</see></seealso>
-        /// <seealso><c>SDL_GetTrayEntryEnabled</c></seealso>
+        /// <seealso><see cref="CSDL.TrayEntry.Enabled">Enabled</see></seealso>
         public static extern void SetTrayEntryEnabled();
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetTrayEntryLabel">SDL_SetTrayEntryLabel</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.TrayMenu.Entries">Entries</see></seealso>
         /// <seealso><see cref="CSDL.TrayMenu.Insert">Insert</see></seealso>
-        /// <seealso><c>SDL_GetTrayEntryLabel</c></seealso>
+        /// <seealso><see cref="CSDL.TrayEntry.Label">Label</see></seealso>
         public static extern void SetTrayEntryLabel();
 
         /// <summary>

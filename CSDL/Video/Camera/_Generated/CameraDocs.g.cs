@@ -21,7 +21,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="camera">opened camera device.</param>
         /// <param name="timestampNS">a pointer filled in with the frame's timestamp, or 0 on error. Can be NULL.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a new frame of video on success, NULL if none is currently available.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a new frame of video on success, NULL if none is currently available.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -217,7 +217,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>You can open the device with any reasonable spec, and if the hardware can't directly support it, it will convert data seamlessly to the requested format. This might incur overhead, including scaling of image data.</para>
-        /// <para>If you would rather accept whatever format the device offers, you can pass a NULL spec here and it will choose one for you (and you can use <see cref="CSDL.Video.Surface">Surface</see>'s conversion/scaling functions directly if necessary).</para>
+        /// <para>If you would rather accept whatever format the device offers, you can pass a NULL spec here and it will choose one for you (and you can use <see cref="CSDL.Video.SurfaceData">SurfaceData</see>'s conversion/scaling functions directly if necessary).</para>
         /// <para>You can call <see cref="CSDL.Video.CameraDevice.GetFormat">GetFormat</see> to get the actual data format if passing a NULL spec here. You can see the exact specs a device can support without conversion with <see cref="CSDL.Video.CameraItem.SupportedFormats">SupportedFormats</see>.</para>
         /// <para>SDL will not attempt to emulate framerate; it will try to set the hardware to the rate closest to the requested speed, but it won't attempt to limit or duplicate frames artificially; call <see cref="CSDL.Video.CameraDevice.GetFormat">GetFormat</see> to see the actual framerate of the opened the device, and check your timestamps if this is crucial to your app!</para>
         /// <para>Note that the camera is not usable until the user approves its use! On some platforms, the operating system will prompt the user to permit access to the camera, and they can choose Yes or No at that point. Until they do, the camera will not be usable. The app should either wait for an <see cref="CSDL.EventType.CameraDeviceApproved">CameraDeviceApproved</see> (or <see cref="CSDL.EventType.CameraDeviceDenied">CameraDeviceDenied</see>) event, or poll <see cref="CSDL.Video.CameraDevice.GetPermissionState">GetPermissionState</see> occasionally until it returns non-zero. On platforms that don't require explicit user approval (and perhaps in places where the user previously permitted access), the approval event might come immediately, but it might come seconds, minutes, or hours later!</para>

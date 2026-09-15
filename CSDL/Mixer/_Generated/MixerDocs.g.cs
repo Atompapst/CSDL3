@@ -1036,7 +1036,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Pause all currently-playing tracks.</para>
         /// </summary>
         /// <remarks>
-        /// <para>A paused track is not considered "stopped," so its <c>MIX_TrackStoppedCallback</c> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
+        /// <para>A paused track is not considered "stopped," so its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
         /// <para>This function makes all tracks on the specified mixer that are currently playing move to a paused state. They can later be resumed.</para>
         /// </remarks>
         /// <param name="mixer">the mixer on which to pause all tracks.</param>
@@ -1054,7 +1054,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Pause all tracks with a specific tag.</para>
         /// </summary>
         /// <remarks>
-        /// <para>A paused track is not considered "stopped," so its <c>MIX_TrackStoppedCallback</c> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
+        /// <para>A paused track is not considered "stopped," so its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
         /// <para>This function makes all currently-playing tracks on the specified mixer, with a specific tag, move to a paused state. They can later be resumed.</para>
         /// <para>Tracks that match the specified tag that aren't currently playing are ignored.</para>
         /// </remarks>
@@ -1076,7 +1076,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Pause a currently-playing track.</para>
         /// </summary>
         /// <remarks>
-        /// <para>A paused track is not considered "stopped," so its <c>MIX_TrackStoppedCallback</c> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
+        /// <para>A paused track is not considered "stopped," so its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
         /// <para>It is legal to pause a track that's in any state (playing, already paused, or stopped). Unless the track is currently playing, pausing does nothing, and returns true. A false return is only used to signal errors here (such as <c>MIX_Init</c> not being called or <c>track</c> being NULL).</para>
         /// </remarks>
         /// <param name="track">the track to pause.</param>
@@ -1156,7 +1156,7 @@ namespace CSDL.Internal.Docs {
         /// <item><description><see cref="CSDL.Mixer.Props.PlayFadeInStartGainFloat">PlayFadeInStartGainFloat</see>: If fading in, start fading from this volume level. 0.0f is silence and 1.0f is full volume, every in between is a linear change in gain. The specified value will be clamped between 0.0f and 1.0f. Default 0.0f.</description></item>
         /// <item><description><see cref="CSDL.Mixer.Props.PlayAppendSilenceFramesNumber">PlayAppendSilenceFramesNumber</see>: At the end of mixing this track, after all loops are complete, append this many sample frames of silence as if it were part of the audio file. This allows for apps to implement effects in callbacks, like reverb, that need to generate samples past the end of the stream's audio, or perhaps introduce a delay before starting a new sound on the track without having to manage it directly. A value &lt;= 0 generates no silence before stopping the track. Default 0.</description></item>
         /// <item><description><see cref="CSDL.Mixer.Props.PlayAppendSilenceMillisecondsNumber">PlayAppendSilenceMillisecondsNumber</see>: The same as using the <see cref="CSDL.Mixer.Props.PlayAppendSilenceFramesNumber">PlayAppendSilenceFramesNumber</see> property, but the value is specified in milliseconds instead of sample frames. If both properties are specified, the sample frames value is favored. Default 0.</description></item>
-        /// <item><description><see cref="CSDL.Mixer.Props.PlayHaltWhenExhaustedBoolean">PlayHaltWhenExhaustedBoolean</see>: If true, when input is completely consumed for the track, the mixer will mark the track as stopped (and call any appropriate <c>MIX_TrackStoppedCallback</c>, etc); to play more, the track will need to be restarted. If false, the track will just not contribute to the mix, but it will not be marked as stopped. There may be clever logic tricks this exposes generally, but this property is specifically useful when the track's input is an SDL_AudioStream assigned via <see cref="CSDL.Mixer.Track.SetAudioStream">SetAudioStream</see>. Setting this property to true can be useful when pushing a complete piece of audio to the stream that has a definite ending, as the track will operate like any other audio was applied. Setting to false means as new data is added to the stream, the mixer will start using it as soon as possible, which is useful when audio should play immediately as it drips in: new VoIP packets, etc. Note that in this situation, if the audio runs out when needed, there _will_ be gaps in the mixed output, so try to buffer enough data to avoid this when possible. Note that a track is not consider exhausted until all its loops and appended silence have been mixed (and also, that loops don't mean anything when the input is an AudioStream). Default true.</description></item>
+        /// <item><description><see cref="CSDL.Mixer.Props.PlayHaltWhenExhaustedBoolean">PlayHaltWhenExhaustedBoolean</see>: If true, when input is completely consumed for the track, the mixer will mark the track as stopped (and call any appropriate <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>, etc); to play more, the track will need to be restarted. If false, the track will just not contribute to the mix, but it will not be marked as stopped. There may be clever logic tricks this exposes generally, but this property is specifically useful when the track's input is an SDL_AudioStream assigned via <see cref="CSDL.Mixer.Track.SetAudioStream">SetAudioStream</see>. Setting this property to true can be useful when pushing a complete piece of audio to the stream that has a definite ending, as the track will operate like any other audio was applied. Setting to false means as new data is added to the stream, the mixer will start using it as soon as possible, which is useful when audio should play immediately as it drips in: new VoIP packets, etc. Note that in this situation, if the audio runs out when needed, there _will_ be gaps in the mixed output, so try to buffer enough data to avoid this when possible. Note that a track is not consider exhausted until all its loops and appended silence have been mixed (and also, that loops don't mean anything when the input is an AudioStream). Default true.</description></item>
         /// <item><description><see cref="CSDL.Mixer.Props.PlayStartOrderNumber">PlayStartOrderNumber</see>: This is a special-case property that most apps can ignore. For mod file formats, start mixing from a specific "order" index instead of the start of the file. A value &lt; 0 will cause this property to be ignored. If the decoder doesn't support this property, it will also be ignored. If this property is _not_ ignored, the <see cref="CSDL.Mixer.Props.PlayStartFrameNumber">PlayStartFrameNumber</see> and <see cref="CSDL.Mixer.Props.PlayStartMillisecondNumber">PlayStartMillisecondNumber</see> properties will be ignored instead. Default -1. Since SDL_mixer 3.2.2.</description></item>
         /// </list>
         /// <para>If this function fails, mixing of this track will not start (or restart, if it was already started).</para>
@@ -1203,7 +1203,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Resume all currently-paused tracks.</para>
         /// </summary>
         /// <remarks>
-        /// <para>A paused track is not considered "stopped," so its <c>MIX_TrackStoppedCallback</c> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
+        /// <para>A paused track is not considered "stopped," so its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
         /// <para>This function makes all tracks on the specified mixer that are currently paused move to a playing state.</para>
         /// </remarks>
         /// <param name="mixer">the mixer on which to resume all tracks.</param>
@@ -1221,7 +1221,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Resume all tracks with a specific tag.</para>
         /// </summary>
         /// <remarks>
-        /// <para>A paused track is not considered "stopped," so its <c>MIX_TrackStoppedCallback</c> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
+        /// <para>A paused track is not considered "stopped," so its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
         /// <para>This function makes all currently-paused tracks on the specified mixer, with a specific tag, move to a playing state.</para>
         /// <para>Tracks that match the specified tag that aren't currently paused are ignored.</para>
         /// </remarks>
@@ -1243,7 +1243,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Resume a currently-paused track.</para>
         /// </summary>
         /// <remarks>
-        /// <para>A paused track is not considered "stopped," so its <c>MIX_TrackStoppedCallback</c> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
+        /// <para>A paused track is not considered "stopped," so its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see> will not fire if paused, but it won't change state by default, generate audio, or generally make progress, until it is resumed.</para>
         /// <para>It is legal to resume a track that's in any state (playing, paused, or stopped). Unless the track is currently paused, resuming does nothing, and returns true. A false return is only used to signal errors here (such as <c>MIX_Init</c> not being called or <c>track</c> being NULL).</para>
         /// </remarks>
         /// <param name="track">the track to resume.</param>
@@ -1272,7 +1272,7 @@ namespace CSDL.Internal.Docs {
         /// </returns>
         /// <since>This function is available since SDL_mixer 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_mixer/MIX_SetGroupPostMixCallback">MIX_SetGroupPostMixCallback</seealso></SDLWiki>
-        /// <seealso><c>MIX_GroupMixCallback</c></seealso>
+        /// <seealso><see cref="CSDL.Mixer.GroupMixCallback">GroupMixCallback</see></seealso>
         public static extern void SetGroupPostMixCallback();
 
         /// <summary>
@@ -1332,7 +1332,7 @@ namespace CSDL.Internal.Docs {
         /// </returns>
         /// <since>This function is available since SDL_mixer 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_mixer/MIX_SetPostMixCallback">MIX_SetPostMixCallback</seealso></SDLWiki>
-        /// <seealso><c>MIX_PostMixCallback</c></seealso>
+        /// <seealso><see cref="CSDL.Mixer.PostMixCallback">PostMixCallback</see></seealso>
         public static extern void SetPostMixCallback();
 
         /// <summary>
@@ -1390,7 +1390,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>A <c>MIX_Audio</c> is audio data stored in RAM (possibly still in a compressed form). One <c>MIX_Audio</c> can be assigned to multiple tracks at once.</para>
         /// <para>Once a track has a valid input, it can start mixing sound by calling <see cref="CSDL.Mixer.Track.Play">Play</see>, or possibly <see cref="CSDL.Mixer.Mixer.PlayTag">PlayTag</see>.</para>
-        /// <para>Calling this function with a NULL audio input is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <c>MIX_TrackStoppedCallback</c>.</para>
+        /// <para>Calling this function with a NULL audio input is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>.</para>
         /// <para>It is legal to change the input of a track while it's playing, however some states, like loop points, may cease to make sense with the new audio. In such a case, one can call <see cref="CSDL.Mixer.Track.Play">Play</see> again to adjust parameters.</para>
         /// <para>The track will hold a reference to the provided <c>MIX_Audio</c>, so it is safe to call <see cref="CSDL.Mixer.Audio.DisposeResource">DisposeResource</see> on it while the track is still using it. The track will drop its reference (and possibly free the resources) once it is no longer using the <c>MIX_Audio</c>.</para>
         /// </remarks>
@@ -1412,7 +1412,7 @@ namespace CSDL.Internal.Docs {
         /// <para>When a track uses an audio stream, it will call SDL_GetAudioStreamData as it needs more audio to mix. The app can either buffer data to the stream ahead of time, or set a callback on the stream to provide data as needed. Please refer to SDL's documentation for details.</para>
         /// <para>A given audio stream may only be assigned to a single track at a time; duplicate assignments won't return an error, but assigning a stream to multiple tracks will cause each track to read from the stream arbitrarily, causing confusion and incorrect mixing.</para>
         /// <para>Once a track has a valid input, it can start mixing sound by calling <see cref="CSDL.Mixer.Track.Play">Play</see>, or possibly <see cref="CSDL.Mixer.Mixer.PlayTag">PlayTag</see>.</para>
-        /// <para>Calling this function with a NULL audio stream is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <c>MIX_TrackStoppedCallback</c>.</para>
+        /// <para>Calling this function with a NULL audio stream is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>.</para>
         /// <para>It is legal to change the input of a track while it's playing, however some states, like loop points, may cease to make sense with the new audio. In such a case, one can call <see cref="CSDL.Mixer.Track.Play">Play</see> again to adjust parameters.</para>
         /// <para>The provided audio stream must remain valid until the track no longer needs it (either by changing the track's input or destroying the track).</para>
         /// </remarks>
@@ -1444,7 +1444,7 @@ namespace CSDL.Internal.Docs {
         /// </returns>
         /// <since>This function is available since SDL_mixer 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_mixer/MIX_SetTrackCookedCallback">MIX_SetTrackCookedCallback</seealso></SDLWiki>
-        /// <seealso><c>MIX_TrackMixCallback</c></seealso>
+        /// <seealso><see cref="CSDL.Mixer.TrackMixCallback">TrackMixCallback</see></seealso>
         /// <seealso><see cref="CSDL.Mixer.Track.SetRawCallback">SetRawCallback</see></seealso>
         public static extern void SetTrackCookedCallback();
 
@@ -1516,7 +1516,7 @@ namespace CSDL.Internal.Docs {
         /// <para>The stream must be able to seek through the complete set of data, or this function will fail.</para>
         /// <para>A given IOStream may only be assigned to a single track at a time; duplicate assignments won't return an error, but assigning a stream to multiple tracks will cause each track to read from the stream arbitrarily, causing confusion, incorrect mixing, or failure to decode.</para>
         /// <para>Once a track has a valid input, it can start mixing sound by calling <see cref="CSDL.Mixer.Track.Play">Play</see>, or possibly <see cref="CSDL.Mixer.Mixer.PlayTag">PlayTag</see>.</para>
-        /// <para>Calling this function with a NULL stream is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <c>MIX_TrackStoppedCallback</c>.</para>
+        /// <para>Calling this function with a NULL stream is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>.</para>
         /// <para>It is legal to change the input of a track while it's playing, however some states, like loop points, may cease to make sense with the new audio. In such a case, one can call <see cref="CSDL.Mixer.Track.Play">Play</see> again to adjust parameters.</para>
         /// <para>The provided stream must remain valid until the track no longer needs it (either by changing the track's input or destroying the track).</para>
         /// </remarks>
@@ -1611,7 +1611,7 @@ namespace CSDL.Internal.Docs {
         /// </returns>
         /// <since>This function is available since SDL_mixer 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_mixer/MIX_SetTrackRawCallback">MIX_SetTrackRawCallback</seealso></SDLWiki>
-        /// <seealso><c>MIX_TrackMixCallback</c></seealso>
+        /// <seealso><see cref="CSDL.Mixer.TrackMixCallback">TrackMixCallback</see></seealso>
         /// <seealso><see cref="CSDL.Mixer.Track.SetCookedCallback">SetCookedCallback</see></seealso>
         public static extern void SetTrackRawCallback();
 
@@ -1624,7 +1624,7 @@ namespace CSDL.Internal.Docs {
         /// <para>The stream supplied here should provide an audio in raw PCM format.</para>
         /// <para>A given IOStream may only be assigned to a single track at a time; duplicate assignments won't return an error, but assigning a stream to multiple tracks will cause each track to read from the stream arbitrarily, causing confusion and incorrect mixing.</para>
         /// <para>Once a track has a valid input, it can start mixing sound by calling <see cref="CSDL.Mixer.Track.Play">Play</see>, or possibly <see cref="CSDL.Mixer.Mixer.PlayTag">PlayTag</see>.</para>
-        /// <para>Calling this function with a NULL stream is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <c>MIX_TrackStoppedCallback</c>.</para>
+        /// <para>Calling this function with a NULL stream is legal, and removes any input from the track. If the track was currently playing, the next time the mixer runs, it'll notice this and mark the track as stopped, calling any assigned <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>.</para>
         /// <para>It is legal to change the input of a track while it's playing, however some states, like loop points, may cease to make sense with the new audio. In such a case, one can call <see cref="CSDL.Mixer.Track.Play">Play</see> again to adjust parameters.</para>
         /// <para>The provided stream must remain valid until the track no longer needs it (either by changing the track's input or destroying the track).</para>
         /// </remarks>
@@ -1680,7 +1680,7 @@ namespace CSDL.Internal.Docs {
         /// </returns>
         /// <since>This function is available since SDL_mixer 3.0.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3_mixer/MIX_SetTrackStoppedCallback">MIX_SetTrackStoppedCallback</seealso></SDLWiki>
-        /// <seealso><c>MIX_TrackStoppedCallback</c></seealso>
+        /// <seealso><see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see></seealso>
         public static extern void SetTrackStoppedCallback();
 
         /// <summary>
@@ -1689,7 +1689,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>If <c>fade_out_ms</c> is > 0, the tracks do not stop mixing immediately, but rather fades to silence over that many milliseconds before stopping. Note that this is different than <see cref="CSDL.Mixer.Track.Stop">Stop</see>, which wants sample frames; this function takes milliseconds because different tracks might have different sample rates.</para>
         /// <para>If a track ends normally while the fade-out is still in progress, the audio stops there; the fade is not adjusted to be shorter if it will last longer than the audio remaining.</para>
-        /// <para>Once a track has completed any fadeout and come to a stop, it will call its <c>MIX_TrackStoppedCallback</c>, if any. It is legal to assign the track a new input and/or restart it during this callback.</para>
+        /// <para>Once a track has completed any fadeout and come to a stop, it will call its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>, if any. It is legal to assign the track a new input and/or restart it during this callback.</para>
         /// <para>This function does not prevent new play requests from being made; it’s legal to use this function to begin fading all playing tracks but then start other tracks playing normally while those fade-outs are still in progress.</para>
         /// </remarks>
         /// <param name="mixer">the mixer on which to stop all tracks.</param>
@@ -1709,7 +1709,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>If <c>fade_out_ms</c> is > 0, the tracks do not stop mixing immediately, but rather fades to silence over that many milliseconds before stopping. Note that this is different than <see cref="CSDL.Mixer.Track.Stop">Stop</see>, which wants sample frames; this function takes milliseconds because different tracks might have different sample rates.</para>
         /// <para>If a track ends normally while the fade-out is still in progress, the audio stops there; the fade is not adjusted to be shorter if it will last longer than the audio remaining.</para>
-        /// <para>Once a track has completed any fadeout and come to a stop, it will call its <c>MIX_TrackStoppedCallback</c>, if any. It is legal to assign the track a new input and/or restart it during this callback. This function does not prevent new play requests from being made.</para>
+        /// <para>Once a track has completed any fadeout and come to a stop, it will call its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>, if any. It is legal to assign the track a new input and/or restart it during this callback. This function does not prevent new play requests from being made.</para>
         /// </remarks>
         /// <param name="mixer">the mixer on which to stop tracks.</param>
         /// <param name="tag">the tag to use when searching for tracks.</param>
@@ -1730,7 +1730,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>If <c>fade_out_frames</c> is > 0, the track does not stop mixing immediately, but rather fades to silence over that many sample frames before stopping. Sample frames are specific to the input assigned to the track, to allow for sample-perfect mixing. <see cref="CSDL.Mixer.Track.MSToFrames">MSToFrames</see> can be used to convert milliseconds to an appropriate value here.</para>
         /// <para>If the track ends normally while the fade-out is still in progress, the audio stops there; the fade is not adjusted to be shorter if it will last longer than the audio remaining.</para>
-        /// <para>Once a track has completed any fadeout and come to a stop, it will call its <c>MIX_TrackStoppedCallback</c>, if any. It is legal to assign the track a new input and/or restart it during this callback.</para>
+        /// <para>Once a track has completed any fadeout and come to a stop, it will call its <see cref="CSDL.Mixer.TrackStoppedCallback">TrackStoppedCallback</see>, if any. It is legal to assign the track a new input and/or restart it during this callback.</para>
         /// <para>It is legal to halt a track that's already stopped. It does nothing, and returns true.</para>
         /// </remarks>
         /// <param name="track">the track to halt.</param>

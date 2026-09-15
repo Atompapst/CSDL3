@@ -117,6 +117,7 @@ namespace CSDL.Video {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Video.SetWindowMouseRect"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Video.GetWindowMouseRect"/>
         public Rect? MouseRect {
             get {
                 NativePtr<Rect> ptr = SDL.GetWindowMouseRect(Handle);

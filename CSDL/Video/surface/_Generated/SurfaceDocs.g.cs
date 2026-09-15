@@ -14,8 +14,8 @@ namespace CSDL.Internal.Docs {
         /// <para>This function adds an alternate version of this surface, usually used for content with high DPI representations like cursors or icons. The size, format, and content do not need to match the original surface, and these alternate versions will not be updated when the original surface changes.</para>
         /// <para>This function adds a reference to the alternate version, so you should call <see cref="CSDL.Video.Surface.DisposeResource">DisposeResource</see> on the image after this call.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
-        /// <param name="image">a pointer to an alternate <see cref="CSDL.Video.Surface">Surface</see> to associate with this surface.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
+        /// <param name="image">a pointer to an alternate <see cref="CSDL.Video.SurfaceData">SurfaceData</see> to associate with this surface.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -74,9 +74,9 @@ namespace CSDL.Internal.Docs {
         ///       source color key.
         /// </code>
         /// </remarks>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, or NULL to copy the entire surface.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the x and y position in the destination surface, or NULL for (0,0). The width and height are ignored, and are copied from <c>srcrect</c>. If you want a specific width and height, you should use <see cref="CSDL.Video.Surface.BlitScaled">BlitScaled</see>.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -93,7 +93,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The pixels in the source surface are split into a 3x3 grid, using the different corner sizes for each corner, and the sides and center making up the remaining pixels. The corners are then scaled using <c>scale</c> and fit into the corners of the destination rectangle. The sides and center are then stretched into place to cover the remaining destination rectangle.</para>
         /// </remarks>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be used for the 9-grid, or NULL to use the entire surface.</param>
         /// <param name="left_width">the width, in pixels, of the left corners in <c>srcrect</c>.</param>
         /// <param name="right_width">the width, in pixels, of the right corners in <c>srcrect</c>.</param>
@@ -101,7 +101,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="bottom_height">the height, in pixels, of the bottom corners in <c>srcrect</c>.</param>
         /// <param name="scale">the scale used to transform the corner of <c>srcrect</c> into the corner of <c>dstrect</c>, or 0.0f for an unscaled blit.</param>
         /// <param name="scaleMode">scale algorithm to be used.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, or NULL to fill the entire surface.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -109,15 +109,15 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>Only one thread should be using the <c>src</c> and <c>dst</c> surfaces at any given time.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_BlitSurface9Grid">SDL_BlitSurface9Grid</seealso></SDLWiki>
-        /// <seealso><c>SDL_BlitSurface</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.Blit">Blit</see></seealso>
         public static extern void BlitSurface9Grid();
 
         /// <summary>
         /// <para>Perform a scaled blit to a destination surface, which may be of a different format.</para>
         /// </summary>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, or NULL to copy the entire surface.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, or NULL to fill the entire destination surface.</param>
         /// <param name="scaleMode">the <see cref="CSDL.Video.ScaleMode">ScaleMode</see> to be used.</param>
         /// <returns>
@@ -126,7 +126,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>Only one thread should be using the <c>src</c> and <c>dst</c> surfaces at any given time.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_BlitSurfaceScaled">SDL_BlitSurfaceScaled</seealso></SDLWiki>
-        /// <seealso><c>SDL_BlitSurface</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.Blit">Blit</see></seealso>
         public static extern void BlitSurfaceScaled();
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The pixels in <c>srcrect</c> will be repeated as many times as needed to completely fill <c>dstrect</c>.</para>
         /// </remarks>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, or NULL to copy the entire surface.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, or NULL to fill the entire surface.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -145,7 +145,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>Only one thread should be using the <c>src</c> and <c>dst</c> surfaces at any given time.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_BlitSurfaceTiled">SDL_BlitSurfaceTiled</seealso></SDLWiki>
-        /// <seealso><c>SDL_BlitSurface</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.Blit">Blit</see></seealso>
         public static extern void BlitSurfaceTiled();
 
         /// <summary>
@@ -154,11 +154,11 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The pixels in <c>srcrect</c> will be scaled and repeated as many times as needed to completely fill <c>dstrect</c>.</para>
         /// </remarks>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, or NULL to copy the entire surface.</param>
         /// <param name="scale">the scale used to transform srcrect into the destination rectangle, e.g. a 32x32 texture with a scale of 2 would fill 64x64 tiles.</param>
         /// <param name="scaleMode">scale algorithm to be used.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, or NULL to fill the entire surface.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -166,7 +166,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>Only one thread should be using the <c>src</c> and <c>dst</c> surfaces at any given time.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_BlitSurfaceTiledWithScale">SDL_BlitSurfaceTiledWithScale</seealso></SDLWiki>
-        /// <seealso><c>SDL_BlitSurface</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.Blit">Blit</see></seealso>
         public static extern void BlitSurfaceTiledWithScale();
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>This is a semi-private blit function and it performs low-level surface blitting, assuming the input rectangles have already been clipped.</para>
         /// </remarks>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, may not be NULL.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, may not be NULL.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -185,7 +185,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>Only one thread should be using the <c>src</c> and <c>dst</c> surfaces at any given time.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_BlitSurfaceUnchecked">SDL_BlitSurfaceUnchecked</seealso></SDLWiki>
-        /// <seealso><c>SDL_BlitSurface</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.Blit">Blit</see></seealso>
         public static extern void BlitSurfaceUnchecked();
 
         /// <summary>
@@ -194,9 +194,9 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>This is a semi-private function and it performs low-level surface blitting, assuming the input rectangles have already been clipped.</para>
         /// </remarks>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, may not be NULL.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, may not be NULL.</param>
         /// <param name="scaleMode">the <see cref="CSDL.Video.ScaleMode">ScaleMode</see> to be used.</param>
         /// <returns>
@@ -215,7 +215,7 @@ namespace CSDL.Internal.Docs {
         /// <para>This function handles all surface formats, and ignores any clip rectangle.</para>
         /// <para>If the surface is YUV, the color is assumed to be in the sRGB colorspace, otherwise the color is assumed to be in the colorspace of the surface.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> to clear.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> to clear.</param>
         /// <param name="r">the red component of the pixel, normally in the range 0-1.</param>
         /// <param name="g">the green component of the pixel, normally in the range 0-1.</param>
         /// <param name="b">the blue component of the pixel, normally in the range 0-1.</param>
@@ -280,10 +280,10 @@ namespace CSDL.Internal.Docs {
         /// <para>If you are converting to an indexed surface and want to map colors to a palette, you can use <see cref="CSDL.Video.Surface.Convert">Convert</see> instead.</para>
         /// <para>If the original surface has alternate images, the new surface will have a reference to them as well.</para>
         /// </remarks>
-        /// <param name="surface">the existing <see cref="CSDL.Video.Surface">Surface</see> structure to convert.</param>
+        /// <param name="surface">the existing <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to convert.</param>
         /// <param name="format">the new pixel format.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns the new <see cref="CSDL.Video.Surface">Surface</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns the new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -299,13 +299,13 @@ namespace CSDL.Internal.Docs {
         /// <para>This function converts an existing surface to a new format and colorspace and returns the new surface. This will perform any pixel format and colorspace conversion needed.</para>
         /// <para>If the original surface has alternate images, the new surface will have a reference to them as well.</para>
         /// </remarks>
-        /// <param name="surface">the existing <see cref="CSDL.Video.Surface">Surface</see> structure to convert.</param>
+        /// <param name="surface">the existing <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to convert.</param>
         /// <param name="format">the new pixel format.</param>
         /// <param name="palette">an optional palette to use for indexed formats, may be NULL.</param>
         /// <param name="colorspace">the new colorspace.</param>
         /// <param name="props">an <see cref="CSDL.PropertiesID">PropertiesID</see> with additional color properties, or 0.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns the new <see cref="CSDL.Video.Surface">Surface</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns the new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -324,7 +324,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="height">the height of the surface.</param>
         /// <param name="format">the <see cref="CSDL.Video.PixelFormat">PixelFormat</see> for the new surface's pixel format.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns the new <see cref="CSDL.Video.Surface">Surface</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns the new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -347,7 +347,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="pixels">a pointer to existing pixel data.</param>
         /// <param name="pitch">the number of bytes between each row, including padding.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns the new <see cref="CSDL.Video.Surface">Surface</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns the new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is created or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -364,9 +364,9 @@ namespace CSDL.Internal.Docs {
         /// <para>Bitmap surfaces (with format <see cref="CSDL.Video.PixelFormat.Index1Lsb">Index1Lsb</see> or <see cref="CSDL.Video.PixelFormat.Index1Msb">Index1Msb</see>) will have the palette initialized with 0 as white and 1 as black. Other surfaces will get a palette initialized with white in every entry.</para>
         /// <para>If this function is called for a surface that already has a palette, a new palette will be created to replace it.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Palette">Palette</see> *) Returns a new <see cref="CSDL.Video.Palette">Palette</see> structure on success or NULL on failure (e.g. if the surface didn't have an index format); call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.PaletteData">PaletteData</see> *) Returns a new <see cref="CSDL.Video.PaletteData">PaletteData</see> structure on success or NULL on failure (e.g. if the surface didn't have an index format); call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -380,7 +380,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>It is safe to pass NULL to this function.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> to free.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> to free.</param>
         /// <threadsafety>No other thread should be using the surface when it is freed.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_DestroySurface">SDL_DestroySurface</seealso></SDLWiki>
@@ -397,7 +397,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="surface">the surface to duplicate.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a copy of the surface or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a copy of the surface or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -412,7 +412,7 @@ namespace CSDL.Internal.Docs {
         /// <para><c>color</c> should be a pixel of the format used by the surface, and can be generated by <see cref="CSDL.Video.PixelFormatDetails.MapRGB">MapRGB</see> or <see cref="CSDL.Video.PixelFormatDetails.MapRGBA">MapRGBA</see>. If the color value contains an alpha component then the destination is simply filled with that alpha information, no blending takes place.</para>
         /// <para>If there is a clip rectangle set on the destination (set via <see cref="CSDL.Video.Surface.SetClipRect">SetClipRect</see>), then this function will fill based on the intersection of the clip rectangle and <c>rect</c>.</para>
         /// </remarks>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the drawing target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the drawing target.</param>
         /// <param name="rect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to fill, or NULL to fill the entire surface.</param>
         /// <param name="color">the color to fill with.</param>
         /// <returns>
@@ -431,7 +431,7 @@ namespace CSDL.Internal.Docs {
         /// <para><c>color</c> should be a pixel of the format used by the surface, and can be generated by <see cref="CSDL.Video.PixelFormatDetails.MapRGB">MapRGB</see> or <see cref="CSDL.Video.PixelFormatDetails.MapRGBA">MapRGBA</see>. If the color value contains an alpha component then the destination is simply filled with that alpha information, no blending takes place.</para>
         /// <para>If there is a clip rectangle set on the destination (set via <see cref="CSDL.Video.Surface.SetClipRect">SetClipRect</see>), then this function will fill based on the intersection of the clip rectangle and <c>rect</c>.</para>
         /// </remarks>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the drawing target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the drawing target.</param>
         /// <param name="rects">an array of <c>SDL_Rects</c> representing the rectangles to fill.</param>
         /// <param name="count">the number of rectangles in the array.</param>
         /// <param name="color">the color to fill with.</param>
@@ -460,7 +460,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Get the additional alpha value used in blit operations.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <param name="alpha">a pointer filled in with the current alpha value.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -468,14 +468,14 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetSurfaceAlphaMod">SDL_GetSurfaceAlphaMod</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetSurfaceColorMod</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.ColorMod">ColorMod</see></seealso>
         /// <seealso><see cref="CSDL.Video.Surface.AlphaMod">AlphaMod</see></seealso>
         public static extern void GetSurfaceAlphaMod();
 
         /// <summary>
         /// <para>Get the blend mode used for blit operations.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <param name="blendMode">a pointer filled in with the current <see cref="CSDL.Video.BlendMode">BlendMode</see>.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -492,7 +492,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>When <c>surface</c> is the destination of a blit, only the area within the clip rectangle is drawn into.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure representing the surface to be clipped.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure representing the surface to be clipped.</param>
         /// <param name="rect">an <see cref="CSDL.Video.Rect">Rect</see> structure filled in with the clipping rectangle for the surface.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -510,7 +510,7 @@ namespace CSDL.Internal.Docs {
         /// <para>The color key is a pixel of the format used by the surface, as generated by <see cref="CSDL.Video.PixelFormatDetails.MapRGB">MapRGB</see>.</para>
         /// <para>If the surface doesn't have color key enabled this function returns false.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <param name="key">a pointer filled in with the transparent pixel.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -525,7 +525,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Get the additional color value multiplied into blit operations.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <param name="r">a pointer filled in with the current red color value.</param>
         /// <param name="g">a pointer filled in with the current green color value.</param>
         /// <param name="b">a pointer filled in with the current blue color value.</param>
@@ -535,8 +535,8 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetSurfaceColorMod">SDL_GetSurfaceColorMod</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetSurfaceAlphaMod</c></seealso>
-        /// <seealso><c>SDL_SetSurfaceColorMod</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.AlphaMod">AlphaMod</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.ColorMod">ColorMod</see></seealso>
         public static extern void GetSurfaceColorMod();
 
         /// <summary>
@@ -545,7 +545,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The colorspace defaults to <see cref="CSDL.Video.Colorspace.SRGBLinear">SRGBLinear</see> for floating point formats, <see cref="CSDL.Video.Colorspace.HDR10">HDR10</see> for 10-bit formats, <see cref="CSDL.Video.Colorspace.SRGB">SRGB</see> for other RGB surfaces and <see cref="CSDL.Video.Colorspace.BT709Full">BT709Full</see> for YUV textures.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <returns>
         /// <para>(<see cref="CSDL.Video.Colorspace">Colorspace</see>) Returns the colorspace used by the surface, or <see cref="CSDL.Video.Colorspace.Unknown">Unknown</see> if the surface is NULL.</para>
         /// </returns>
@@ -562,10 +562,10 @@ namespace CSDL.Internal.Docs {
         /// <para>This returns all versions of a surface, with the surface being queried as the first element in the returned array.</para>
         /// <para>Freeing the array of surfaces does not affect the surfaces in the array. They are still referenced by the surface being queried and will be cleaned up normally.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <param name="count">a pointer filled in with the number of surface pointers returned, may be NULL.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> **) Returns a NULL terminated array of <see cref="CSDL.Video.Surface">Surface</see> pointers or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information. This should be freed with <see cref="CSDL.Memory.Free">Free</see> when it is no longer needed.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> **) Returns a NULL terminated array of <see cref="CSDL.Video.SurfaceData">SurfaceData</see> pointers or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information. This should be freed with <see cref="CSDL.Memory.Free">Free</see> when it is no longer needed.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -578,9 +578,9 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Get the palette used by a surface.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Palette">Palette</see> *) Returns a pointer to the palette used by the surface, or NULL if there is no palette used.</para>
+        /// <para>(<see cref="CSDL.Video.PaletteData">PaletteData</see> *) Returns a pointer to the palette used by the surface, or NULL if there is no palette used.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -602,7 +602,7 @@ namespace CSDL.Internal.Docs {
         /// <item><description><see cref="CSDL.Props.SurfaceRotationFloat">SurfaceRotationFloat</see>: the number of degrees a surface's data is meant to be rotated clockwise to make the image right-side up. Default 0. This is used by the camera API, if a mobile device is oriented differently than what its camera provides (i.e. - the camera always provides portrait images but the phone is being held in landscape orientation). Since SDL 3.4.0.</description></item>
         /// </list>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <returns>
         /// <para>(<see cref="CSDL.PropertiesID">PropertiesID</see>) Returns a valid property ID on success or 0 on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -619,7 +619,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="file">the BMP file to load.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -638,7 +638,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="src">the data stream for the surface.</param>
         /// <param name="closeio">if true, calls <see cref="CSDL.File.IOStream.DisposeResource">DisposeResource</see> on <c>src</c> before returning, even in the case of an error.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -657,7 +657,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="file">the JPG file to load.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.6.0</since>
@@ -676,7 +676,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="src">the data stream for the surface.</param>
         /// <param name="closeio">if true, calls <see cref="CSDL.File.IOStream.DisposeResource">DisposeResource</see> on <c>src</c> before returning, even in the case of an error.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.6.0</since>
@@ -694,7 +694,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="file">the PNG file to load.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
@@ -714,7 +714,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="src">the data stream for the surface.</param>
         /// <param name="closeio">if true, calls <see cref="CSDL.File.IOStream.DisposeResource">DisposeResource</see> on <c>src</c> before returning, even in the case of an error.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
@@ -732,7 +732,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="file">the file to load.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
@@ -750,7 +750,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="src">the data stream for the surface.</param>
         /// <param name="closeio">if true, calls <see cref="CSDL.File.IOStream.DisposeResource">DisposeResource</see> on <c>src</c> before returning, even in the case of an error.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a pointer to a new <see cref="CSDL.Video.Surface">Surface</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a pointer to a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
@@ -766,7 +766,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Between calls to <see cref="LockSurface"/> / <see cref="CSDL.Video.Surface.Unlock">Unlock</see>, you can write to and read from <c>surface->pixels</c>, using the pixel format stored in <c>surface->format</c>. Once you are done accessing the surface, you should use <see cref="CSDL.Video.Surface.Unlock">Unlock</see> to release it.</para>
         /// <para>Not all surfaces require locking. If <c>SDL_MUSTLOCK(surface)</c> evaluates to 0, then you can read and write to the surface at any time, and the pixel format of the surface will not change.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to be locked.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be locked.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -865,7 +865,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>This function removes a reference from all the alternative versions, destroying them if this is the last reference to them.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RemoveSurfaceAlternateImages">SDL_RemoveSurfaceAlternateImages</seealso></SDLWiki>
@@ -885,7 +885,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="surface">the surface to rotate.</param>
         /// <param name="angle">the rotation angle, in degrees.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a rotated copy of the surface or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a rotated copy of the surface or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
@@ -898,7 +898,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>Surfaces with a 24-bit, 32-bit and paletted 8-bit format get saved in the BMP directly. Other RGB formats with 8-bit or higher get converted to a 24-bit surface or, if they have an alpha mask or a colorkey, to a 32-bit surface before they are saved. YUV and paletted 1-bit and 4-bit formats are not supported.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure containing the image to be saved.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure containing the image to be saved.</param>
         /// <param name="file">a file to save to.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -916,7 +916,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>Surfaces with a 24-bit, 32-bit and paletted 8-bit format get saved in the BMP directly. Other RGB formats with 8-bit or higher get converted to a 24-bit surface or, if they have an alpha mask or a colorkey, to a 32-bit surface before they are saved. YUV and paletted 1-bit and 4-bit formats are not supported.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure containing the image to be saved.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure containing the image to be saved.</param>
         /// <param name="dst">a data stream to save to.</param>
         /// <param name="closeio">if true, calls <see cref="CSDL.File.IOStream.DisposeResource">DisposeResource</see> on <c>dst</c> before returning, even in the case of an error.</param>
         /// <returns>
@@ -932,7 +932,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Save a surface to a file in PNG format.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure containing the image to be saved.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure containing the image to be saved.</param>
         /// <param name="file">a file to save to.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -947,7 +947,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Save a surface to a seekable SDL data stream in PNG format.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure containing the image to be saved.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure containing the image to be saved.</param>
         /// <param name="dst">a data stream to save to.</param>
         /// <param name="closeio">if true, calls <see cref="CSDL.File.IOStream.DisposeResource">DisposeResource</see> on <c>dst</c> before returning, even in the case of an error.</param>
         /// <returns>
@@ -971,7 +971,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="height">the height of the new surface.</param>
         /// <param name="scaleMode">the <see cref="CSDL.Video.ScaleMode">ScaleMode</see> to be used.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a copy of the surface or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a copy of the surface or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -986,7 +986,7 @@ namespace CSDL.Internal.Docs {
         /// <para>When this surface is blitted, during the blit operation the source alpha value is modulated by this alpha value according to the following formula:</para>
         /// <para><c>srcA = srcA * (alpha / 255)</c></para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <param name="alpha">the alpha value multiplied into blit operations.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -994,8 +994,8 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetSurfaceAlphaMod">SDL_SetSurfaceAlphaMod</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetSurfaceAlphaMod</c></seealso>
-        /// <seealso><c>SDL_SetSurfaceColorMod</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.AlphaMod">AlphaMod</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.ColorMod">ColorMod</see></seealso>
         public static extern void SetSurfaceAlphaMod();
 
         /// <summary>
@@ -1004,7 +1004,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>To copy a surface to another surface (or texture) without blending with the existing data, the blendmode of the SOURCE surface should be set to <c>SDL_BLENDMODE_NONE</c>.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <param name="blendMode">the <see cref="CSDL.Video.BlendMode">BlendMode</see> to use for blit blending.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -1012,7 +1012,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetSurfaceBlendMode">SDL_SetSurfaceBlendMode</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetSurfaceBlendMode</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.BlendMode">BlendMode</see></seealso>
         public static extern void SetSurfaceBlendMode();
 
         /// <summary>
@@ -1022,7 +1022,7 @@ namespace CSDL.Internal.Docs {
         /// <para>When <c>surface</c> is the destination of a blit, only the area within the clip rectangle is drawn into.</para>
         /// <para>Note that blits are automatically clipped to the edges of the source and destination surfaces.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to be clipped.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be clipped.</param>
         /// <param name="rect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the clipping rectangle, or NULL to disable clipping.</param>
         /// <returns>
         /// <para>(bool) Returns true if the rectangle intersects the surface, otherwise false and blits will be completely clipped.</para>
@@ -1040,7 +1040,7 @@ namespace CSDL.Internal.Docs {
         /// <para>The color key defines a pixel value that will be treated as transparent in a blit. For example, one can use this to specify that cyan pixels should be considered transparent, and therefore not rendered.</para>
         /// <para>It is a pixel of the format used by the surface, as generated by <see cref="CSDL.Video.PixelFormatDetails.MapRGB">MapRGB</see>.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <param name="enabled">true to enable color key, false to disable color key.</param>
         /// <param name="key">the transparent pixel.</param>
         /// <returns>
@@ -1049,7 +1049,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetSurfaceColorKey">SDL_SetSurfaceColorKey</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetSurfaceColorKey</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.ColorKey">ColorKey</see></seealso>
         /// <seealso><see cref="CSDL.Video.Surface.RLE">RLE</see></seealso>
         /// <seealso><see cref="CSDL.Video.Surface.HasColorKey">HasColorKey</see></seealso>
         public static extern void SetSurfaceColorKey();
@@ -1061,7 +1061,7 @@ namespace CSDL.Internal.Docs {
         /// <para>When this surface is blitted, during the blit operation each source color channel is modulated by the appropriate color value according to the following formula:</para>
         /// <para><c>srcC = srcC * (color / 255)</c></para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <param name="r">the red color value multiplied into blit operations.</param>
         /// <param name="g">the green color value multiplied into blit operations.</param>
         /// <param name="b">the blue color value multiplied into blit operations.</param>
@@ -1071,7 +1071,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetSurfaceColorMod">SDL_SetSurfaceColorMod</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetSurfaceColorMod</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.ColorMod">ColorMod</see></seealso>
         /// <seealso><see cref="CSDL.Video.Surface.AlphaMod">AlphaMod</see></seealso>
         public static extern void SetSurfaceColorMod();
 
@@ -1081,7 +1081,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>Setting the colorspace doesn't change the pixels, only how they are interpreted in color operations.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
         /// <param name="colorspace">an <see cref="CSDL.Video.Colorspace">Colorspace</see> value describing the surface colorspace.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -1099,8 +1099,8 @@ namespace CSDL.Internal.Docs {
         /// <para>Setting the palette keeps an internal reference to the palette, which can be safely destroyed afterwards.</para>
         /// <para>A single palette can be shared with many surfaces.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to update.</param>
-        /// <param name="palette">the <see cref="CSDL.Video.Palette">Palette</see> structure to use.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to update.</param>
+        /// <param name="palette">the <see cref="CSDL.Video.PaletteData">PaletteData</see> structure to use.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -1117,7 +1117,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>If RLE is enabled, color key and alpha blending blits are much faster, but the surface must be locked before directly accessing the pixels.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to optimize.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to optimize.</param>
         /// <param name="enabled">true to enable RLE acceleration, false to disable it.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -1125,7 +1125,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function can be called on different threads with different surfaces.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetSurfaceRLE">SDL_SetSurfaceRLE</seealso></SDLWiki>
-        /// <seealso><c>SDL_BlitSurface</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.Blit">Blit</see></seealso>
         /// <seealso><see cref="CSDL.Video.Surface.Lock">Lock</see></seealso>
         /// <seealso><see cref="CSDL.Video.Surface.Unlock">Unlock</see></seealso>
         public static extern void SetSurfaceRLE();
@@ -1133,9 +1133,9 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Perform a stretched pixel copy from one surface to another.</para>
         /// </summary>
-        /// <param name="src">the <see cref="CSDL.Video.Surface">Surface</see> structure to be copied from.</param>
+        /// <param name="src">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be copied from.</param>
         /// <param name="srcrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the rectangle to be copied, or NULL to copy the entire surface.</param>
-        /// <param name="dst">the <see cref="CSDL.Video.Surface">Surface</see> structure that is the blit target.</param>
+        /// <param name="dst">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure that is the blit target.</param>
         /// <param name="dstrect">the <see cref="CSDL.Video.Rect">Rect</see> structure representing the target rectangle in the destination surface, or NULL to fill the entire destination surface.</param>
         /// <param name="scaleMode">the <see cref="CSDL.Video.ScaleMode">ScaleMode</see> to be used.</param>
         /// <returns>
@@ -1150,7 +1150,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Return whether a surface has alternate versions available.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <returns>
         /// <para>(bool) Returns true if alternate versions are available or false otherwise.</para>
         /// </returns>
@@ -1168,7 +1168,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>It is safe to pass a NULL <c>surface</c> here; it will return false.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <returns>
         /// <para>(bool) Returns true if the surface has a color key, false otherwise.</para>
         /// </returns>
@@ -1176,7 +1176,7 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SurfaceHasColorKey">SDL_SurfaceHasColorKey</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Surface.ColorKey">ColorKey</see></seealso>
-        /// <seealso><c>SDL_GetSurfaceColorKey</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Surface.ColorKey">ColorKey</see></seealso>
         public static extern void SurfaceHasColorKey();
 
         /// <summary>
@@ -1185,7 +1185,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>It is safe to pass a NULL <c>surface</c> here; it will return false.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to query.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to query.</param>
         /// <returns>
         /// <para>(bool) Returns true if the surface is RLE enabled, false otherwise.</para>
         /// </returns>
@@ -1198,7 +1198,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Release a surface after directly accessing the pixels.</para>
         /// </summary>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure to be unlocked.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure to be unlocked.</param>
         /// <threadsafety>This function is not thread safe. The locking referred to by this function is making the pixels available for direct access, not thread-safe locking.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_UnlockSurface">SDL_UnlockSurface</seealso></SDLWiki>

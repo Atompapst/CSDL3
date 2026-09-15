@@ -114,6 +114,7 @@ namespace CSDL.Video {
         public bool HasSurface => SDL.WindowHasSurface(Handle);
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Video.SetWindowSurfaceVSync"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Video.GetWindowSurfaceVSync"/>
         public int SurfaceVSync {
             get {
                 SDL.GetWindowSurfaceVSync(Handle, out int vsync).LogIfFalse();

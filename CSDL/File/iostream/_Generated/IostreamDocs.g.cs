@@ -97,7 +97,7 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>Additionally, the following properties are recognized:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.IostreamMemoryFreeFuncPointer">IostreamMemoryFreeFuncPointer</see>: if this property is set to a non-NULL value it will be interpreted as a function of <c>SDL_free_func</c> type and called with the passed <c>mem</c> pointer when closing the stream. By default it is unset, i.e., the memory will not be freed.</description></item>
+        /// <item><description><see cref="CSDL.Props.IostreamMemoryFreeFuncPointer">IostreamMemoryFreeFuncPointer</see>: if this property is set to a non-NULL value it will be interpreted as a function of <see cref="CSDL.FreeFunc">FreeFunc</see> type and called with the passed <c>mem</c> pointer when closing the stream. By default it is unset, i.e., the memory will not be freed.</description></item>
         /// </list>
         /// </remarks>
         /// <param name="mem">a pointer to a read-only buffer to feed an <see cref="CSDL.File.IOStream">IOStream</see> stream.</param>
@@ -196,7 +196,7 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>Additionally, the following properties are recognized:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.IostreamMemoryFreeFuncPointer">IostreamMemoryFreeFuncPointer</see>: if this property is set to a non-NULL value it will be interpreted as a function of <c>SDL_free_func</c> type and called with the passed <c>mem</c> pointer when closing the stream. By default it is unset, i.e., the memory will not be freed.</description></item>
+        /// <item><description><see cref="CSDL.Props.IostreamMemoryFreeFuncPointer">IostreamMemoryFreeFuncPointer</see>: if this property is set to a non-NULL value it will be interpreted as a function of <see cref="CSDL.FreeFunc">FreeFunc</see> type and called with the passed <c>mem</c> pointer when closing the stream. By default it is unset, i.e., the memory will not be freed.</description></item>
         /// </list>
         /// </remarks>
         /// <param name="mem">a pointer to a buffer to feed an <see cref="CSDL.File.IOStream">IOStream</see> stream.</param>

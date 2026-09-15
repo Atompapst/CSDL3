@@ -11,7 +11,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Get the default log output function.</para>
         /// </summary>
         /// <returns>
-        /// <para>(<c>SDL_LogOutputFunction</c>) Returns the default log output callback. It should be called with NULL for the userdata argument.</para>
+        /// <para>(<see cref="CSDL.LogOutputFunction">LogOutputFunction</see>) Returns the default log output callback. It should be called with NULL for the userdata argument.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -23,7 +23,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Get the current log output function.</para>
         /// </summary>
-        /// <param name="callback">an <c>SDL_LogOutputFunction</c> filled in with the current log callback.</param>
+        /// <param name="callback">an <see cref="CSDL.LogOutputFunction">LogOutputFunction</see> filled in with the current log callback.</param>
         /// <param name="userdata">a pointer filled in with the pointer that is passed to <c>callback</c>.</param>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -254,14 +254,14 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_ResetLogPriorities">SDL_ResetLogPriorities</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Internal.Logging.CategoryPriorityMap.SetForAll">SetForAll</see></seealso>
+        /// <seealso><see cref="CSDL.Log.CategoryPriorityMap.SetForAll">SetForAll</see></seealso>
         /// <seealso><see cref="CSDL.Internal.Logging.Priority.Set">Set</see></seealso>
         public static extern void ResetLogPriorities();
 
         /// <summary>
         /// <para>Replace the default log output function with one of your own.</para>
         /// </summary>
-        /// <param name="callback">an <c>SDL_LogOutputFunction</c> to call instead of the default.</param>
+        /// <param name="callback">an <see cref="CSDL.LogOutputFunction">LogOutputFunction</see> to call instead of the default.</param>
         /// <param name="userdata">a pointer that is passed to <c>callback</c>.</param>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -277,7 +277,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetLogPriorities">SDL_SetLogPriorities</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Internal.Logging.CategoryPriorityMap.Reset">Reset</see></seealso>
+        /// <seealso><see cref="CSDL.Log.CategoryPriorityMap.Reset">Reset</see></seealso>
         /// <seealso><see cref="CSDL.Internal.Logging.Priority.Set">Set</see></seealso>
         public static extern void SetLogPriorities();
 
@@ -290,8 +290,8 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetLogPriority">SDL_SetLogPriority</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Internal.Logging.Priority.Get">Get</see></seealso>
-        /// <seealso><see cref="CSDL.Internal.Logging.CategoryPriorityMap.Reset">Reset</see></seealso>
-        /// <seealso><see cref="CSDL.Internal.Logging.CategoryPriorityMap.SetForAll">SetForAll</see></seealso>
+        /// <seealso><see cref="CSDL.Log.CategoryPriorityMap.Reset">Reset</see></seealso>
+        /// <seealso><see cref="CSDL.Log.CategoryPriorityMap.SetForAll">SetForAll</see></seealso>
         public static extern void SetLogPriority();
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetLogPriorityPrefix">SDL_SetLogPriorityPrefix</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Internal.Logging.CategoryPriorityMap.SetForAll">SetForAll</see></seealso>
+        /// <seealso><see cref="CSDL.Log.CategoryPriorityMap.SetForAll">SetForAll</see></seealso>
         /// <seealso><see cref="CSDL.Internal.Logging.Priority.Set">Set</see></seealso>
         public static extern void SetLogPriorityPrefix();
     }

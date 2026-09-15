@@ -16,7 +16,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="puserdata">pointer which is filled with the "userdata" pointer that was passed to <see cref="CSDL.Assert.SetHandler">SetHandler</see>.</param>
         /// <returns>
-        /// <para>(<c>SDL_AssertionHandler</c>) Returns the <c>SDL_AssertionHandler</c> that is called when an assert triggers.</para>
+        /// <para>(<see cref="CSDL.AssertionHandler">AssertionHandler</see>) Returns the <see cref="CSDL.AssertionHandler">AssertionHandler</see> that is called when an assert triggers.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -57,7 +57,7 @@ namespace CSDL.Internal.Docs {
         /// <para>This returns the function pointer that is called by default when an assertion is triggered. This is an internal function provided by SDL, that is used for assertions when <see cref="CSDL.Assert.SetHandler">SetHandler</see> hasn't been used to provide a different function.</para>
         /// </remarks>
         /// <returns>
-        /// <para>(<c>SDL_AssertionHandler</c>) Returns the default <c>SDL_AssertionHandler</c> that is called when an assert triggers.</para>
+        /// <para>(<see cref="CSDL.AssertionHandler">AssertionHandler</see>) Returns the default <see cref="CSDL.AssertionHandler">AssertionHandler</see> that is called when an assert triggers.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -103,7 +103,7 @@ namespace CSDL.Internal.Docs {
         /// <para>This callback may fire from any thread, but it runs wrapped in a mutex, so it will only fire from one thread at a time.</para>
         /// <para>This callback is NOT reset to SDL's internal handler upon <see cref="CSDL.Init.Quit">Quit</see>!</para>
         /// </remarks>
-        /// <param name="handler">the <c>SDL_AssertionHandler</c> function to call when an assertion fails or NULL for the default handler.</param>
+        /// <param name="handler">the <see cref="CSDL.AssertionHandler">AssertionHandler</see> function to call when an assertion fails or NULL for the default handler.</param>
         /// <param name="userdata">a pointer that is passed to <c>handler</c>.</param>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>

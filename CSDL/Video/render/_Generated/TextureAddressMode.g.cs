@@ -7,7 +7,7 @@
 
 namespace CSDL.Video {
     /// <summary>
-    /// <para>The addressing mode for a texture when used in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>.</para>
+    /// <para>The addressing mode for a texture when used in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>.</para>
     /// </summary>
     /// <remarks>
     /// <para>This affects how texture coordinates are interpreted outside of [0, 1]</para>
