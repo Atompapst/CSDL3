@@ -41,7 +41,7 @@ namespace CSDL.Audio {
                 try {
                     object? userData = CallbackRegistry.GetUserdata(userDataPtr);
                     ref CSDL.Audio.AudioSpec spec = ref System.Runtime.CompilerServices.Unsafe.AsRef<CSDL.Audio.AudioSpec>((void*)specPtr);
-                    System.Span<float> buffer = new System.Span<float>((void*)bufferPtr, (buflen / 4));
+                    System.Span<float> buffer = new System.Span<float>((void*)bufferPtr, (buflen / sizeof(float)));
                     fn(userData, in spec, buffer, buflen);
                 }
                 catch (System.Exception ex) {
