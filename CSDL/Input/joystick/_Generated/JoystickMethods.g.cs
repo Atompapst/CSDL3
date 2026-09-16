@@ -99,6 +99,15 @@ namespace CSDL.Input {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetJoysticks"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<CSDL.Input.JoystickID> GetJoysticks(out int count);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetJoystickSensorData"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool GetJoystickSensorData(NativePtr<CSDL.Opaque.SdlJoystick> joystick, CSDL.Input.SensorType type, NativePtr<float> data, int numValues);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetJoystickSensorData"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool GetJoystickSensorData(NativePtr<CSDL.Opaque.SdlJoystick> joystick, CSDL.Input.SensorType type, Span<float> data, int numValues);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetJoystickSensorDataRate"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial float GetJoystickSensorDataRate(NativePtr<CSDL.Opaque.SdlJoystick> joystick, CSDL.Input.SensorType type);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetJoystickSerial"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<byte> GetJoystickSerial(NativePtr<CSDL.Opaque.SdlJoystick> joystick);
 
@@ -138,6 +147,12 @@ namespace CSDL.Input {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_JoystickEventsEnabled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool JoystickEventsEnabled();
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_JoystickHasSensor"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool JoystickHasSensor(NativePtr<CSDL.Opaque.SdlJoystick> joystick, CSDL.Input.SensorType type);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_JoystickSensorEnabled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool JoystickSensorEnabled(NativePtr<CSDL.Opaque.SdlJoystick> joystick, CSDL.Input.SensorType type);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_LockJoysticks"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial void LockJoysticks();
 
@@ -167,6 +182,9 @@ namespace CSDL.Input {
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetJoystickPlayerIndex"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetJoystickPlayerIndex(NativePtr<CSDL.Opaque.SdlJoystick> joystick, int playerIndex);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetJoystickSensorEnabled"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool SetJoystickSensorEnabled(NativePtr<CSDL.Opaque.SdlJoystick> joystick, CSDL.Input.SensorType type, CBool enabled);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetJoystickVirtualAxis"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetJoystickVirtualAxis(NativePtr<CSDL.Opaque.SdlJoystick> joystick, int axis, short value);

@@ -163,6 +163,32 @@ namespace CSDL.Input {
             return SDL.SendJoystickVirtualSensorData(Handle, type, timestamp, data, data.Length).LogIfFalse();
         }
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.JoystickHasSensor"/>
+        public bool HasSensor(SensorType type) {
+            return SDL.JoystickHasSensor(Handle, type);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.SetJoystickSensorEnabled"/>
+        public bool SetSensorEnabled(SensorType type, bool enabled) {
+            return SDL.SetJoystickSensorEnabled(Handle, type, enabled).LogIfFalse();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.JoystickSensorEnabled"/>
+        public bool SensorEnabled(SensorType type) {
+            return SDL.JoystickSensorEnabled(Handle, type);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.GetJoystickSensorDataRate"/>
+        public float GetSensorDataRate(SensorType type) {
+            return SDL.GetJoystickSensorDataRate(Handle, type);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.GetJoystickSensorData"/>
+        public bool GetSensorData(SensorType type, float[] data) {
+            if (data == null || data.Length == 0) return false;
+            return SDL.GetJoystickSensorData(Handle, type, data, data.Length).LogIfFalse();
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Joystick.SetJoystickVirtualAxis"/>
         public bool SetVirtualAxis(int axis, short value) {
             return SDL.SetJoystickVirtualAxis(Handle, axis, value).LogIfFalse();
