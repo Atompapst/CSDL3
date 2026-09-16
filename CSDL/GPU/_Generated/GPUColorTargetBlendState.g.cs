@@ -14,6 +14,7 @@ namespace CSDL.GPU {
     /// </summary>
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUColorTargetBlendState">SDL_GPUColorTargetBlendState</seealso></SDLWiki>
+    /// <seealso><see cref="CSDL.GPU.GPURenderPass.SetBlendConstants">SetBlendConstants</see></seealso>
     /// <seealso><see cref="CSDL.GPU.GPUColorTargetDescription">GPUColorTargetDescription</see></seealso>
     /// <seealso><see cref="CSDL.GPU.GPUBlendFactor">GPUBlendFactor</see></seealso>
     /// <seealso><see cref="CSDL.GPU.GPUBlendOp">GPUBlendOp</see></seealso>

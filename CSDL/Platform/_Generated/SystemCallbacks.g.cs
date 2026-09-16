@@ -43,7 +43,7 @@ namespace CSDL {
     }
 
     /// <summary>
-    /// <para>Callback that presents a response from a <see cref="CSDL.Android.RequestPermission">RequestPermission</see> call.</para>
+    /// <para>Callback that presents <see cref="CSDL.Android.RequestPermission">RequestPermission</see> results.</para>
     /// </summary>
     /// <param name="userData">an app-controlled pointer that is passed to the callback.</param>
     /// <param name="permission">the Android-specific permission name that was requested.</param>

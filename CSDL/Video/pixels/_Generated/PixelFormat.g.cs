@@ -106,17 +106,21 @@ namespace CSDL.Video {
         /// </summary>
         Nv21 = 0x3132564e,
         /// <summary>
+        /// <para>YUV 4:4:4 8-bit planar mode: Y + U + V (3 planes)</para>
+        /// </summary>
+        I444 = 0x34343449,
+        /// <summary>
         /// <para>YUV 4:2:0 16-bit planar mode: Y + U/V interleaved (2 planes)</para>
         /// </summary>
         P010 = 0x30313050,
         /// <summary>
-        /// <para>YUV 4:4:4 8-bit planar mode: Y + U + V (3 planes)</para>
+        /// <para>YUV 4:2:0 16-bit planar mode: Y + U + V (3 planes)</para>
         /// </summary>
-        P408 = 0x38303450,
+        I0Fl = 0x4c463049,
         /// <summary>
         /// <para>YUV 4:4:4 16-bit planar mode: Y + U + V (3 planes)</para>
         /// </summary>
-        P416 = 0x36313450,
+        I4Fl = 0x4c463449,
         /// <summary>
         /// <para>Android video texture format</para>
         /// </summary>

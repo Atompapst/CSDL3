@@ -18,6 +18,7 @@ namespace CSDL.GPU {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUTextureLocation">SDL_GPUTextureLocation</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPURenderer.CopyTextureToTexture">CopyTextureToTexture</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUTexture">GPUTexture</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUTextureLocation {
         /// <summary>

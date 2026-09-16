@@ -338,7 +338,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>No copy is made of the pixel data. Pixel data is not managed automatically; you must free the surface before you free the pixel data.</para>
-        /// <para>Pitch is the offset in bytes from one row of pixels to the next, e.g. <c>width*4</c> for <see cref="CSDL.Video.PixelFormat.RGBA8888">RGBA8888</see>.</para>
+        /// <para>Pitch is the offset in bytes from one row of pixels to the next, e.g. <c>(width * 4)</c> for <see cref="CSDL.Video.PixelFormat.RGBA8888">RGBA8888</see>.</para>
         /// <para>You may pass NULL for pixels and 0 for pitch to create a surface that you will fill in with valid values later.</para>
         /// </remarks>
         /// <param name="width">the width of the surface.</param>

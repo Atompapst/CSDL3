@@ -181,6 +181,9 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Return whether a gamepad has a particular sensor.</para>
         /// </summary>
+        /// <remarks>
+        /// <para>Sensors are disabled by default and <see cref="CSDL.Input.GamepadDevice.SetSensorEnabled">SetSensorEnabled</see> is used to enable them.</para>
+        /// </remarks>
         /// <param name="gamepad">the gamepad to query.</param>
         /// <param name="type">the type of sensor to query.</param>
         /// <returns>
@@ -1166,6 +1169,9 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Set whether data reporting for a gamepad sensor is enabled.</para>
         /// </summary>
+        /// <remarks>
+        /// <para>Sensors are disabled by default and this function is used to enable them.</para>
+        /// </remarks>
         /// <param name="gamepad">the gamepad to update.</param>
         /// <param name="type">the type of sensor to enable/disable.</param>
         /// <param name="enabled">whether data reporting should be enabled.</param>

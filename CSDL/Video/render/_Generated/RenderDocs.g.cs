@@ -167,7 +167,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Create a 2D software rendering context for a surface.</para>
         /// </summary>
         /// <remarks>
-        /// <para>Two other API which can be used to create <c>SDL_Renderer</c>: <see cref="CSDL.Video.Renderer(Window,string?)">Renderer(Window,string?)</see> and <see cref="CSDL.Video.Window.CreateWindowAndRenderer">CreateWindowAndRenderer</see>. These can _also_ create a software renderer, but they are intended to be used with an <c>SDL_Window</c> as the final destination and not an <see cref="CSDL.Video.SurfaceData">SurfaceData</see>.</para>
+        /// <para>Two other APIs which can be used to create <c>SDL_Renderer</c>: <see cref="CSDL.Video.Renderer(Window,string?)">Renderer(Window,string?)</see> and <see cref="CSDL.Video.Window.CreateWindowAndRenderer">CreateWindowAndRenderer</see>. These can _also_ create a software renderer, but they are intended to be used with an <c>SDL_Window</c> as the final destination and not an <see cref="CSDL.Video.SurfaceData">SurfaceData</see>.</para>
         /// </remarks>
         /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure representing the surface where rendering is done.</param>
         /// <returns>
@@ -276,8 +276,12 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>With the vulkan renderer:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureNumber">TextureCreateVulkanTextureNumber</see>: the VkImage associated with the texture, if you want to wrap an existing texture.</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureNumber">TextureCreateVulkanTextureNumber</see>: the VkImage associated with the texture, if you want to wrap an existing texture. For NV12 style textures this is the single two plane VkImage holding both the Y and UV planes, and for YUV style textures it is the VkImage holding the Y plane.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_U_NUMBER</c>: the VkImage associated with the U plane of a YUV texture, if you want to wrap an existing texture.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_V_NUMBER</c>: the VkImage associated with the V plane of a YUV texture, if you want to wrap an existing texture.</description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateVulkanLayoutNumber">TextureCreateVulkanLayoutNumber</see>: the VkImageLayout for the VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_USAGE_NUMBER</c>: additional VK_IMAGE_USAGE bits that should be used when creating the texture. VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_ANDROID_HARDWARE_BUFFER_POINTER</c>: the AHardwareBuffer to sample from, if you want to use an existing Android hardware buffer as the texture. You must use <see cref="CSDL.Video.PixelFormat.ExternalOes">ExternalOes</see> for the texture format. You can't directly update the texture or use it as a render target. If the Android buffer contents change, you must recreate the texture to pick up the changes. The texture holds a reference to the buffer, so you can release your own reference once the texture has been created.</description></item>
         /// </list>
         /// <para>With the GPU renderer:</para>
         /// <list type="bullet">
@@ -461,6 +465,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderClipRect">SDL_GetRenderClipRect</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see></seealso>
         public static extern void GetRenderClipRect();
@@ -815,6 +820,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderViewport">SDL_GetRenderViewport</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
         public static extern void GetRenderViewport();
@@ -975,7 +981,9 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>With the vulkan renderer:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.TextureVulkanTextureNumber">TextureVulkanTextureNumber</see>: the VkImage associated with the texture</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureVulkanTextureNumber">TextureVulkanTextureNumber</see>: the VkImage associated with the texture. For NV12 style textures this is the single two plane VkImage holding both the Y and UV planes, and for YUV style textures it is the VkImage holding the Y plane.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_VULKAN_TEXTURE_U_NUMBER</c>: the VkImage associated with the U plane of a YUV texture</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_VULKAN_TEXTURE_V_NUMBER</c>: the VkImage associated with the V plane of a YUV texture</description></item>
         /// </list>
         /// <para>With the opengl renderer:</para>
         /// <list type="bullet">
@@ -1113,7 +1121,9 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderClipEnabled">SDL_RenderClipEnabled</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetClipRect">GetClipRect</see></seealso>
+        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see></seealso>
+        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
         public static extern void RenderClipEnabled();
 
         /// <summary>
@@ -1581,7 +1591,9 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderViewportSet">SDL_RenderViewportSet</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetViewport">GetViewport</see></seealso>
+        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
+        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
         public static extern void RenderViewportSet();
 
         /// <summary>
@@ -1702,6 +1714,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderClipRect">SDL_SetRenderClipRect</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetClipRect">GetClipRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
+        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
         public static extern void SetRenderClipRect();
 
         /// <summary>
@@ -1881,6 +1894,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderViewport">SDL_SetRenderViewport</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetViewport">GetViewport</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
+        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
         public static extern void SetRenderViewport();
 
         /// <summary>
@@ -1944,7 +1958,7 @@ namespace CSDL.Internal.Docs {
         public static extern void SetTextureAlphaModFloat();
 
         /// <summary>
-        /// <para>Set the blend mode for a texture, used by <see cref="CSDL.Video.Renderer.RenderTexture">RenderTexture</see>.</para>
+        /// <para>Set the blend mode for a texture.</para>
         /// </summary>
         /// <remarks>
         /// <para>This blend mode is used for any drawing that involves this texture.</para>

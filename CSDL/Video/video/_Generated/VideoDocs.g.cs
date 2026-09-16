@@ -187,6 +187,7 @@ namespace CSDL.Internal.Docs {
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.WindowCreateWIN32HwndPointer">WindowCreateWIN32HwndPointer</see>: the HWND associated with the window, if you want to wrap an existing window.</description></item>
         /// <item><description><see cref="CSDL.Props.WindowCreateWIN32PixelFormatHwndPointer">WindowCreateWIN32PixelFormatHwndPointer</see>: optional, another window to share pixel format with, useful for OpenGL windows</description></item>
+        /// <item><description><c>SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER</c>: the window style (WS_EX_*) flags to use instead of the defaults.</description></item>
         /// </list>
         /// <para>These are additional supported properties with X11:</para>
         /// <list type="bullet">
@@ -1024,6 +1025,12 @@ namespace CSDL.Internal.Docs {
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.WindowAndroidWindowPointer">WindowAndroidWindowPointer</see>: the ANativeWindow associated with the window</description></item>
         /// <item><description><see cref="CSDL.Props.WindowAndroidSurfacePointer">WindowAndroidSurfacePointer</see>: the EGLSurface associated with the window</description></item>
+        /// </list>
+        /// <para>On OpenHarmony/HarmonyOS:</para>
+        /// <list type="bullet">
+        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_XCOMPONENT_POINTER</c>: the OH_NativeXComponent associated with the window</description></item>
+        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_WINDOW_POINTER</c>: the OHNativeWindow associated with the window</description></item>
+        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER</c>: the EGLSurface associated with the window</description></item>
         /// </list>
         /// <para>On iOS:</para>
         /// <list type="bullet">

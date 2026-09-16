@@ -15,6 +15,8 @@ namespace CSDL.GPU {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUColorTargetDescription">SDL_GPUColorTargetDescription</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPUGraphicsPipelineTargetInfo">GPUGraphicsPipelineTargetInfo</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUTextureFormat">GPUTextureFormat</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUColorTargetBlendState">GPUColorTargetBlendState</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUColorTargetDescription {
         /// <summary>

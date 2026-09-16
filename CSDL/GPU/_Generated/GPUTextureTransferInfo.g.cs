@@ -20,6 +20,7 @@ namespace CSDL.GPU {
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUTextureTransferInfo">SDL_GPUTextureTransferInfo</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPURenderer.UploadToTexture">UploadToTexture</see></seealso>
     /// <seealso><see cref="CSDL.GPU.GPURenderer.DownloadFromTexture">DownloadFromTexture</see></seealso>
+    /// <seealso><c>SDL_GPUTransferBuffer</c></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUTextureTransferInfo {
         /// <summary>
