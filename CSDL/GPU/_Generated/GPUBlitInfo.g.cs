@@ -15,6 +15,11 @@ namespace CSDL.GPU {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUBlitInfo">SDL_GPUBlitInfo</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPUCommandBuffer.BlitGPUTexture">BlitGPUTexture</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUBlitRegion">GPUBlitRegion</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPULoadOp">GPULoadOp</see></seealso>
+    /// <seealso><see cref="CSDL.Video.FColor">FColor</see></seealso>
+    /// <seealso><see cref="CSDL.Video.FlipMode">FlipMode</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUFilter">GPUFilter</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUBlitInfo {
         /// <summary>

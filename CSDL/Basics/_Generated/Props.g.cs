@@ -649,7 +649,7 @@ namespace CSDL {
         /// </summary>
         /// <remarks>
         /// <para>This property is intended to be added to any <see cref="CSDL.PropertiesID">PropertiesID</see> that needs a generic name associated with the property set. It is not guaranteed that any property set will include this key, but it is convenient to have a standard key that any piece of code could reasonably agree to use.</para>
-        /// <para>For example, the properties associated with an <see cref="CSDL.Video.Texture">Texture</see> might have a name string of "player sprites", or an <see cref="CSDL.Audio.AudioStream">AudioStream</see> might have "background music", etc. This might also be useful for an <see cref="CSDL.File.IOStream">IOStream</see> to list the path to its asset.</para>
+        /// <para>For example, the properties associated with an <see cref="CSDL.Video.TextureData">TextureData</see> might have a name string of "player sprites", or an <see cref="CSDL.Audio.AudioStream">AudioStream</see> might have "background music", etc. This might also be useful for an <see cref="CSDL.File.IOStream">IOStream</see> to list the path to its asset.</para>
         /// <para>There is no format for the value set with this key; it is expected to be human-readable and informational in nature, possibly for logging or debugging purposes.</para>
         /// <para>SDL does not currently set this property on any objects it creates, but this may change in later versions; it is currently expected that apps and external libraries will take advantage of it, when appropriate.</para>
         /// </remarks>
@@ -1126,205 +1126,205 @@ namespace CSDL {
         public const string TextureColorspaceNumber = "SDL.texture.colorspace";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER">SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER</seealso></SDLWiki>
         public const string TextureCreateAccessNumber = "SDL.texture.create.access";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER">SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER</seealso></SDLWiki>
         public const string TextureCreateColorspaceNumber = "SDL.texture.create.colorspace";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER">SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER</seealso></SDLWiki>
         public const string TextureCreateD3D11TexturePointer = "SDL.texture.create.d3d11.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER">SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_U_POINTER</seealso></SDLWiki>
         public const string TextureCreateD3D11TextureUPointer = "SDL.texture.create.d3d11.texture_u";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER">SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_V_POINTER</seealso></SDLWiki>
         public const string TextureCreateD3D11TextureVPointer = "SDL.texture.create.d3d11.texture_v";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER">SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER</seealso></SDLWiki>
         public const string TextureCreateD3D12TexturePointer = "SDL.texture.create.d3d12.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER">SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_U_POINTER</seealso></SDLWiki>
         public const string TextureCreateD3D12TextureUPointer = "SDL.texture.create.d3d12.texture_u";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER">SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_V_POINTER</seealso></SDLWiki>
         public const string TextureCreateD3D12TextureVPointer = "SDL.texture.create.d3d12.texture_v";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER">SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER</seealso></SDLWiki>
         public const string TextureCreateFormatNumber = "SDL.texture.create.format";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER">SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER</seealso></SDLWiki>
         public const string TextureCreateGPUTexturePointer = "SDL.texture.create.gpu.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_POINTER">SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_POINTER</seealso></SDLWiki>
         public const string TextureCreateGPUTextureUvPointer = "SDL.texture.create.gpu.texture_uv";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_POINTER">SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_U_POINTER</seealso></SDLWiki>
         public const string TextureCreateGPUTextureUPointer = "SDL.texture.create.gpu.texture_u";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_POINTER">SDL_PROP_TEXTURE_CREATE_GPU_TEXTURE_V_POINTER</seealso></SDLWiki>
         public const string TextureCreateGPUTextureVPointer = "SDL.texture.create.gpu.texture_v";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT">SDL_PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT</seealso></SDLWiki>
         public const string TextureCreateHDRHeadroomFloat = "SDL.texture.create.HDR_headroom";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER">SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER</seealso></SDLWiki>
         public const string TextureCreateHeightNumber = "SDL.texture.create.height";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER">SDL_PROP_TEXTURE_CREATE_METAL_PIXELBUFFER_POINTER</seealso></SDLWiki>
         public const string TextureCreateMetalPixelbufferPointer = "SDL.texture.create.metal.pixelbuffer";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_POINTER">SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_POINTER</seealso></SDLWiki>
         public const string TextureCreateMetalTexturePointer = "SDL.texture.create.metal.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_USAGE_NUMBER">SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_USAGE_NUMBER</seealso></SDLWiki>
         public const string TextureCreateMetalTextureUsageNumber = "SDL.texture.create.metal.texture_usage";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_UV_POINTER">SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_UV_POINTER</seealso></SDLWiki>
         public const string TextureCreateMetalTextureUvPointer = "SDL.texture.create.metal.texture_uv";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_U_POINTER">SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_U_POINTER</seealso></SDLWiki>
         public const string TextureCreateMetalTextureUPointer = "SDL.texture.create.metal.texture_u";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_V_POINTER">SDL_PROP_TEXTURE_CREATE_METAL_TEXTURE_V_POINTER</seealso></SDLWiki>
         public const string TextureCreateMetalTextureVPointer = "SDL.texture.create.metal.texture_v";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOPENGLES2TextureNumber = "SDL.texture.create.opengles2.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_UV_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOPENGLES2TextureUvNumber = "SDL.texture.create.opengles2.texture_uv";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOPENGLES2TextureUNumber = "SDL.texture.create.opengles2.texture_u";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOPENGLES2TextureVNumber = "SDL.texture.create.opengles2.texture_v";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOpenglTextureNumber = "SDL.texture.create.opengl.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_UV_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOpenglTextureUvNumber = "SDL.texture.create.opengl.texture_uv";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_U_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOpenglTextureUNumber = "SDL.texture.create.opengl.texture_u";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER">SDL_PROP_TEXTURE_CREATE_OPENGL_TEXTURE_V_NUMBER</seealso></SDLWiki>
         public const string TextureCreateOpenglTextureVNumber = "SDL.texture.create.opengl.texture_v";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER">SDL_PROP_TEXTURE_CREATE_PALETTE_POINTER</seealso></SDLWiki>
         public const string TextureCreatePalettePointer = "SDL.texture.create.palette";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT">SDL_PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT</seealso></SDLWiki>
         public const string TextureCreateSdrWhitePointFloat = "SDL.texture.create.SDR_white_point";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER</seealso></SDLWiki>
         public const string TextureCreateVulkanLayoutNumber = "SDL.texture.create.vulkan.layout";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER</seealso></SDLWiki>
         public const string TextureCreateVulkanTextureNumber = "SDL.texture.create.vulkan.texture";
 
         /// <summary>
-        /// <para>Please refer to <see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see> for details.</para>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER">SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER</seealso></SDLWiki>
         public const string TextureCreateWidthNumber = "SDL.texture.create.width";

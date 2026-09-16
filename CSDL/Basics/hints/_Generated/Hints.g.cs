@@ -15,6 +15,7 @@ namespace CSDL {
         /// </summary>
         public static partial class Names {
             public const string AllowAltTabWhileGrabbed = "SDL_ALLOW_ALT_TAB_WHILE_GRABBED";
+            public const string AndroidAaudioInputPreset = "SDL_ANDROID_AAUDIO_INPUT_PRESET";
             public const string AndroidAllowPersistentFolderAccess = "SDL_ANDROID_ALLOW_PERSISTENT_FOLDER_ACCESS";
             public const string AndroidAllowRecreateActivity = "SDL_ANDROID_ALLOW_RECREATE_ACTIVITY";
             public const string AndroidBlockOnPause = "SDL_ANDROID_BLOCK_ON_PAUSE";
@@ -168,6 +169,7 @@ namespace CSDL {
             public const string MacOptionAsAlt = "SDL_MAC_OPTION_AS_ALT";
             public const string MacPressAndHold = "SDL_MAC_PRESS_AND_HOLD";
             public const string MacScrollMomentum = "SDL_MAC_SCROLL_MOMENTUM";
+            public const string MacUseGcmouse = "SDL_MAC_USE_GCMOUSE";
             public const string MainCallbackRate = "SDL_MAIN_CALLBACK_RATE";
             public const string MouseAutoCapture = "SDL_MOUSE_AUTO_CAPTURE";
             public const string MouseDefaultSystemCursor = "SDL_MOUSE_DEFAULT_SYSTEM_CURSOR";
@@ -306,6 +308,20 @@ namespace CSDL {
         /// <since>This hint is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED">SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED</seealso></SDLWiki>
         public static Hint AllowAltTabWhileGrabbed => For(Names.AllowAltTabWhileGrabbed);
+
+        /// <summary>
+        /// <para>A variable to control Android's AAudio input preset.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This hint only applies to SDL's "aaudio" backend on Android 9+ devices.</para>
+        /// <para>Some devices choose the wrong microphone by default (between the one meant to be spoken in when the phone is held to the user's ear for a phone call, or an external microphone that's meant to be used when recording video), or have DSP effects applied to the recorded audio, and changing the input preset can help control this.</para>
+        /// <para>This can be any number that maps to an <c>AAUDIO_INPUT_PRESET_*</c> enum from the Android NDK headers. The most reasonable choices are 5 ("camcorder", for external microphones) and 7 ("voice communication", for speaking directly into the device like a mobile phone). 6 ("voice recognition") might also be a useful choice.</para>
+        /// <para>If unset (the default), SDL will not specify an input preset at all, which lets the system choose. This is usually the correct thing to do unless your app is having problems.</para>
+        /// <para>This hint should be set before a recording audio device is opened.</para>
+        /// </remarks>
+        /// <since>This hint is available since SDL 3.4.16</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HINT_ANDROID_AAUDIO_INPUT_PRESET">SDL_HINT_ANDROID_AAUDIO_INPUT_PRESET</seealso></SDLWiki>
+        public static Hint AndroidAaudioInputPreset => For(Names.AndroidAaudioInputPreset);
 
         /// <summary>
         /// <para>A variable to control whether we allow persistent folder access on Android when using the SDL select folder dialog.</para>
@@ -2611,6 +2627,23 @@ namespace CSDL {
         /// <since>This hint is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HINT_MAC_SCROLL_MOMENTUM">SDL_HINT_MAC_SCROLL_MOMENTUM</seealso></SDLWiki>
         public static Hint MacScrollMomentum => For(Names.MacScrollMomentum);
+
+        /// <summary>
+        /// <para>A variable controlling whether the GCMouse API will be used on macOS.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>On supported versions of macOS, GCMouse is usually a better way to read mouse input, but may cause problems in some scenarios (remote control software that wants to send non-GCMouse input events, etc).</para>
+        /// <para>When GCMouse is disabled, SDL will use standard Cocoa mouse events.</para>
+        /// <para>The variable can be set to the following values:</para>
+        /// <list type="bullet">
+        /// <item><description>"0": GCMouse won't be used.</description></item>
+        /// <item><description>"1": GCMouse will be used if available. (default)</description></item>
+        /// </list>
+        /// <para>This hint needs to be set before <see cref="CSDL.Init.Initialize">Initialize</see>.</para>
+        /// </remarks>
+        /// <since>This hint is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HINT_MAC_USE_GCMOUSE">SDL_HINT_MAC_USE_GCMOUSE</seealso></SDLWiki>
+        public static Hint MacUseGcmouse => For(Names.MacUseGcmouse);
 
         /// <summary>
         /// <para>Request <c>SDL_AppIterate</c> be called at a specific rate.</para>

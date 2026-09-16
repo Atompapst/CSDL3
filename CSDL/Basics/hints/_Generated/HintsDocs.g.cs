@@ -14,7 +14,7 @@ namespace CSDL.Internal.Docs {
         /// <para>The callback function is called _during_ this function, to provide it an initial value, and again each time the hint's value changes.</para>
         /// </remarks>
         /// <param name="name">the hint to watch.</param>
-        /// <param name="callback">An <c>SDL_HintCallback</c> function that will be called when the hint value changes.</param>
+        /// <param name="callback">An <see cref="CSDL.HintCallback">HintCallback</see> function that will be called when the hint value changes.</param>
         /// <param name="userdata">a pointer to pass to the callback function.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -58,7 +58,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Remove a function watching a particular hint.</para>
         /// </summary>
         /// <param name="name">the hint being watched.</param>
-        /// <param name="callback">an <c>SDL_HintCallback</c> function that will be called when the hint value changes.</param>
+        /// <param name="callback">an <see cref="CSDL.HintCallback">HintCallback</see> function that will be called when the hint value changes.</param>
         /// <param name="userdata">a pointer being passed to the callback function.</param>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>

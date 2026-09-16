@@ -15,6 +15,8 @@ namespace CSDL.GPU {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUStencilOpState">SDL_GPUStencilOpState</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPUDepthStencilState">GPUDepthStencilState</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUStencilOp">GPUStencilOp</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUCompareOp">GPUCompareOp</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUStencilOpState {
         /// <summary>

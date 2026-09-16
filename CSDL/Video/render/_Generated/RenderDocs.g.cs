@@ -167,9 +167,9 @@ namespace CSDL.Internal.Docs {
         /// <para>Create a 2D software rendering context for a surface.</para>
         /// </summary>
         /// <remarks>
-        /// <para>Two other API which can be used to create <c>SDL_Renderer</c>: <see cref="CSDL.Video.Renderer(Window,string?)">Renderer(Window,string?)</see> and <see cref="CSDL.Video.Window.CreateWindowAndRenderer">CreateWindowAndRenderer</see>. These can _also_ create a software renderer, but they are intended to be used with an <c>SDL_Window</c> as the final destination and not an <see cref="CSDL.Video.Surface">Surface</see>.</para>
+        /// <para>Two other APIs which can be used to create <c>SDL_Renderer</c>: <see cref="CSDL.Video.Renderer(Window,string?)">Renderer(Window,string?)</see> and <see cref="CSDL.Video.Window.CreateWindowAndRenderer">CreateWindowAndRenderer</see>. These can _also_ create a software renderer, but they are intended to be used with an <c>SDL_Window</c> as the final destination and not an <see cref="CSDL.Video.SurfaceData">SurfaceData</see>.</para>
         /// </remarks>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure representing the surface where rendering is done.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure representing the surface where rendering is done.</param>
         /// <returns>
         /// <para>(<c>SDL_Renderer</c> *) Returns a valid rendering context or NULL if there was an error; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -191,13 +191,13 @@ namespace CSDL.Internal.Docs {
         /// <param name="w">the width of the texture in pixels.</param>
         /// <param name="h">the height of the texture in pixels.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Texture">Texture</see> *) Returns the created texture or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.TextureData">TextureData</see> *) Returns the created texture or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_CreateTexture">SDL_CreateTexture</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,Surface)">Texture(Renderer,Surface)</see></seealso>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.DisposeResource">DisposeResource</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.Size">Size</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.Update">Update</see></seealso>
@@ -212,15 +212,15 @@ namespace CSDL.Internal.Docs {
         /// <para>The pixel format of the created texture may be different from the pixel format of the surface, and can be queried using the <see cref="CSDL.Props.TextureFormatNumber">TextureFormatNumber</see> property.</para>
         /// </remarks>
         /// <param name="renderer">the rendering context.</param>
-        /// <param name="surface">the <see cref="CSDL.Video.Surface">Surface</see> structure containing pixel data used to fill the texture.</param>
+        /// <param name="surface">the <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure containing pixel data used to fill the texture.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Texture">Texture</see> *) Returns the created texture or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.TextureData">TextureData</see> *) Returns the created texture or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_CreateTextureFromSurface">SDL_CreateTextureFromSurface</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,int,int,PixelFormat,TextureAccess)">Texture(Renderer,int,int,PixelFormat,TextureAccess)</see></seealso>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,TextureCreateProperties)">Texture(Renderer,TextureCreateProperties)</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.DisposeResource">DisposeResource</see></seealso>
         public static extern void CreateTextureFromSurface();
 
@@ -235,7 +235,7 @@ namespace CSDL.Internal.Docs {
         /// <item><description><see cref="CSDL.Props.TextureCreateAccessNumber">TextureCreateAccessNumber</see>: one of the enumerated values in <see cref="CSDL.Video.TextureAccess">TextureAccess</see>, defaults to <see cref="CSDL.Video.TextureAccess.Static">Static</see></description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateWidthNumber">TextureCreateWidthNumber</see>: the width of the texture in pixels, required</description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateHeightNumber">TextureCreateHeightNumber</see>: the height of the texture in pixels, required</description></item>
-        /// <item><description><see cref="CSDL.Props.TextureCreatePalettePointer">TextureCreatePalettePointer</see>: an <see cref="CSDL.Video.Palette">Palette</see> to use with palettized texture formats. This can be set later with <see cref="CSDL.Video.Texture.SetPalette">SetPalette</see></description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreatePalettePointer">TextureCreatePalettePointer</see>: an <see cref="CSDL.Video.PaletteData">PaletteData</see> to use with palettized texture formats. This can be set later with <see cref="CSDL.Video.Texture.SetPalette">SetPalette</see></description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateSdrWhitePointFloat">TextureCreateSdrWhitePointFloat</see>: for HDR10 and floating point textures, this defines the value of 100% diffuse white, with higher values being displayed in the High Dynamic Range headroom. This defaults to 100 for HDR10 textures and 1.0 for floating point textures.</description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateHDRHeadroomFloat">TextureCreateHDRHeadroomFloat</see>: for HDR10 and floating point textures, this defines the maximum dynamic range used by the content, in terms of the SDR white point. This would be equivalent to maxCLL / <see cref="CSDL.Props.TextureCreateSdrWhitePointFloat">TextureCreateSdrWhitePointFloat</see> for HDR10 content. If this is defined, any values outside the range supported by the display will be scaled into the available HDR headroom, otherwise they are clipped.</description></item>
         /// </list>
@@ -276,8 +276,12 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>With the vulkan renderer:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureNumber">TextureCreateVulkanTextureNumber</see>: the VkImage associated with the texture, if you want to wrap an existing texture.</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureNumber">TextureCreateVulkanTextureNumber</see>: the VkImage associated with the texture, if you want to wrap an existing texture. For NV12 style textures this is the single two plane VkImage holding both the Y and UV planes, and for YUV style textures it is the VkImage holding the Y plane.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_U_NUMBER</c>: the VkImage associated with the U plane of a YUV texture, if you want to wrap an existing texture.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_V_NUMBER</c>: the VkImage associated with the V plane of a YUV texture, if you want to wrap an existing texture.</description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateVulkanLayoutNumber">TextureCreateVulkanLayoutNumber</see>: the VkImageLayout for the VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_USAGE_NUMBER</c>: additional VK_IMAGE_USAGE bits that should be used when creating the texture. VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_ANDROID_HARDWARE_BUFFER_POINTER</c>: the AHardwareBuffer to sample from, if you want to use an existing Android hardware buffer as the texture. You must use <see cref="CSDL.Video.PixelFormat.ExternalOes">ExternalOes</see> for the texture format. You can't directly update the texture or use it as a render target. If the Android buffer contents change, you must recreate the texture to pick up the changes. The texture holds a reference to the buffer, so you can release your own reference once the texture has been created.</description></item>
         /// </list>
         /// <para>With the GPU renderer:</para>
         /// <list type="bullet">
@@ -290,14 +294,14 @@ namespace CSDL.Internal.Docs {
         /// <param name="renderer">the rendering context.</param>
         /// <param name="props">the properties to use.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Texture">Texture</see> *) Returns the created texture or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.TextureData">TextureData</see> *) Returns the created texture or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_CreateTextureWithProperties">SDL_CreateTextureWithProperties</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Properties.PropertyGroup()">PropertyGroup()</see></seealso>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,int,int,PixelFormat,TextureAccess)">Texture(Renderer,int,int,PixelFormat,TextureAccess)</see></seealso>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,Surface)">Texture(Renderer,Surface)</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.DisposeResource">DisposeResource</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.Size">Size</see></seealso>
         /// <seealso><see cref="CSDL.Video.Texture.Update">Update</see></seealso>
@@ -336,8 +340,8 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_DestroyTexture">SDL_DestroyTexture</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,int,int,PixelFormat,TextureAccess)">Texture(Renderer,int,int,PixelFormat,TextureAccess)</see></seealso>
-        /// <seealso><see cref="CSDL.Video.Texture(Renderer,Surface)">Texture(Renderer,Surface)</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.CreateTexture">CreateTexture</see></seealso>
         public static extern void DestroyTexture();
 
         /// <summary>
@@ -461,6 +465,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderClipRect">SDL_GetRenderClipRect</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see></seealso>
         public static extern void GetRenderClipRect();
@@ -559,7 +564,7 @@ namespace CSDL.Internal.Docs {
         public static extern void GetRenderer();
 
         /// <summary>
-        /// <para>Get the renderer that created an <see cref="CSDL.Video.Texture">Texture</see>.</para>
+        /// <para>Get the renderer that created an <see cref="CSDL.Video.TextureData">TextureData</see>.</para>
         /// </summary>
         /// <param name="texture">the texture to query.</param>
         /// <returns>
@@ -778,7 +783,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="renderer">the rendering context.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Texture">Texture</see> *) Returns the current render target or NULL for the default render target.</para>
+        /// <para>(<see cref="CSDL.Video.TextureData">TextureData</see> *) Returns the current render target or NULL for the default render target.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -787,11 +792,11 @@ namespace CSDL.Internal.Docs {
         public static extern void GetRenderTarget();
 
         /// <summary>
-        /// <para>Get the texture addressing mode used in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>.</para>
+        /// <para>Get the texture addressing mode used in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>.</para>
         /// </summary>
         /// <param name="renderer">the rendering context.</param>
-        /// <param name="u_mode">a pointer filled in with the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for horizontal texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>, may be NULL.</param>
-        /// <param name="v_mode">a pointer filled in with the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for vertical texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>, may be NULL.</param>
+        /// <param name="u_mode">a pointer filled in with the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for horizontal texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>, may be NULL.</param>
+        /// <param name="v_mode">a pointer filled in with the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for vertical texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>, may be NULL.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -815,6 +820,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderViewport">SDL_GetRenderViewport</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
         public static extern void GetRenderViewport();
@@ -932,7 +938,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <param name="texture">the texture to query.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Palette">Palette</see> *) Returns a pointer to the palette used by the texture, or NULL if there is no palette used.</para>
+        /// <para>(<see cref="CSDL.Video.PaletteData">PaletteData</see> *) Returns a pointer to the palette used by the texture, or NULL if there is no palette used.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
@@ -975,7 +981,9 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>With the vulkan renderer:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Props.TextureVulkanTextureNumber">TextureVulkanTextureNumber</see>: the VkImage associated with the texture</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureVulkanTextureNumber">TextureVulkanTextureNumber</see>: the VkImage associated with the texture. For NV12 style textures this is the single two plane VkImage holding both the Y and UV planes, and for YUV style textures it is the VkImage holding the Y plane.</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_VULKAN_TEXTURE_U_NUMBER</c>: the VkImage associated with the U plane of a YUV texture</description></item>
+        /// <item><description><c>SDL_PROP_TEXTURE_VULKAN_TEXTURE_V_NUMBER</c>: the VkImage associated with the V plane of a YUV texture</description></item>
         /// </list>
         /// <para>With the opengl renderer:</para>
         /// <list type="bullet">
@@ -1065,7 +1073,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Lock a portion of the texture for **write-only** pixel access, and expose it as a SDL surface.</para>
         /// </summary>
         /// <remarks>
-        /// <para>Besides providing an <see cref="CSDL.Video.Surface">Surface</see> instead of raw pixel data, this function operates like <see cref="CSDL.Video.Texture.Lock">Lock</see>.</para>
+        /// <para>Besides providing an <see cref="CSDL.Video.SurfaceData">SurfaceData</see> instead of raw pixel data, this function operates like <see cref="CSDL.Video.Texture.Lock">Lock</see>.</para>
         /// <para>As an optimization, the pixels made available for editing don't necessarily contain the old texture data. This is a write-only operation, and if you need to keep a copy of the texture data you should do that at the application level.</para>
         /// <para>You must use <see cref="CSDL.Video.Texture.Unlock">Unlock</see> to unlock the pixels and apply any changes.</para>
         /// <para>The returned surface is freed internally after calling <see cref="CSDL.Video.Texture.Unlock">Unlock</see> or <see cref="CSDL.Video.Texture.DisposeResource">DisposeResource</see>. The caller should not free it.</para>
@@ -1113,7 +1121,9 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderClipEnabled">SDL_RenderClipEnabled</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetClipRect">GetClipRect</see></seealso>
+        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see></seealso>
+        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
         public static extern void RenderClipEnabled();
 
         /// <summary>
@@ -1298,7 +1308,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderGeometryRaw">SDL_RenderGeometryRaw</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.SetTextureAddressMode">SetTextureAddressMode</see></seealso>
         public static extern void RenderGeometryRaw();
 
@@ -1405,7 +1415,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="renderer">the rendering context.</param>
         /// <param name="rect">an <see cref="CSDL.Video.Rect">Rect</see> structure representing the area to read, which will be clipped to the current viewport, or NULL for the entire viewport.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns a new <see cref="CSDL.Video.Surface">Surface</see> on success or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns a new <see cref="CSDL.Video.SurfaceData">SurfaceData</see> on success or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -1581,7 +1591,9 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderViewportSet">SDL_RenderViewportSet</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetViewport">GetViewport</see></seealso>
+        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
+        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
         public static extern void RenderViewportSet();
 
         /// <summary>
@@ -1702,6 +1714,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderClipRect">SDL_SetRenderClipRect</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetClipRect">GetClipRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
+        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
         public static extern void SetRenderClipRect();
 
         /// <summary>
@@ -1847,18 +1860,18 @@ namespace CSDL.Internal.Docs {
         public static extern void SetRenderTarget();
 
         /// <summary>
-        /// <para>Set the texture addressing mode used in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>.</para>
+        /// <para>Set the texture addressing mode used in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>.</para>
         /// </summary>
         /// <param name="renderer">the rendering context.</param>
-        /// <param name="u_mode">the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for horizontal texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>.</param>
-        /// <param name="v_mode">the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for vertical texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see>.</param>
+        /// <param name="u_mode">the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for horizontal texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>.</param>
+        /// <param name="v_mode">the <see cref="CSDL.Video.TextureAddressMode">TextureAddressMode</see> to use for vertical texture coordinates in <see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see>.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.4.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderTextureAddressMode">SDL_SetRenderTextureAddressMode</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Video.Renderer.RenderGeometry(Texture,Vertex[],int,int[],int)">RenderGeometry(Texture,Vertex[],int,int[],int)</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.RenderGeometry">RenderGeometry</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.RenderGeometryRaw">RenderGeometryRaw</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.GetTextureAddressMode">GetTextureAddressMode</see></seealso>
         public static extern void SetRenderTextureAddressMode();
@@ -1881,6 +1894,7 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderViewport">SDL_SetRenderViewport</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetViewport">GetViewport</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
+        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
         public static extern void SetRenderViewport();
 
         /// <summary>
@@ -1944,7 +1958,7 @@ namespace CSDL.Internal.Docs {
         public static extern void SetTextureAlphaModFloat();
 
         /// <summary>
-        /// <para>Set the blend mode for a texture, used by <see cref="CSDL.Video.Renderer.RenderTexture">RenderTexture</see>.</para>
+        /// <para>Set the blend mode for a texture.</para>
         /// </summary>
         /// <remarks>
         /// <para>This blend mode is used for any drawing that involves this texture.</para>
@@ -2016,7 +2030,7 @@ namespace CSDL.Internal.Docs {
         /// <para>A single palette can be shared with many textures.</para>
         /// </remarks>
         /// <param name="texture">the texture to update.</param>
-        /// <param name="palette">the <see cref="CSDL.Video.Palette">Palette</see> structure to use.</param>
+        /// <param name="palette">the <see cref="CSDL.Video.PaletteData">PaletteData</see> structure to use.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>

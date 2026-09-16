@@ -19,7 +19,7 @@ namespace CSDL.Internal.Docs {
         /// <param name="handle">a valid shared object handle returned by <see cref="CSDL.SharedObject.Load">Load</see>.</param>
         /// <param name="name">the name of the function to look up.</param>
         /// <returns>
-        /// <para>(<c>SDL_FunctionPointer</c>) Returns a pointer to the function or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.FunctionPointer">FunctionPointer</see>) Returns a pointer to the function or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>

@@ -76,10 +76,6 @@ namespace CSDL {
                     _gamepad.Value.Handle(se.Gbutton);
                     break;
 
-                case EventType.GamepadSensorUpdate:
-                    _gamepad.Value.Handle(se.Gsensor);
-                    break;
-
                 case EventType.GamepadAdded:
                 case EventType.GamepadRemoved:
                 case EventType.GamepadRemapped:
@@ -92,6 +88,10 @@ namespace CSDL {
                 case EventType.GamepadTouchpadMotion:
                 case EventType.GamepadTouchpadUp:
                     _gamepad.Value.Handle(se.Gtouchpad);
+                    break;
+
+                case EventType.GamepadSensorUpdate:
+                    _gamepad.Value.Handle(se.Gsensor);
                     break;
 
                 case EventType.GamepadCapsenseTouch:
@@ -117,14 +117,14 @@ namespace CSDL {
                     _joystick.Value.Handle(se.Jbutton);
                     break;
 
-                case EventType.JoystickBatteryUpdated:
-                    _joystick.Value.Handle(se.Jbattery);
-                    break;
-
                 case EventType.JoystickAdded:
                 case EventType.JoystickRemoved:
                 case EventType.JoystickUpdateComplete:
                     _joystick.Value.Handle(se.Jdevice);
+                    break;
+
+                case EventType.JoystickBatteryUpdated:
+                    _joystick.Value.Handle(se.Jbattery);
                     break;
 
                 // Keyboard Events
@@ -133,16 +133,16 @@ namespace CSDL {
                     _keyboard.Value.Handle(se.Key);
                     break;
 
-                case EventType.KeymapChanged:
-                    _keyboard.Value.Handle(se.Common);
-                    break;
-
                 case EventType.TextEditing:
                     _keyboard.Value.Handle(se.Edit);
                     break;
 
                 case EventType.TextInput:
                     _keyboard.Value.Handle(se.Text);
+                    break;
+
+                case EventType.KeymapChanged:
+                    _keyboard.Value.Handle(se.Common);
                     break;
 
                 case EventType.KeyboardAdded:
@@ -173,6 +173,11 @@ namespace CSDL {
                 case EventType.MouseAdded:
                 case EventType.MouseRemoved:
                     _mouse.Value.Handle(se.Mdevice);
+                    break;
+
+                // Notification Events
+                case EventType.NotificationActionInvoked:
+                    _notification.Value.Handle(se.Notification);
                     break;
 
                 // Pen Events
@@ -206,11 +211,6 @@ namespace CSDL {
                     _render.Value.Handle(se.Render);
                     break;
 
-                // Notification Events
-                case EventType.NotificationActionInvoked:
-                    _notification.Value.Handle(se.Notification);
-                    break;
-
                 // Sensor Events
                 case EventType.SensorUpdate:
                     _sensor.Value.Handle(se.Sensor);
@@ -228,6 +228,11 @@ namespace CSDL {
                 case EventType.PinchUpdate:
                 case EventType.PinchEnd:
                     _touch.Value.Handle(se.Pinch);
+                    break;
+
+                // User Events
+                case EventType.User:
+                    _user.Value.Handle(se.User);
                     break;
 
                 // Window Events

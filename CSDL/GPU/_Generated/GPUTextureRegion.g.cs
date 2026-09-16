@@ -20,6 +20,7 @@ namespace CSDL.GPU {
     /// <seealso><see cref="CSDL.GPU.GPURenderer.UploadToTexture">UploadToTexture</see></seealso>
     /// <seealso><see cref="CSDL.GPU.GPURenderer.DownloadFromTexture">DownloadFromTexture</see></seealso>
     /// <seealso><see cref="CSDL.GPU.GPUTexture(GPUDevice,GPUTextureCreateInfo)">GPUTexture(GPUDevice,GPUTextureCreateInfo)</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUTexture">GPUTexture</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUTextureRegion {
         /// <summary>

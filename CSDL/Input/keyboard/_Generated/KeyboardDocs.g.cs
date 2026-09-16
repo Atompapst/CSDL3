@@ -275,14 +275,14 @@ namespace CSDL.Internal.Docs {
         /// <para>Set the current key modifier state for the keyboard.</para>
         /// </summary>
         /// <remarks>
-        /// <para>The inverse of <c>SDL_GetModState</c>, <see cref="SetModState"/> allows you to impose modifier key states on your application. Simply pass your desired modifier states into <c>modstate</c>. This value may be a bitwise, OR'd combination of <see cref="CSDL.Input.Keymod">Keymod</see> values.</para>
+        /// <para>The inverse of <see cref="CSDL.Input.Keyboards.Modifiers">Modifiers</see>, <see cref="SetModState"/> allows you to impose modifier key states on your application. Simply pass your desired modifier states into <c>modstate</c>. This value may be a bitwise, OR'd combination of <see cref="CSDL.Input.Keymod">Keymod</see> values.</para>
         /// <para>This does not change the keyboard state, only the key modifier flags that SDL reports.</para>
         /// </remarks>
         /// <param name="modstate">the desired <see cref="CSDL.Input.Keymod">Keymod</see> for the keyboard.</param>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetModState">SDL_SetModState</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetModState</c></seealso>
+        /// <seealso><see cref="CSDL.Input.Keyboards.Modifiers">Modifiers</see></seealso>
         public static extern void SetModState();
 
         /// <summary>
@@ -366,6 +366,11 @@ namespace CSDL.Internal.Docs {
         /// <para>On Android you can directly specify the input type:</para>
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.TextinputAndroidInputtypeNumber">TextinputAndroidInputtypeNumber</see></description></item>
+        /// <item><description>the text input type to use, overriding other properties. This is documented at https://developer.android.com/reference/android/text/InputType</description></item>
+        /// </list>
+        /// <para>On HarmonyOS/OpenHarmony you can directly specify the input type:</para>
+        /// <list type="bullet">
+        /// <item><description><c>SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER</c></description></item>
         /// <item><description>the text input type to use, overriding other properties. This is documented at https://developer.android.com/reference/android/text/InputType</description></item>
         /// </list>
         /// </remarks>

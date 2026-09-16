@@ -15,6 +15,7 @@ namespace CSDL.GPU {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUMultisampleState">SDL_GPUMultisampleState</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPUGraphicsPipelineCreateInfo">GPUGraphicsPipelineCreateInfo</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUSampleCount">GPUSampleCount</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUMultisampleState {
         /// <summary>

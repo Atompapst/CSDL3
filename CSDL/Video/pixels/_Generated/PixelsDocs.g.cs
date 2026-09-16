@@ -15,7 +15,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="ncolors">represents the number of color entries in the color palette.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Palette">Palette</see> *) Returns a new <see cref="CSDL.Video.Palette">Palette</see> structure on success or NULL on failure (e.g. if there wasn't enough memory); call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.PaletteData">PaletteData</see> *) Returns a new <see cref="CSDL.Video.PaletteData">PaletteData</see> structure on success or NULL on failure (e.g. if there wasn't enough memory); call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -28,7 +28,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Free a palette created with <see cref="CSDL.Video.Palette(int)">Palette(int)</see>.</para>
         /// </summary>
-        /// <param name="palette">the <see cref="CSDL.Video.Palette">Palette</see> structure to be freed.</param>
+        /// <param name="palette">the <see cref="CSDL.Video.PaletteData">PaletteData</see> structure to be freed.</param>
         /// <threadsafety>It is safe to call this function from any thread, as long as the palette is not modified or destroyed in another thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_DestroyPalette">SDL_DestroyPalette</seealso></SDLWiki>
@@ -245,7 +245,7 @@ namespace CSDL.Internal.Docs {
         /// <summary>
         /// <para>Set a range of colors in a palette.</para>
         /// </summary>
-        /// <param name="palette">the <see cref="CSDL.Video.Palette">Palette</see> structure to modify.</param>
+        /// <param name="palette">the <see cref="CSDL.Video.PaletteData">PaletteData</see> structure to modify.</param>
         /// <param name="colors">an array of <see cref="CSDL.Video.Color">Color</see> structures to copy into the palette.</param>
         /// <param name="firstcolor">the index of the first palette entry to modify.</param>
         /// <param name="ncolors">the number of entries to modify.</param>

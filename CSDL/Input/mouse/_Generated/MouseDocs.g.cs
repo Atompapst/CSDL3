@@ -12,7 +12,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>Capturing enables your app to obtain mouse events globally, instead of just within your window. Not all video targets support this function. When capturing is enabled, the current window will get all mouse events, but unlike relative mode, no change is made to the cursor and it is not restrained to your window.</para>
-        /// <para>This function may also deny mouse input to other windows--both those in your application and others on the system--so you should use this function sparingly, and in small bursts. For example, you might want to track the mouse while the user is dragging something, until the user releases a mouse button. It is not recommended that you capture the mouse for long periods of time, such as the entire time your app is running. For that, you should probably use <see cref="CSDL.Input.Mouse.SetWindowRelativeMode">SetWindowRelativeMode</see> or <see cref="CSDL.Video.Window.MouseGrab">MouseGrab</see>, depending on your goals.</para>
+        /// <para>This function may also deny mouse input to other windows--both those in your application and others on the system--so you should use this function sparingly, and in small bursts. For example, you might want to track the mouse while the user is dragging something, until the user releases a mouse button. It is not recommended that you capture the mouse for long periods of time, such as the entire time your app is running. For that, you should probably use <see cref="CSDL.Video.Window.RelativeMouseMode">RelativeMouseMode</see> or <see cref="CSDL.Video.Window.MouseGrab">MouseGrab</see>, depending on your goals.</para>
         /// <para>While captured, mouse events still report coordinates relative to the current (foreground) window, but those coordinates may be outside the bounds of the window (including negative values). Capturing is only allowed for the foreground window. If the window loses focus while capturing, the capture will be disabled automatically.</para>
         /// <para>While capturing is enabled, the current window will have the <c>SDL_WINDOW_MOUSE_CAPTURE</c> flag set.</para>
         /// <para>Please note that SDL will attempt to "auto capture" the mouse while the user is pressing a button; this is to try and make mouse behavior more consistent between platforms, and deal with the common case of a user dragging the mouse outside of the window. This means that if you are calling <see cref="CaptureMouse"/> only to deal with this situation, you do not have to (although it is safe to do so). If this causes problems for your app, you can disable auto capture by setting the <see cref="CSDL.Hints.MouseAutoCapture">MouseAutoCapture</see> hint to zero.</para>
@@ -60,7 +60,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>If this function is passed a surface with alternate representations added with <see cref="CSDL.Video.Surface.AddAlternateImage">AddAlternateImage</see>, the surface will be interpreted as the content to be used for 100% display scale, and the alternate representations will be used for high DPI situations if <see cref="CSDL.Hints.MouseDpiScaleCursors">MouseDpiScaleCursors</see> is enabled. For example, if the original surface is 32x32, then on a 2x macOS display or 200% display scale on Windows, a 64x64 version of the image will be used, if available. If a matching version of the image isn't available, the closest larger size image will be downscaled to the appropriate size and be used instead, if available. Otherwise, the closest smaller image will be upscaled and be used instead.</para>
         /// </remarks>
-        /// <param name="surface">an <see cref="CSDL.Video.Surface">Surface</see> structure representing the cursor image.</param>
+        /// <param name="surface">an <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure representing the cursor image.</param>
         /// <param name="hot_x">the x position of the cursor hot spot.</param>
         /// <param name="hot_y">the y position of the cursor hot spot.</param>
         /// <returns>
@@ -91,7 +91,7 @@ namespace CSDL.Internal.Docs {
         /// <item><description>data=1, mask=0: inverted color if possible, black if not.</description></item>
         /// </list>
         /// <para>Cursors created with this function must be freed with <see cref="CSDL.Input.Cursor.DisposeResource">DisposeResource</see>.</para>
-        /// <para>If you want to have a color cursor, or create your cursor from an <see cref="CSDL.Video.Surface">Surface</see>, you should use <see cref="CSDL.Input.Cursor.FromSurface">FromSurface</see>. Alternately, you can hide the cursor and draw your own as part of your game's rendering, but it will be bound to the framerate.</para>
+        /// <para>If you want to have a color cursor, or create your cursor from an <see cref="CSDL.Video.SurfaceData">SurfaceData</see>, you should use <see cref="CSDL.Input.Cursor.FromSurface">FromSurface</see>. Alternately, you can hide the cursor and draw your own as part of your game's rendering, but it will be bound to the framerate.</para>
         /// <para>Also, <see cref="CSDL.Input.Cursor(SystemCursor)">Cursor(SystemCursor)</see> is available, which provides several readily-available system cursors to pick from.</para>
         /// </remarks>
         /// <param name="data">the color value for each pixel of the cursor.</param>
@@ -302,7 +302,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetWindowRelativeMouseMode">SDL_GetWindowRelativeMouseMode</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Mouse.SetWindowRelativeMode">SetWindowRelativeMode</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.RelativeMouseMode">RelativeMouseMode</see></seealso>
         public static extern void GetWindowRelativeMouseMode();
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetWindowRelativeMouseMode">SDL_SetWindowRelativeMouseMode</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Mouse.GetWindowRelativeMode">GetWindowRelativeMode</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.GetWindowRelativeMouseMode">GetWindowRelativeMouseMode</see></seealso>
         public static extern void SetWindowRelativeMouseMode();
 
         /// <summary>

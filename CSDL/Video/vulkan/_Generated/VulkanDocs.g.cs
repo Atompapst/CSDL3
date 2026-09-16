@@ -87,7 +87,7 @@ namespace CSDL.Internal.Docs {
         /// <para><c>vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_Vulkan_GetVkGetInstanceProcAddr();</c></para>
         /// </remarks>
         /// <returns>
-        /// <para>(<c>SDL_FunctionPointer</c>) Returns the function pointer for <c>vkGetInstanceProcAddr</c> or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.FunctionPointer">FunctionPointer</see>) Returns the function pointer for <c>vkGetInstanceProcAddr</c> or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_Vulkan_GetVkGetInstanceProcAddr">SDL_Vulkan_GetVkGetInstanceProcAddr</seealso></SDLWiki>

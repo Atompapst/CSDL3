@@ -14,6 +14,7 @@ namespace CSDL {
         private string CallbackId => $"TrayEntry:{Handle.Ptr}";
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryLabel"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayEntryLabel"/>
         /// <remarks>Reading this gives back <see langword="null"/> for a separator.</remarks>
         public string? Label {
             get => SDL.GetTrayEntryLabel(Handle).ToUtf8String();
@@ -21,12 +22,14 @@ namespace CSDL {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryEnabled"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayEntryEnabled"/>
         public bool Enabled {
             get => SDL.GetTrayEntryEnabled(Handle);
             set => SDL.SetTrayEntryEnabled(Handle, value);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryChecked"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayEntryChecked"/>
         /// <remarks>Only meaningful for entries created with <see cref="TrayEntryFlags.Checkbox"/>.</remarks>
         public bool Checked {
             get => SDL.GetTrayEntryChecked(Handle);

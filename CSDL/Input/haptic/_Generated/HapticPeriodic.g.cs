@@ -18,8 +18,8 @@ namespace CSDL.Input {
     /// <item><description><see cref="CSDL.Input.Macros.HapticSine">HapticSine</see></description></item>
     /// <item><description><see cref="CSDL.Input.Macros.HapticSquare">HapticSquare</see></description></item>
     /// <item><description><see cref="CSDL.Input.Macros.HapticTriangle">HapticTriangle</see></description></item>
-    /// <item><description><see cref="CSDL.Input.Macros.HapticSawtoothUp">HapticSawtoothUp</see></description></item>
-    /// <item><description><see cref="CSDL.Input.Macros.HapticSawtoothDown">HapticSawtoothDown</see></description></item>
+    /// <item><description><see cref="CSDL.Input.Macros.HapticSawtoothup">HapticSawtoothup</see></description></item>
+    /// <item><description><see cref="CSDL.Input.Macros.HapticSawtoothdown">HapticSawtoothdown</see></description></item>
     /// </list>
     /// <para>A periodic effect consists in a wave-shaped effect that repeats itself over time. The type determines the shape of the wave and the parameters determine the dimensions of the wave.</para>
     /// <para>Phase is given by hundredth of a degree meaning that giving the phase a value of 9000 will displace it 25% of its period. Here are sample values:</para>
@@ -63,8 +63,8 @@ namespace CSDL.Input {
     /// <seealso><see cref="CSDL.Input.Macros.HapticSine">HapticSine</see></seealso>
     /// <seealso><see cref="CSDL.Input.Macros.HapticSquare">HapticSquare</see></seealso>
     /// <seealso><see cref="CSDL.Input.Macros.HapticTriangle">HapticTriangle</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticSawtoothUp">HapticSawtoothUp</see></seealso>
-    /// <seealso><see cref="CSDL.Input.Macros.HapticSawtoothDown">HapticSawtoothDown</see></seealso>
+    /// <seealso><see cref="CSDL.Input.Macros.HapticSawtoothup">HapticSawtoothup</see></seealso>
+    /// <seealso><see cref="CSDL.Input.Macros.HapticSawtoothdown">HapticSawtoothdown</see></seealso>
     /// <seealso><see cref="CSDL.Input.HapticEffect">HapticEffect</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct HapticPeriodic {

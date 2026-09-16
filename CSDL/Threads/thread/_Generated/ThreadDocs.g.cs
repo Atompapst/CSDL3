@@ -24,9 +24,9 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>This is a convenience function, equivalent to calling <see cref="CSDL.Threads.Thread(ThreadProperties)">Thread(ThreadProperties)</see> with the following properties set:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Threads.Thread.EntryFunction">EntryFunction</see>: <c>fn</c></description></item>
-        /// <item><description><see cref="CSDL.Threads.ThreadProperties.Name">Name</see>: <c>name</c></description></item>
-        /// <item><description><see cref="CSDL.Threads.ThreadProperties.UserData">UserData</see>: <c>data</c></description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateEntryFunctionPointer">ThreadCreateEntryFunctionPointer</see>: <c>fn</c></description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateNameString">ThreadCreateNameString</see>: <c>name</c></description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateUserdataPointer">ThreadCreateUserdataPointer</see>: <c>data</c></description></item>
         /// </list>
         /// <para>Note that this "function" is actually a macro that calls an internal function with two extra parameters not listed here; they are hidden through preprocessor macros and are needed to support various C runtimes at the point of the function call. Language bindings that aren't using the C headers will need to deal with this.</para>
         /// <para>Usually, apps should just call this function the same way on every platform and let the macros hide the details.</para>
@@ -50,16 +50,16 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>These are the supported properties:</para>
         /// <list type="bullet">
-        /// <item><description><see cref="CSDL.Threads.Thread.EntryFunction">EntryFunction</see>: an <see cref="CSDL.Threads.Thread.EntryFunction">EntryFunction</see> value that will be called at the start of the new thread's life. Required.</description></item>
-        /// <item><description><see cref="CSDL.Threads.ThreadProperties.Name">Name</see>: the name of the new thread, which might be available to debuggers. Optional, defaults to NULL.</description></item>
-        /// <item><description><see cref="CSDL.Threads.ThreadProperties.UserData">UserData</see>: an arbitrary app-defined pointer, which is passed to the entry function on the new thread, as its only parameter. Optional, defaults to NULL.</description></item>
-        /// <item><description><see cref="CSDL.Threads.ThreadProperties.StackSize">StackSize</see>: the size, in bytes, of the new thread's stack. Optional, defaults to 0 (system-defined default).</description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateEntryFunctionPointer">ThreadCreateEntryFunctionPointer</see>: an <see cref="CSDL.Threads.Thread.EntryFunction">EntryFunction</see> value that will be called at the start of the new thread's life. Required.</description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateNameString">ThreadCreateNameString</see>: the name of the new thread, which might be available to debuggers. Optional, defaults to NULL.</description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateUserdataPointer">ThreadCreateUserdataPointer</see>: an arbitrary app-defined pointer, which is passed to the entry function on the new thread, as its only parameter. Optional, defaults to NULL.</description></item>
+        /// <item><description><see cref="CSDL.Props.ThreadCreateStacksizeNumber">ThreadCreateStacksizeNumber</see>: the size, in bytes, of the new thread's stack. Optional, defaults to 0 (system-defined default).</description></item>
         /// </list>
-        /// <para>SDL makes an attempt to report <see cref="CSDL.Threads.ThreadProperties.Name">Name</see> to the system, so that debuggers can display it. Not all platforms support this.</para>
+        /// <para>SDL makes an attempt to report <see cref="CSDL.Props.ThreadCreateNameString">ThreadCreateNameString</see> to the system, so that debuggers can display it. Not all platforms support this.</para>
         /// <para>Thread naming is a little complicated: Most systems have very small limits for the string length (Haiku has 32 bytes, Linux currently has 16, Visual C++ 6.0 has _nine_!), and possibly other arbitrary rules. You'll have to see what happens with your system's debugger. The name should be UTF-8 (but using the naming limits of C identifiers is a better bet). There are no requirements for thread naming conventions, so long as the string is null-terminated UTF-8, but these guidelines are helpful in choosing a name:</para>
         /// <para>https://stackoverflow.com/questions/149932/naming-conventions-for-threads</para>
         /// <para>If a system imposes requirements, SDL will try to munge the string for it (truncate, etc), but the original string contents will be available from <see cref="CSDL.Threads.Thread.Name">Name</see>.</para>
-        /// <para>The size (in bytes) of the new stack can be specified with <see cref="CSDL.Threads.ThreadProperties.StackSize">StackSize</see>. Zero means "use the system default" which might be wildly different between platforms. x86 Linux generally defaults to eight megabytes, an embedded device might be a few kilobytes instead. You generally need to specify a stack that is a multiple of the system's page size (in many cases, this is 4 kilobytes, but check your system documentation).</para>
+        /// <para>The size (in bytes) of the new stack can be specified with <see cref="CSDL.Props.ThreadCreateStacksizeNumber">ThreadCreateStacksizeNumber</see>. Zero means "use the system default" which might be wildly different between platforms. x86 Linux generally defaults to eight megabytes, an embedded device might be a few kilobytes instead. You generally need to specify a stack that is a multiple of the system's page size (in many cases, this is 4 kilobytes, but check your system documentation).</para>
         /// <para>Note that this "function" is actually a macro that calls an internal function with two extra parameters not listed here; they are hidden through preprocessor macros and are needed to support various C runtimes at the point of the function call. Language bindings that aren't using the C headers will need to deal with this.</para>
         /// <para>The actual symbol in SDL is <see cref="CSDL.Threads.Thread.#ctor">#ctor</see>, so there is no symbol clash, but trying to load an SDL shared library and look for "<see cref="CreateThreadWithProperties"/>" will fail.</para>
         /// <para>Usually, apps should just call this function the same way on every platform and let the macros hide the details.</para>
@@ -143,12 +143,12 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <param name="thread">the thread to query.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Threads.Thread.State">State</see>) Returns the current state of a thread, or <see cref="CSDL.Threads.ThreadState.Unknown">Unknown</see> if the thread isn't valid.</para>
+        /// <para>(<see cref="CSDL.Threads.ThreadState">ThreadState</see>) Returns the current state of a thread, or <see cref="CSDL.Threads.ThreadState.Unknown">Unknown</see> if the thread isn't valid.</para>
         /// </returns>
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetThreadState">SDL_GetThreadState</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Threads.Thread.State">State</see></seealso>
+        /// <seealso><see cref="CSDL.Threads.ThreadState">ThreadState</see></seealso>
         public static extern void GetThreadState();
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>Note that some platforms will not let you alter the priority (or at least, promote the thread to a higher priority) at all, and some require you to be an administrator account. Be prepared for this to fail.</para>
         /// </remarks>
-        /// <param name="priority">the <see cref="CSDL.Threads.Thread.Priority">Priority</see> to set.</param>
+        /// <param name="priority">the <see cref="CSDL.Threads.ThreadPriority">ThreadPriority</see> to set.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>

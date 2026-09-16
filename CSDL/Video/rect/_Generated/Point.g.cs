@@ -15,7 +15,7 @@ namespace CSDL.Video {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_Point">SDL_Point</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.Video.Rect.TryGetEnclosingPoints">TryGetEnclosingPoints</see></seealso>
-    /// <seealso><c>SDL_PointInRect</c></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.Contains">Contains</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct Point {
         public int X;

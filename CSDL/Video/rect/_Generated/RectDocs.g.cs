@@ -96,7 +96,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRectIntersection">SDL_GetRectIntersection</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Video.Rect.Intersects">Intersects</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Rect.HasIntersection">HasIntersection</see></seealso>
         public static extern void GetRectIntersection();
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Determine whether two floating point rectangles are equal, within some given epsilon.</para>
         /// </summary>
         /// <remarks>
-        /// <para>Rectangles are considered equal if both are not NULL and each of their x, y, width and height are within <c>epsilon</c> of each other. If you don't know what value to use for <c>epsilon</c>, you should call the <c>SDL_RectsEqualFloat</c> function instead.</para>
+        /// <para>Rectangles are considered equal if both are not NULL and each of their x, y, width and height are within <c>epsilon</c> of each other. If you don't know what value to use for <c>epsilon</c>, you should call the <see cref="CSDL.Video.FRect.EqualsApprox">EqualsApprox</see> function instead.</para>
         /// <para>Note that this is a forced-inline function in a header, and not a public API function available in the SDL library (which is to say, the code is embedded in the calling program and the linker and dynamic loader will not be able to find this function inside SDL itself).</para>
         /// </remarks>
         /// <param name="a">the first rectangle to test.</param>
@@ -278,7 +278,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RectsEqualEpsilon">SDL_RectsEqualEpsilon</seealso></SDLWiki>
-        /// <seealso><c>SDL_RectsEqualFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.FRect.EqualsApprox">EqualsApprox</see></seealso>
         public static extern void RectsEqualEpsilon();
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RectsEqualFloat">SDL_RectsEqualFloat</seealso></SDLWiki>
-        /// <seealso><c>SDL_RectsEqualEpsilon</c></seealso>
+        /// <seealso><see cref="CSDL.Video.FRect.EqualsEpsilon">EqualsEpsilon</see></seealso>
         public static extern void RectsEqualFloat();
 
         /// <summary>

@@ -24,6 +24,7 @@ namespace CSDL.Input {
         public static nint FocusedWindow => SDL.GetKeyboardFocus();
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Keyboard.SetModState"/>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Keyboard.GetModState"/>
         public static Keymod Modifiers {
             get => SDL.GetModState();
             set => SDL.SetModState(value);

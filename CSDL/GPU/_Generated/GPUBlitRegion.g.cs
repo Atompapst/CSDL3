@@ -15,6 +15,7 @@ namespace CSDL.GPU {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUBlitRegion">SDL_GPUBlitRegion</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.GPU.GPUCommandBuffer.BlitGPUTexture">BlitGPUTexture</see></seealso>
+    /// <seealso><see cref="CSDL.GPU.GPUTexture">GPUTexture</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct GPUBlitRegion {
         /// <summary>

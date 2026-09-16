@@ -466,6 +466,37 @@ namespace CSDL.Internal.Docs {
         public static extern void GetJoysticks();
 
         /// <summary>
+        /// <para>Get the current state of a joystick sensor.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>The number of values and interpretation of the data is sensor dependent. See the remarks in <see cref="CSDL.Input.SensorType">SensorType</see> for details for each type of sensor.</para>
+        /// </remarks>
+        /// <param name="joystick">the joystick to query.</param>
+        /// <param name="type">the type of sensor to query.</param>
+        /// <param name="data">a pointer filled with the current sensor state.</param>
+        /// <param name="num_values">the number of values to write to data.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetJoystickSensorData">SDL_GetJoystickSensorData</seealso></SDLWiki>
+        public static extern void GetJoystickSensorData();
+
+        /// <summary>
+        /// <para>Get the data rate (number of events per second) of a joystick sensor.</para>
+        /// </summary>
+        /// <param name="joystick">the joystick to query.</param>
+        /// <param name="type">the type of sensor to query.</param>
+        /// <returns>
+        /// <para>(float) Returns the data rate, or 0.0f if the data rate is not available.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetJoystickSensorDataRate">SDL_GetJoystickSensorDataRate</seealso></SDLWiki>
+        public static extern void GetJoystickSensorDataRate();
+
+        /// <summary>
         /// <para>Get the serial number of an opened joystick, if available.</para>
         /// </summary>
         /// <remarks>
@@ -666,6 +697,39 @@ namespace CSDL.Internal.Docs {
         public static extern void JoystickEventsEnabled();
 
         /// <summary>
+        /// <para>Return whether a joystick has a particular sensor.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Sensors are disabled by default and <c>SDL_SetJoystickSensorEnabled</c> is used to enable them.</para>
+        /// </remarks>
+        /// <param name="joystick">the joystick to query.</param>
+        /// <param name="type">the type of sensor to query.</param>
+        /// <returns>
+        /// <para>(bool) Returns true if the sensor exists, false otherwise.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_JoystickHasSensor">SDL_JoystickHasSensor</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetJoystickSensorData</c></seealso>
+        /// <seealso><c>SDL_GetJoystickSensorDataRate</c></seealso>
+        /// <seealso><c>SDL_SetJoystickSensorEnabled</c></seealso>
+        public static extern void JoystickHasSensor();
+
+        /// <summary>
+        /// <para>Query whether sensor data reporting is enabled for a joystick.</para>
+        /// </summary>
+        /// <param name="joystick">the joystick to query.</param>
+        /// <param name="type">the type of sensor to query.</param>
+        /// <returns>
+        /// <para>(bool) Returns true if the sensor is enabled, false otherwise.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_JoystickSensorEnabled">SDL_JoystickSensorEnabled</seealso></SDLWiki>
+        /// <seealso><c>SDL_SetJoystickSensorEnabled</c></seealso>
+        public static extern void JoystickSensorEnabled();
+
+        /// <summary>
         /// <para>Locking for atomic access to the joystick API.</para>
         /// </summary>
         /// <remarks>
@@ -816,6 +880,25 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetJoystickPlayerIndex">SDL_SetJoystickPlayerIndex</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Input.JoystickDevice.GetPlayerIndex">GetPlayerIndex</see></seealso>
         public static extern void SetJoystickPlayerIndex();
+
+        /// <summary>
+        /// <para>Set whether data reporting for a joystick sensor is enabled.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Sensors are disabled by default and this function is used to enable them.</para>
+        /// </remarks>
+        /// <param name="joystick">the joystick to update.</param>
+        /// <param name="type">the type of sensor to enable/disable.</param>
+        /// <param name="enabled">whether data reporting should be enabled.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetJoystickSensorEnabled">SDL_SetJoystickSensorEnabled</seealso></SDLWiki>
+        /// <seealso><c>SDL_JoystickHasSensor</c></seealso>
+        /// <seealso><c>SDL_JoystickSensorEnabled</c></seealso>
+        public static extern void SetJoystickSensorEnabled();
 
         /// <summary>
         /// <para>Set the state of an axis on an opened virtual joystick.</para>

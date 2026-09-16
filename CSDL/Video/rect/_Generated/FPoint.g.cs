@@ -15,7 +15,7 @@ namespace CSDL.Video {
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_FPoint">SDL_FPoint</seealso></SDLWiki>
     /// <seealso><see cref="CSDL.Video.FRect.TryGetEnclosingPoints">TryGetEnclosingPoints</see></seealso>
-    /// <seealso><c>SDL_PointInRectFloat</c></seealso>
+    /// <seealso><see cref="CSDL.Video.FRect.Contains">Contains</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct FPoint {
         public float X;

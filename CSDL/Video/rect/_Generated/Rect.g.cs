@@ -14,12 +14,12 @@ namespace CSDL.Video {
     /// </summary>
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_Rect">SDL_Rect</seealso></SDLWiki>
-    /// <seealso><c>SDL_RectEmpty</c></seealso>
-    /// <seealso><c>SDL_RectsEqual</c></seealso>
-    /// <seealso><see cref="CSDL.Video.Rect.Intersects">Intersects</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.IsEmpty">IsEmpty</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.Equals">Equals</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.HasIntersection">HasIntersection</see></seealso>
     /// <seealso><see cref="CSDL.Video.Rect.GetRectIntersection">GetRectIntersection</see></seealso>
-    /// <seealso><see cref="CSDL.Video.Rect.GetIntersection">GetIntersection</see></seealso>
-    /// <seealso><see cref="CSDL.Video.Rect.Union">Union</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.GetRectAndLineIntersection">GetRectAndLineIntersection</see></seealso>
+    /// <seealso><see cref="CSDL.Video.Rect.TryUnion">TryUnion</see></seealso>
     /// <seealso><see cref="CSDL.Video.Rect.TryGetEnclosingPoints">TryGetEnclosingPoints</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct Rect {

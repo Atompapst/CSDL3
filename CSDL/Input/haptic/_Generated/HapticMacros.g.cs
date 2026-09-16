@@ -37,7 +37,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_CONSTANT">SDL_HAPTIC_CONSTANT</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticCondition">HapticCondition</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticCondition">HapticCondition</see></seealso>
         public const uint HapticConstant = (1u<<0);
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_DAMPER">SDL_HAPTIC_DAMPER</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticCondition">HapticCondition</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticCondition">HapticCondition</see></seealso>
         public const uint HapticDamper = (1u<<8);
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_FRICTION">SDL_HAPTIC_FRICTION</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticCondition">HapticCondition</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticCondition">HapticCondition</see></seealso>
         public const uint HapticFriction = (1u<<10);
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_INERTIA">SDL_HAPTIC_INERTIA</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticCondition">HapticCondition</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticCondition">HapticCondition</see></seealso>
         public const uint HapticInertia = (1u<<9);
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_LEFTRIGHT">SDL_HAPTIC_LEFTRIGHT</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticLeftRight">HapticLeftRight</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticLeftRight">HapticLeftRight</see></seealso>
         public const uint HapticLeftright = (1u<<11);
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_RAMP">SDL_HAPTIC_RAMP</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticRamp">HapticRamp</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticRamp">HapticRamp</see></seealso>
         public const uint HapticRamp = (1u<<6);
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_SAWTOOTHDOWN">SDL_HAPTIC_SAWTOOTHDOWN</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticPeriodic">HapticPeriodic</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticPeriodic">HapticPeriodic</see></seealso>
         public const uint HapticSawtoothdown = (1u<<5);
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_SAWTOOTHUP">SDL_HAPTIC_SAWTOOTHUP</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticPeriodic">HapticPeriodic</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticPeriodic">HapticPeriodic</see></seealso>
         public const uint HapticSawtoothup = (1u<<4);
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_SINE">SDL_HAPTIC_SINE</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticPeriodic">HapticPeriodic</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticPeriodic">HapticPeriodic</see></seealso>
         public const uint HapticSine = (1u<<1);
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_SPRING">SDL_HAPTIC_SPRING</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticCondition">HapticCondition</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticCondition">HapticCondition</see></seealso>
         public const uint HapticSpring = (1u<<7);
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_SQUARE">SDL_HAPTIC_SQUARE</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticPeriodic">HapticPeriodic</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticPeriodic">HapticPeriodic</see></seealso>
         public const uint HapticSquare = (1u<<2);
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace CSDL.Input {
         /// </remarks>
         /// <since>This macro is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HAPTIC_TRIANGLE">SDL_HAPTIC_TRIANGLE</seealso></SDLWiki>
-        /// <seealso><see cref="CSDL.Input.Macros.HapticPeriodic">HapticPeriodic</see></seealso>
+        /// <seealso><see cref="CSDL.Input.HapticPeriodic">HapticPeriodic</see></seealso>
         public const uint HapticTriangle = (1u<<3);
 
     }

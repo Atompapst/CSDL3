@@ -9,11 +9,7 @@ namespace CSDL.Video {
 
         #region CSDL_IMPL SDL_PointInRectFloat : SDL_rect#SDL_PointInRectFloat
 
-        /// <summary>
-        /// <c>true</c> if <paramref name="point"/> lies within this rect (matches
-        /// SDL_PointInRectFloat's closed semantics: the right/bottom edge is included).
-        /// </summary>
-        /// <seealso><c>SDL_PointInRectFloat</c></seealso>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.PointInRectFloat"/>
         public bool Contains(FPoint point) {
             return point.X >= X && point.X <= X + W && point.Y >= Y && point.Y <= Y + H;
         }
@@ -22,23 +18,15 @@ namespace CSDL.Video {
 
         #region CSDL_IMPL SDL_RectEmptyFloat : SDL_rect#SDL_RectEmptyFloat
 
-        /// <summary>
-        /// <c>true</c> if this rect has no area, i.e. width or height is negative. Unlike
-        /// <see cref="Rect.IsEmpty"/>, a zero-sized float rect is NOT considered empty
-        /// (matches SDL_RectEmptyFloat).
-        /// </summary>
-        /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.RectEmptyFloat"/>
+        /// <remarks>Unlike <see cref="Rect.IsEmpty"/>, a zero-sized float rect is NOT considered empty.</remarks>
         public bool IsEmpty => W < 0f || H < 0f;
 
         #endregion
 
         #region CSDL_IMPL SDL_RectsEqualEpsilon : SDL_rect#SDL_RectsEqualEpsilon
 
-        /// <summary>
-        /// Compares this rect to <paramref name="other"/> allowing each field to differ by up to
-        /// <paramref name="epsilon"/>, to absorb floating point precision drift.
-        /// </summary>
-        /// <seealso><c>SDL_RectsEqualEpsilon</c></seealso>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.RectsEqualEpsilon"/>
         public bool EqualsEpsilon(FRect other, float epsilon) {
             return MathF.Abs(X - other.X) <= epsilon &&
                    MathF.Abs(Y - other.Y) <= epsilon &&
@@ -50,11 +38,7 @@ namespace CSDL.Video {
 
         #region CSDL_IMPL SDL_RectsEqualFloat : SDL_rect#SDL_RectsEqualFloat, SDL_RectsEqualEpsilon
 
-        /// <summary>
-        /// Compares this rect to <paramref name="other"/> within <see cref="CSDL.Macros.FltEpsilon"/>,
-        /// SDL's default tolerance for floating point rect comparisons.
-        /// </summary>
-        /// <seealso><c>SDL_RectsEqualFloat</c></seealso>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Rect.RectsEqualFloat"/>
         public bool EqualsApprox(FRect other) {
             return EqualsEpsilon(other, CSDL.Macros.FltEpsilon);
         }

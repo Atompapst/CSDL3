@@ -514,7 +514,7 @@ namespace CSDL.Internal.Docs {
         /// <para>This uses setpriority() if possible, and RealtimeKit if available.</para>
         /// </remarks>
         /// <param name="threadID">the Unix thread ID to change priority of.</param>
-        /// <param name="sdlPriority">the new <see cref="CSDL.Threads.Thread.Priority">Priority</see> value.</param>
+        /// <param name="sdlPriority">the new <see cref="CSDL.Threads.ThreadPriority">ThreadPriority</see> value.</param>
         /// <param name="schedPolicy">the new scheduling policy (SCHED_FIFO, SCHED_RR, SCHED_OTHER, etc...).</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
@@ -530,12 +530,12 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The callback may modify the message, and should return true if the message should continue to be processed, or false to prevent further processing.</para>
         /// </remarks>
-        /// <param name="callback">the <c>SDL_WindowsMessageHook</c> function to call.</param>
+        /// <param name="callback">the <see cref="CSDL.WindowsMessageHook">WindowsMessageHook</see> function to call.</param>
         /// <param name="userdata">a pointer to pass to every iteration of <c>callback</c>.</param>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetWindowsMessageHook">SDL_SetWindowsMessageHook</seealso></SDLWiki>
-        /// <seealso><c>SDL_WindowsMessageHook</c></seealso>
+        /// <seealso><see cref="CSDL.WindowsMessageHook">WindowsMessageHook</see></seealso>
         /// <seealso><see cref="CSDL.Hints.WindowsEnableMessageloop">WindowsEnableMessageloop</see></seealso>
         public static extern void SetWindowsMessageHook();
 
@@ -545,7 +545,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The callback may modify the event, and should return true if the event should continue to be processed, or false to prevent further processing.</para>
         /// </remarks>
-        /// <param name="callback">the <c>SDL_X11EventHook</c> function to call.</param>
+        /// <param name="callback">the <see cref="CSDL.X11EventHook">X11EventHook</see> function to call.</param>
         /// <param name="userdata">a pointer to pass to every iteration of <c>callback</c>.</param>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>

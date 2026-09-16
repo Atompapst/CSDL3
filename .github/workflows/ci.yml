@@ -98,7 +98,7 @@ jobs:
 
             if [ ! -d "$repository/.git" ]; then
               mkdir -p "$SDL_SOURCE_ROOT"
-              git clone "git@github.com:libsdl-org/$source.git" "$repository"
+              git clone "https://github.com/libsdl-org/$source.git" "$repository"
             else
               git -C "$repository" pull --ff-only
             fi

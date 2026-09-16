@@ -123,6 +123,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>The textures must have been created with <c>SDL_GPU_TEXTUREUSAGE_SAMPLER</c>.</para>
+        /// <para>The textures being bound must have a matching type declared in the shader (2D, 3D, etc.). Multisample textures are not allowed.</para>
         /// <para>Be sure your shader is set up according to the requirements documented in <see cref="CSDL.GPU.GPUComputePipeline(GPUDevice,GPUComputePipelineCreateInfo)">GPUComputePipeline(GPUDevice,GPUComputePipelineCreateInfo)</see>.</para>
         /// </remarks>
         /// <param name="compute_pass">a compute pass handle.</param>
@@ -155,6 +156,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>These textures must have been created with <c>SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_READ</c>.</para>
+        /// <para>The textures being bound must have a matching type declared in the shader (2D, 3D, 2DMS, etc.)</para>
         /// <para>Be sure your shader is set up according to the requirements documented in <see cref="CSDL.GPU.GPUComputePipeline(GPUDevice,GPUComputePipelineCreateInfo)">GPUComputePipeline(GPUDevice,GPUComputePipelineCreateInfo)</see>.</para>
         /// </remarks>
         /// <param name="compute_pass">a compute pass handle.</param>
@@ -171,6 +173,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>The textures must have been created with <c>SDL_GPU_TEXTUREUSAGE_SAMPLER</c>.</para>
+        /// <para>The textures being bound must have a matching type declared in the shader (2D, 3D, etc.). Multisample textures are not allowed.</para>
         /// <para>Be sure your shader is set up according to the requirements documented in <see cref="CSDL.GPU.GPUShader(GPUDevice,GPUShaderCreateInfo)">GPUShader(GPUDevice,GPUShaderCreateInfo)</see>.</para>
         /// </remarks>
         /// <param name="render_pass">a render pass handle.</param>
@@ -203,6 +206,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>These textures must have been created with <c>SDL_GPU_TEXTUREUSAGE_GRAPHICS_STORAGE_READ</c>.</para>
+        /// <para>The textures being bound must have a matching type declared in the shader (2D, 3D, 2DMS, etc.)</para>
         /// <para>Be sure your shader is set up according to the requirements documented in <see cref="CSDL.GPU.GPUShader(GPUDevice,GPUShaderCreateInfo)">GPUShader(GPUDevice,GPUShaderCreateInfo)</see>.</para>
         /// </remarks>
         /// <param name="render_pass">a render pass handle.</param>
@@ -252,6 +256,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>The textures must have been created with <c>SDL_GPU_TEXTUREUSAGE_SAMPLER</c>.</para>
+        /// <para>The textures being bound must have a matching type declared in the shader (2D, 3D, etc.). Multisample textures are not allowed.</para>
         /// <para>Be sure your shader is set up according to the requirements documented in <see cref="CSDL.GPU.GPUShader(GPUDevice,GPUShaderCreateInfo)">GPUShader(GPUDevice,GPUShaderCreateInfo)</see>.</para>
         /// </remarks>
         /// <param name="render_pass">a render pass handle.</param>
@@ -284,6 +289,7 @@ namespace CSDL.Internal.Docs {
         /// </summary>
         /// <remarks>
         /// <para>These textures must have been created with <c>SDL_GPU_TEXTUREUSAGE_GRAPHICS_STORAGE_READ</c>.</para>
+        /// <para>The textures being bound must have a matching type declared in the shader (2D, 3D, 2DMS, etc.)</para>
         /// <para>Be sure your shader is set up according to the requirements documented in <see cref="CSDL.GPU.GPUShader(GPUDevice,GPUShaderCreateInfo)">GPUShader(GPUDevice,GPUShaderCreateInfo)</see>.</para>
         /// </remarks>
         /// <param name="render_pass">a render pass handle.</param>
@@ -401,7 +407,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>The contents of this buffer are undefined until data is written to the buffer.</para>
         /// <para>Note that certain combinations of usage flags are invalid. For example, a buffer cannot have both the VERTEX and INDEX flags.</para>
-        /// <para>If you use a STORAGE flag, the data in the buffer must respect std140 layout conventions. In practical terms this means you must ensure that vec3 and vec4 fields are 16-byte aligned.</para>
+        /// <para>If you use a STORAGE flag, the data in the buffer must respect std430 layout conventions. In practical terms this means you must ensure that vec3 and vec4 fields are 16-byte aligned.</para>
         /// <para>For better understanding of underlying concepts and memory management with SDL GPU API, you may refer <a href="https://moonside.games/posts/sdl-gpu-concepts-cycling/">this blog post</a> .</para>
         /// <para>There are optional properties that can be provided through <c>props</c>. These are the supported properties:</para>
         /// <list type="bullet">
@@ -435,7 +441,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>Shader resource bindings must be authored to follow a particular convention depending on the shader format. See below for details.</para>
         /// <para>---</para>
-        /// <para>**SPIR-V**</para>
+        /// <para>**SPIR-V (GLSL)**</para>
         /// <para>For compute shaders, use:</para>
         /// <list type="bullet">
         /// <item><description>Set 0 for samplers, read-only storage textures, and read-only storage buffers</description></item>
@@ -452,23 +458,23 @@ namespace CSDL.Internal.Docs {
         /// <para>If a compute shader binds 2 of each resource type, its binding layout should look like this:</para>
         /// <code language="glsl">
         /// // Any samplers come first in Set 0, in SDL bind slot order
-        /// layout(set = 0, binding = 0) sampler2d samplerBoundToSlot0;
-        /// layout(set = 0, binding = 1) sampler2d samplerBoundToSlot1;
+        /// layout(set = 0, binding = 0) uniform sampler2D samplerBoundToSlot0;
+        /// layout(set = 0, binding = 1) uniform sampler2D samplerBoundToSlot1;
         /// // Any read-only storage textures come next in Set 0, in SDL bind slot order
-        /// layout(set = 0, binding = 2) image2d storageTextureBoundToSlot0;
-        /// layout(set = 0, binding = 3) image2d storageTextureBoundToSlot1;
+        /// layout(set = 0, binding = 2) uniform image2D storageTextureBoundToSlot0;
+        /// layout(set = 0, binding = 3) uniform image2D storageTextureBoundToSlot1;
         /// // Any read-only storage buffers come next in Set 0, in SDL bind slot order
-        /// layout(set = 0, binding = 4) buffer storageBufferBoundToSlot0;
-        /// layout(set = 0, binding = 5) buffer storageBufferBoundToSlot1;
+        /// layout(set = 0, binding = 4) buffer storageBufferBoundToSlot0 { ... };
+        /// layout(set = 0, binding = 5) buffer storageBufferBoundToSlot1 { ... };
         /// // Any read-write storage textures come first in Set 1, in SDL bind slot order
-        /// layout(set = 1, binding = 0) image2d rwStorageTextureBoundToSlot0;
-        /// layout(set = 1, binding = 1) image2d rwStorageTextureBoundToSlot1;
+        /// layout(set = 1, binding = 0) uniform image2D rwStorageTextureBoundToSlot0;
+        /// layout(set = 1, binding = 1) uniform image2D rwStorageTextureBoundToSlot1;
         /// // Any read-write storage buffers come next in Set 1, in SDL bind slot order
-        /// layout(set = 1, binding = 2) buffer rwStorageBufferBoundToSlot0;
-        /// layout(set = 1, binding = 3) buffer rwStorageBufferBoundToSlot1;
+        /// layout(set = 1, binding = 2) buffer rwStorageBufferBoundToSlot0 { ... };
+        /// layout(set = 1, binding = 3) buffer rwStorageBufferBoundToSlot1 { ... };
         /// // Any uniform buffers are in Set 2, in SDL slot order
-        /// layout(set = 2, binding = 0) uniform UniformDataBoundToSlot0 {};
-        /// layout(set = 2, binding = 1) uniform UniformDataBoundToSlot1 {};
+        /// layout(set = 2, binding = 0) uniform UniformDataBoundToSlot0 { ... };
+        /// layout(set = 2, binding = 1) uniform UniformDataBoundToSlot1 { ... };
         /// </code>
         /// <para>---</para>
         /// <para>**DXBC / DXIL (HLSL)**</para>
@@ -688,7 +694,7 @@ namespace CSDL.Internal.Docs {
         /// <remarks>
         /// <para>Shader resource bindings must be authored to follow a particular convention depending on the shader format. See below for details.</para>
         /// <para>---</para>
-        /// <para>**SPIR-V**</para>
+        /// <para>**SPIR-V (GLSL)**</para>
         /// <para>For vertex shaders, use: - Set 0 for samplers, storage textures, and storage buffers - Set 1 for uniform data</para>
         /// <para>For fragment shaders, use: - Set 2 for samplers, storage textures, and storage buffers - Set 3 for uniform data</para>
         /// <para>The first resource in a given set must have a <c>binding</c> of 0. Additional resources must appear at consecutive bindings (1, 2, etc), leaving no gaps in the set.</para>
@@ -699,17 +705,17 @@ namespace CSDL.Internal.Docs {
         /// <para>If a vertex shader binds 2 samplers, 2 storage textures, 2 storage buffers, and 2 uniform buffers, its binding layout should look like this:</para>
         /// <code language="glsl">
         /// // Any samplers come first in the set, in SDL bind slot order
-        /// layout(set = 0, binding = 0) sampler2d samplerBoundToSlot0;
-        /// layout(set = 0, binding = 1) sampler2d samplerBoundToSlot1;
+        /// layout(set = 0, binding = 0) uniform sampler2D samplerBoundToSlot0;
+        /// layout(set = 0, binding = 1) uniform sampler2D samplerBoundToSlot1;
         /// // Any storage textures come next in the set, in SDL bind slot order
-        /// layout(set = 0, binding = 2) texture2d storageTextureBoundToSlot0;
-        /// layout(set = 0, binding = 3) texture2d storageTextureBoundToSlot1;
+        /// layout(set = 0, binding = 2) uniform image2D storageTextureBoundToSlot0;
+        /// layout(set = 0, binding = 3) uniform image2D storageTextureBoundToSlot1;
         /// // Any storage buffers come next in the set, in SDL bind slot order
-        /// layout(set = 0, binding = 4) buffer storageBufferBoundToSlot0;
-        /// layout(set = 0, binding = 5) buffer storageBufferBoundToSlot1;
+        /// layout(set = 0, binding = 4) buffer storageBufferBoundToSlot0 { ... };
+        /// layout(set = 0, binding = 5) buffer storageBufferBoundToSlot1 { ... };
         /// // Any uniform buffers are in their own set, in SDL slot order
-        /// layout(set = 1, binding = 0) uniform UniformDataBoundToSlot0 {};
-        /// layout(set = 1, binding = 1) uniform UniformDataBoundToSlot1 {};
+        /// layout(set = 1, binding = 0) uniform UniformDataBoundToSlot0 { ... };
+        /// layout(set = 1, binding = 1) uniform UniformDataBoundToSlot1 { ... };
         /// </code>
         /// <para>---</para>
         /// <para>**DXBC / DXIL (HLSL)**</para>
@@ -735,8 +741,8 @@ namespace CSDL.Internal.Docs {
         /// ByteAddressBuffer StorageBufferBoundToSlot0 : register( t4, space2 );
         /// ByteAddressBuffer StorageBufferBoundToSlot1 : register( t5, space2 );
         /// // Any uniform buffers are in the `b` register set *and* in their own space, in SDL slot order
-        /// cbuffer UniformDataBoundToSlot0 : register( b0, space4 ) { ... };
-        /// cbuffer UniformDataBoundToSlot1 : register( b1, space4 ) { ... };
+        /// cbuffer UniformDataBoundToSlot0 : register( b0, space3 ) { ... };
+        /// cbuffer UniformDataBoundToSlot1 : register( b1, space3 ) { ... };
         /// </code>
         /// <para>---</para>
         /// <para>**MSL / Metallib (Metal Shading Language)**</para>

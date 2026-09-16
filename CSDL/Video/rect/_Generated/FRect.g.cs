@@ -17,15 +17,15 @@ namespace CSDL.Video {
     /// </remarks>
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_FRect">SDL_FRect</seealso></SDLWiki>
-    /// <seealso><c>SDL_RectEmptyFloat</c></seealso>
-    /// <seealso><c>SDL_RectsEqualFloat</c></seealso>
-    /// <seealso><c>SDL_RectsEqualEpsilon</c></seealso>
+    /// <seealso><see cref="CSDL.Video.FRect.IsEmpty">IsEmpty</see></seealso>
+    /// <seealso><see cref="CSDL.Video.FRect.EqualsApprox">EqualsApprox</see></seealso>
+    /// <seealso><see cref="CSDL.Video.FRect.EqualsEpsilon">EqualsEpsilon</see></seealso>
     /// <seealso><see cref="CSDL.Video.FRect.Intersects">Intersects</see></seealso>
     /// <seealso><see cref="CSDL.Video.FRect.GetRectIntersection">GetRectIntersection</see></seealso>
-    /// <seealso><see cref="CSDL.Video.LineUtils.GetIntersection">GetIntersection</see></seealso>
+    /// <seealso><see cref="CSDL.Video.FRect.GetRectAndLineIntersection">GetRectAndLineIntersection</see></seealso>
     /// <seealso><see cref="CSDL.Video.FRect.Union">Union</see></seealso>
     /// <seealso><see cref="CSDL.Video.FRect.TryGetEnclosingPoints">TryGetEnclosingPoints</see></seealso>
-    /// <seealso><c>SDL_PointInRectFloat</c></seealso>
+    /// <seealso><see cref="CSDL.Video.FRect.Contains">Contains</see></seealso>
     [StructLayout(LayoutKind.Sequential)]
     public partial struct FRect {
         public float X;

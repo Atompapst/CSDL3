@@ -16,7 +16,7 @@ namespace CSDL.GPU {
     /// <para>A buffer must have at least one usage flag.</para>
     /// <para>If a buffer has multiple read usages, this may lead to a performance penalty due to more conservative memory barriers, but it also may not necessarily affect the performance.</para>
     /// <para>Unlike textures, READ | WRITE can be used for simultaneous read-write usage. The same data synchronization concerns as textures apply.</para>
-    /// <para>If you use a STORAGE flag, the data in the buffer must respect std140 layout conventions. In practical terms this means you must ensure that vec3 and vec4 fields are 16-byte aligned.</para>
+    /// <para>If you use a STORAGE flag, the data in the buffer must respect std430 layout conventions. In practical terms this means you must ensure that vec3 and vec4 fields are 16-byte aligned.</para>
     /// </remarks>
     /// <since>This datatype is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GPUBufferUsageFlags">SDL_GPUBufferUsageFlags</seealso></SDLWiki>

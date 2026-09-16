@@ -51,7 +51,7 @@ namespace CSDL.Internal.Docs {
         /// <seealso><see cref="CSDL.Video.Window(string,int,int,WindowFlags)">Window(string,int,int,WindowFlags)</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window(WindowCreateProperties)">Window(WindowCreateProperties)</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.DisposeResource">DisposeResource</see></seealso>
-        /// <seealso><see cref="CSDL.Video.Window.GetParent">GetParent</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.Parent">Parent</see></seealso>
         public static extern void CreatePopupWindow();
 
         /// <summary>
@@ -187,6 +187,7 @@ namespace CSDL.Internal.Docs {
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.WindowCreateWIN32HwndPointer">WindowCreateWIN32HwndPointer</see>: the HWND associated with the window, if you want to wrap an existing window.</description></item>
         /// <item><description><see cref="CSDL.Props.WindowCreateWIN32PixelFormatHwndPointer">WindowCreateWIN32PixelFormatHwndPointer</see>: optional, another window to share pixel format with, useful for OpenGL windows</description></item>
+        /// <item><description><c>SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER</c>: the window style (WS_EX_*) flags to use instead of the defaults.</description></item>
         /// </list>
         /// <para>These are additional supported properties with X11:</para>
         /// <list type="bullet">
@@ -299,7 +300,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="proc">the name of an EGL function.</param>
         /// <returns>
-        /// <para>(<c>SDL_FunctionPointer</c>) Returns a pointer to the named EGL function. The returned pointer should be cast to the appropriate function signature.</para>
+        /// <para>(<see cref="CSDL.FunctionPointer">FunctionPointer</see>) Returns a pointer to the named EGL function. The returned pointer should be cast to the appropriate function signature.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -888,7 +889,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetWindowMouseGrab">SDL_GetWindowMouseGrab</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetWindowMouseRect</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.MouseRect">MouseRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.MouseRect">MouseRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.MouseGrab">MouseGrab</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.KeyboardGrab">KeyboardGrab</see></seealso>
@@ -1024,6 +1025,12 @@ namespace CSDL.Internal.Docs {
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.WindowAndroidWindowPointer">WindowAndroidWindowPointer</see>: the ANativeWindow associated with the window</description></item>
         /// <item><description><see cref="CSDL.Props.WindowAndroidSurfacePointer">WindowAndroidSurfacePointer</see>: the EGLSurface associated with the window</description></item>
+        /// </list>
+        /// <para>On OpenHarmony/HarmonyOS:</para>
+        /// <list type="bullet">
+        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_XCOMPONENT_POINTER</c>: the OH_NativeXComponent associated with the window</description></item>
+        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_WINDOW_POINTER</c>: the OHNativeWindow associated with the window</description></item>
+        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER</c>: the EGLSurface associated with the window</description></item>
         /// </list>
         /// <para>On iOS:</para>
         /// <list type="bullet">
@@ -1180,7 +1187,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="window">the window to query.</param>
         /// <returns>
-        /// <para>(<see cref="CSDL.Video.Surface">Surface</see> *) Returns the surface associated with the window, or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// <para>(<see cref="CSDL.Video.SurfaceData">SurfaceData</see> *) Returns the surface associated with the window, or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -1321,7 +1328,7 @@ namespace CSDL.Internal.Docs {
         /// </remarks>
         /// <param name="proc">the name of an OpenGL function.</param>
         /// <returns>
-        /// <para>(<c>SDL_FunctionPointer</c>) Returns a pointer to the named OpenGL function. The returned pointer should be cast to the appropriate function signature.</para>
+        /// <para>(<see cref="CSDL.FunctionPointer">FunctionPointer</see>) Returns a pointer to the named OpenGL function. The returned pointer should be cast to the appropriate function signature.</para>
         /// </returns>
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
@@ -1596,7 +1603,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetWindowAspectRatio">SDL_SetWindowAspectRatio</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetWindowAspectRatio</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.GetWindowAspectRatio">GetWindowAspectRatio</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.SyncWindow">SyncWindow</see></seealso>
         public static extern void SetWindowAspectRatio();
 
@@ -1723,7 +1730,7 @@ namespace CSDL.Internal.Docs {
         /// <para>If this function is passed a surface with alternate representations added using <see cref="CSDL.Video.Surface.AddAlternateImage">AddAlternateImage</see>, the surface will be interpreted as the content to be used for 100% display scale, and the alternate representations will be used for high DPI situations. For example, if the original surface is 32x32, then on a 2x macOS display or 200% display scale on Windows, a 64x64 version of the image will be used, if available. If a matching version of the image isn't available, the closest larger size image will be downscaled to the appropriate size and be used instead, if available. Otherwise, the closest smaller image will be upscaled and be used instead.</para>
         /// </remarks>
         /// <param name="window">the window to change.</param>
-        /// <param name="icon">an <see cref="CSDL.Video.Surface">Surface</see> structure containing the icon for the window.</param>
+        /// <param name="icon">an <see cref="CSDL.Video.SurfaceData">SurfaceData</see> structure containing the icon for the window.</param>
         /// <returns>
         /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
         /// </returns>
@@ -1818,7 +1825,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetWindowMouseGrab">SDL_SetWindowMouseGrab</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetWindowMouseRect</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.MouseRect">MouseRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.MouseRect">MouseRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.KeyboardGrab">KeyboardGrab</see></seealso>
         public static extern void SetWindowMouseGrab();
@@ -1837,7 +1844,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetWindowMouseRect">SDL_SetWindowMouseRect</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetWindowMouseRect</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.MouseRect">MouseRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.GetWindowMouseGrab">GetWindowMouseGrab</see></seealso>
         /// <seealso><see cref="CSDL.Video.Window.MouseGrab">MouseGrab</see></seealso>
         public static extern void SetWindowMouseRect();
@@ -2003,7 +2010,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetWindowSurfaceVSync">SDL_SetWindowSurfaceVSync</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetWindowSurfaceVSync</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Window.SurfaceVSync">SurfaceVSync</see></seealso>
         public static extern void SetWindowSurfaceVSync();
 
         /// <summary>
