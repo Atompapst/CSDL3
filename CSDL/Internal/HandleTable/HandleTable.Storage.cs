@@ -85,12 +85,7 @@ namespace CSDL {
             _rentsSinceSweep++;
 
             if (FreeSlots.Count > 0) return FreeSlots.Pop();
-
-            // About to grow. Before doing that, take back the slots nobody can ever hand back: a
-            // resource SDL destroyed together with its owner is stale to every reader, but no Dispose
-            // will ever retire it, because Release refuses a dead owner chain. Sweeping here rather
-            // than when the owner dies keeps teardown O(1) - disposing a renderer with ten thousand
-            // textures must not walk the table - and this is the one moment the scan pays for itself.
+            
             if (ShouldSweepLocked()) {
                 SweepOrphansLocked();
                 if (FreeSlots.Count > 0) return FreeSlots.Pop();
@@ -118,14 +113,6 @@ namespace CSDL {
         /// <summary>
         ///     Whether a scan for orphaned slots is worth its cost right now.
         /// </summary>
-        /// <remarks>
-        ///     Two guards, both needed. Nothing can be orphaned unless something was retired since the
-        ///     last sweep, which is what keeps a table that is only ever filled - every start-up - from
-        ///     scanning itself on every single slot. And the scan is O(<see cref="_slotsUsed" />), so it
-        ///     is held back until about that many slots have been rented since the last one, which makes
-        ///     it amortised constant per rent rather than quadratic for a caller that creates resources
-        ///     faster than it destroys them.
-        /// </remarks>
         private static bool ShouldSweepLocked() {
             return _retiresSinceSweep > 0 && _rentsSinceSweep >= (_slotsUsed / 2) + 8;
         }
@@ -134,15 +121,8 @@ namespace CSDL {
         ///     Retires every slot whose owner is gone, and reports how many that was.
         /// </summary>
         /// <remarks>
-        ///     Nothing native happens here. A slot is only orphaned because SDL already destroyed the
-        ///     resource along with its owner, so there is nothing left to free - this is purely the
-        ///     bookkeeping catching up with what SDL did. Handles pointing at these slots were already
-        ///     stale through their owner chain and stay stale through the generation bump.
-        ///     <para>
-        ///         A slot marked <see cref="Slot.SurvivesOwner" /> is left alone. It is the one kind that
-        ///         still owes SDL a call, so sweeping it would quietly turn a reported leak into an
-        ///         unreported one.
-        ///     </para>
+        ///     A slot marked <see cref="Slot.SurvivesOwner" /> is left alone.
+        ///     It is the one kind that still owes SDL a call.
         /// </remarks>
         private static int SweepOrphansLocked() {
             _retiresSinceSweep = 0;
@@ -180,15 +160,6 @@ namespace CSDL {
         }
 
         /// <summary>A type's index into <see cref="TypeNames" />, resolved once per type by the JIT.</summary>
-        /// <remarks>
-        ///     Never read this while holding <see cref="Gate" />. The first read of a given
-        ///     <typeparamref name="T" /> runs this initialiser, which takes <see cref="Gate" /> itself -
-        ///     so a thread that gets here without the lock ends up holding the type-initialiser lock
-        ///     while it waits for <see cref="Gate" />, and a thread that already holds
-        ///     <see cref="Gate" /> would then wait for that type-initialiser lock. Both deadlock, once,
-        ///     permanently, and only on the very first handle of a type. Every caller therefore resolves
-        ///     the tag before it takes the lock and passes it in.
-        /// </remarks>
         private static class TypeTag<T> where T : unmanaged {
             internal static readonly ushort Value = RegisterTypeName(typeof(T).Name);
         }
@@ -219,11 +190,6 @@ namespace CSDL {
             ///     calls <c>SDL_DestroyRendererWithoutFreeing</c>, which tears the renderer down but
             ///     deliberately leaves the allocation alone so that an app may destroy window and
             ///     renderer in either order. Only <c>SDL_DestroyRenderer</c> frees it.
-            ///     <para>
-            ///         This says nothing about resolving: a slot whose owner is gone is stale to every
-            ///         reader either way, because the resource behind it is unusable. It only says that
-            ///         one release still has to reach SDL.
-            ///     </para>
             /// </remarks>
             public bool SurvivesOwner;
 

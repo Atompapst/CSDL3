@@ -123,13 +123,6 @@ namespace CSDL {
         /// <summary>
         ///     The slot this id names, if it is still this handle's to give back.
         /// </summary>
-        /// <remarks>
-        ///     Usually the same question as <see cref="TryGetLiveSlotLocked" />: a resource whose owner
-        ///     SDL destroyed was destroyed with it, so there is nothing left to hand over and nothing
-        ///     left to retire. The exception is a slot marked <c>SurvivesOwner</c> - a renderer, whose
-        ///     allocation <c>SDL_DestroyWindow</c> deliberately leaves behind. Its own generation still
-        ///     matching is enough, and giving it back here is also what finally retires the slot.
-        /// </remarks>
         private static bool TryGetReleasableSlotLocked(long id, out int slot) {
             if (!TryLookup(_segments, id, out _, out long owner)) {
                 slot = 0;

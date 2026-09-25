@@ -19,15 +19,9 @@ namespace CSDL {
         internal uint Generation => (uint)(Value >> 32);
 
         /// <summary>
-        ///     Whether this is the zero handle - one that was never given a resource, as opposed
+        ///     Whether this is the zero handle. One that was never given a resource, as opposed
         ///     to one whose resource is gone.
         /// </summary>
-        /// <remarks>
-        ///     The two are different things and the distinction matters wherever SDL takes an
-        ///     optional handle: <see langword="default" /> means "no argument", while a handle whose
-        ///     resource was destroyed still has to throw rather than quietly become "no argument".
-        ///     A zero handle is never live, but not every invalid handle is zero.
-        /// </remarks>
         internal bool IsDefault => Value == 0;
 
         /// <summary>A non-owning view: same identity, ignored by release.</summary>

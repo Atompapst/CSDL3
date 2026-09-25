@@ -136,16 +136,15 @@ namespace CSDL {
         ///     pointer on every call, not just the last: a shared slot stands for a resource the native
         ///     library refcounts itself and re-refs on every hand-out (see the remarks on
         ///     <see cref="AcquireShared{T}" />), so every acquisition owes its own release call, and the
-        ///     local slot is retired - purely as bookkeeping - only once nothing here still points at it.
+        ///     local slot is retired. Purely as bookkeeping.
         /// </summary>
         /// <returns>
-        ///     <see langword="false" /> only for a stale or default handle - never for a remaining
+        ///     <see langword="false" /> only for a stale or default handle. Never for a remaining
         ///     reference, since every reference here has native cleanup of its own to do.
         /// </returns>
         internal static bool ReleaseShared<T>(HandleId<T> id, out NativePtr<T> pointer) where T : unmanaged {
             pointer = default;
 
-            // A view never took a reference, so it has nothing to give back.
             if (id.IsDefault || id.IsView) return false;
 
             lock (Gate) {
@@ -164,12 +163,6 @@ namespace CSDL {
         /// <summary>
         ///     Moves a live resource under a different owner, for the few SDL calls that re-home one.
         /// </summary>
-        /// <remarks>
-        ///     The owner lives in the slot, not in the handle, which is what makes this work at all: the
-        ///     generation does not move, so every copy of the handle keeps resolving and every one of
-        ///     them follows the resource to its new owner. A wrapper that kept the owner in a field
-        ///     could only ever have re-homed the one copy that was asked.
-        /// </remarks>
         /// <returns><see langword="false" /> if the handle is no longer live, in which case nothing moved.</returns>
         internal static bool Reparent<T>(HandleId<T> id, OwnerId owner) where T : unmanaged {
             if (id.IsDefault) return false;
