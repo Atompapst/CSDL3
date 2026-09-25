@@ -12,7 +12,7 @@ namespace CSDL.Extensions {
         internal unsafe delegate void PointerArrayAction(nint* ptr, uint count);
 
         internal static void WithPointers<T>(this T[]? items, PointerArrayAction action)
-            where T : class, INativeHandle {
+            where T : INativeHandle {
             if (items == null || items.Length == 0) {
                 return;
             }
@@ -51,7 +51,7 @@ namespace CSDL.Extensions {
         }
 
         private static void FillPointers<T>(T[] items, Span<nint> destination)
-            where T : class, INativeHandle {
+            where T : INativeHandle {
             for (int i = 0; i < items.Length; i++) {
                 destination[i] = items[i].NativePointer;
             }
