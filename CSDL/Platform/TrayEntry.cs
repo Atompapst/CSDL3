@@ -5,16 +5,17 @@ using System;
 using CSDL.Extensions;
 
 namespace CSDL {
-    public class TrayEntry : NativeHandle<Opaque.SdlTrayEntry> {
-
-        public TrayEntry(NativePtr<Opaque.SdlTrayEntry> handle, bool ownsHandle) : base(handle, ownsHandle) {
-            Handle = handle;
+    public readonly partial struct TrayEntry {
+        /// <summary>
+        ///     The <see cref="CallbackRegistry"/> key for this entry's click callback.
+        /// </summary>
+        private static string CallbackIdFor(nint entry) {
+            return $"TrayEntry:{entry}";
         }
 
-        private string CallbackId => $"TrayEntry:{Handle.Ptr}";
+        private string CallbackId => CallbackIdFor(Handle.Ptr);
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryLabel"/>
-        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayEntryLabel"/>
         /// <remarks>Reading this gives back <see langword="null"/> for a separator.</remarks>
         public string? Label {
             get => SDL.GetTrayEntryLabel(Handle).ToUtf8String();
@@ -22,14 +23,12 @@ namespace CSDL {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryEnabled"/>
-        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayEntryEnabled"/>
         public bool Enabled {
             get => SDL.GetTrayEntryEnabled(Handle);
             set => SDL.SetTrayEntryEnabled(Handle, value);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryChecked"/>
-        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayEntryChecked"/>
         /// <remarks>Only meaningful for entries created with <see cref="TrayEntryFlags.Checkbox"/>.</remarks>
         public bool Checked {
             get => SDL.GetTrayEntryChecked(Handle);
@@ -70,9 +69,7 @@ namespace CSDL {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryCallback"/>
         /// <remarks>
-        ///     Replaces any callback previously set on this entry. The delegate and
-        ///     <paramref name="userdata"/> are rooted for as long as they are installed, so neither
-        ///     needs to be kept alive by the caller.
+        ///     Replaces any callback previously set on this entry.
         /// </remarks>
         public void SetCallback(TrayCallback callback, object? userdata = null) {
             ArgumentNullException.ThrowIfNull(callback);
@@ -96,12 +93,5 @@ namespace CSDL {
             SDL.SetTrayEntryCallback(Handle, null!, IntPtr.Zero);
             CallbackRegistry.Unregister<TrayCallback, SDL_TrayCallbackNative>(CallbackId);
         }
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.RemoveTrayEntry"/>
-        protected override void DisposeResource() {
-            CallbackRegistry.Unregister<TrayCallback, SDL_TrayCallbackNative>(CallbackId);
-            SDL.RemoveTrayEntry(Handle);
-        }
-
     }
 }

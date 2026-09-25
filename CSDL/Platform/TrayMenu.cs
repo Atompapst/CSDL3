@@ -13,15 +13,46 @@ namespace CSDL {
     ///     "destroy menu" call - a menu lives and dies with the <see cref="Tray"/> (or the
     ///     <see cref="TrayEntry"/>) it was created from.
     /// </remarks>
-    public sealed class TrayMenu : INativeHandle {
+    public sealed class TrayMenu {
         internal TrayMenu(NativePtr<Opaque.SdlTrayMenu> handle) {
             Handle = handle;
         }
 
-        internal NativePtr<Opaque.SdlTrayMenu> Handle { get; }
+        private NativePtr<Opaque.SdlTrayMenu> Handle { get; }
+
+        /// <summary>
+        ///     The tray this menu ultimately hangs off, walking up through any submenus.
+        /// </summary>
+        /// <remarks>
+        ///     SDL destroys a tray's whole menu tree with the tray, so every entry created here records
+        ///     that tray as its owner. Then a destroyed tray makes every entry handle below it
+        ///     stale at once, without this class having kept a list of them.
+        /// </remarks>
+        private OwnerId OwningTray {
+            get {
+                NativePtr<Opaque.SdlTrayMenu> menu = Handle;
+                for (int depth = 0; !menu.IsNull && depth < 16; depth++) {
+                    NativePtr<Opaque.SdlTray> tray = SDL.GetTrayMenuParentTray(menu);
+                    if (!tray.IsNull) {
+                        return new Tray(tray, HandleKind.Borrowed).AsOwner;
+                    }
+
+                    NativePtr<Opaque.SdlTrayEntry> entry = SDL.GetTrayMenuParentEntry(menu);
+                    if (entry.IsNull) break;
+                    menu = SDL.GetTrayEntryParent(entry);
+                }
+
+                return OwnerId.None;
+            }
+        }
 
         /// <summary>The raw native pointer backing this menu.</summary>
         public nint NativePointer => Handle.Ptr;
+
+        /// <summary>
+        ///     Whether SDL handed out a menu at all.
+        /// </summary>
+        public bool IsValid => !Handle.IsNull;
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.InsertTrayEntryAt"/>
         /// <param name="pos">the index to insert at; -1 appends to the end.</param>
@@ -30,7 +61,7 @@ namespace CSDL {
         public TrayEntry Insert(int pos, string? label, TrayEntryFlags flags = TrayEntryFlags.Button) {
             NativePtr<Opaque.SdlTrayEntry> entry = SDL.InsertTrayEntryAt(Handle, pos, label, flags)
                 .ThrowIfInvalid(nameof(SDL.InsertTrayEntryAt));
-            return new TrayEntry(entry, true);
+            return new TrayEntry(entry, HandleKind.Owned, OwningTray);
         }
 
         /// <summary>Appends an entry to the end of this menu.</summary>
@@ -79,28 +110,19 @@ namespace CSDL {
                 NativePtr<nint> list = entries;
                 TrayEntry[] result = new TrayEntry[count];
                 for (int i = 0; i < count; i++) {
-                    result[i] = new TrayEntry(list[i], false);
+                    result[i] = new TrayEntry(list[i], HandleKind.Borrowed, OwningTray);
                 }
                 return result;
             }
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayMenuParentTray"/>
-        /// <value>The tray this menu belongs to, or <see langword="null"/> if it is a submenu.</value>
-        public Tray? ParentTray {
-            get {
-                NativePtr<Opaque.SdlTray> tray = SDL.GetTrayMenuParentTray(Handle);
-                return tray.IsNull ? null : new Tray(tray, false);
-            }
-        }
+        /// <value>The tray this menu belongs to, or <see langword="default"/> if it is a submenu.</value>
+        public Tray ParentTray => new Tray(SDL.GetTrayMenuParentTray(Handle), HandleKind.Borrowed);
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.GetTrayMenuParentEntry"/>
-        /// <value>The entry this submenu hangs off, or <see langword="null"/> if it is a tray's top-level menu.</value>
-        public TrayEntry? ParentEntry {
-            get {
-                NativePtr<Opaque.SdlTrayEntry> entry = SDL.GetTrayMenuParentEntry(Handle);
-                return entry.IsNull ? null : new TrayEntry(entry, false);
-            }
-        }
+        /// <value>The entry this submenu hangs off, or <see langword="default"/> if it is a tray's top-level menu.</value>
+        public TrayEntry ParentEntry =>
+            new TrayEntry(SDL.GetTrayMenuParentEntry(Handle), HandleKind.Borrowed, OwningTray);
     }
 }

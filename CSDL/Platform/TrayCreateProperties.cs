@@ -3,9 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using CSDL.Properties;
 using CSDL.Video;
+using CSDL.Extensions;
 
 namespace CSDL {
     /// <summary>
@@ -13,11 +13,7 @@ namespace CSDL {
     /// </summary>
     /// <seealso cref="CSDL.Internal.Docs.Tray.CreateTrayWithProperties">SDL_CreateTrayWithProperties</seealso>
     public sealed class TrayCreateProperties : PropertyGroup {
-        // The generated Props.TrayCreateDoubleclickCallbackPointer carries the macro's *name* instead of
-        // its value, so the real property string is spelled out here.
-        private const string DoubleclickCallbackPointer = "SDL.tray.create.doubleclick_callback";
         private readonly HashSet<string> _clickCallbackIds = new HashSet<string>();
-        private readonly List<GCHandle> _userdataHandles = new List<GCHandle>();
 
         /// <inheritdoc cref="CSDL.Props.TrayCreateIconPointer"/>
         public PointerProperty Icon => PropPointer(Props.TrayCreateIconPointer);
@@ -34,16 +30,13 @@ namespace CSDL {
         /// <inheritdoc cref="CSDL.Props.TrayCreateRightclickCallbackPointer"/>
         public PointerProperty RightClickCallback => PropPointer(Props.TrayCreateRightclickCallbackPointer);
 
-        /// <inheritdoc cref="CSDL.Props.TrayCreateDoubleclickCallbackPointer"/>
-        public PointerProperty DoubleClickCallback => PropPointer(DoubleclickCallbackPointer);
-
         /// <inheritdoc cref="CSDL.Props.TrayCreateUserdataPointer"/>
         public PointerProperty Userdata => PropPointer(Props.TrayCreateUserdataPointer);
 
         /// <summary>Sets the tray icon from a surface.</summary>
         /// <remarks>SDL only reads the surface while the tray is being created.</remarks>
         public void SetIcon(Surface icon) {
-            ArgumentNullException.ThrowIfNull(icon);
+            icon.ThrowIfInvalid(nameof(icon));
             Icon.Set(icon.NativePointer);
         }
 
@@ -62,11 +55,6 @@ namespace CSDL {
             SetClickCallback(Props.TrayCreateRightclickCallbackPointer, nameof(RightClickCallback), callback, userdata);
         }
 
-        /// <inheritdoc cref="SetClickCallback"/>
-        public void SetDoubleClickCallback(TrayClickCallback callback, object? userdata = null) {
-            SetClickCallback(DoubleclickCallbackPointer, nameof(DoubleClickCallback), callback, userdata);
-        }
-
         /// <summary>
         ///     Installs a managed click callback: the delegate is rooted for as long as it stays
         ///     registered and its native function pointer is written to the matching property.
@@ -78,61 +66,49 @@ namespace CSDL {
         private void SetClickCallback(string property, string slot, TrayClickCallback callback, object? userdata) {
             ArgumentNullException.ThrowIfNull(callback);
 
-            string id = $"TrayClick:{Handle}:{slot}";
+            string id = Tray.ClickCallbackIdFor(Handle, slot);
             CallbackRegistry.Unregister<TrayClickCallback, SDL_TrayClickCallbackNative>(id);
 
             SDL_TrayClickCallbackNative native = TrayClickCallbackWrapper.Create(callback);
-            (IntPtr functionPtr, IntPtr _) cb = CallbackRegistry.Register(id, callback, native);
+            (IntPtr functionPtr, IntPtr userdataPtr) cb = CallbackRegistry.Register(id, callback, native, userdata);
 
             PropPointer(property).Set(cb.functionPtr);
             _clickCallbackIds.Add(id);
-            SetSharedUserdata(userdata);
+            SetSharedUserdata(cb.userdataPtr, id);
         }
 
-        // SDL stores one userdata pointer on the tray, not one per callback. Keep every pointer
-        // issued to SDL alive until the tray is destroyed so an in-flight native callback is safe.
-        private void SetSharedUserdata(object? userdata) {
-            GCHandle handle = default;
-            nint userdataPtr = nint.Zero;
-            if (userdata is not null) {
-                handle = GCHandle.Alloc(userdata);
-                userdataPtr = GCHandle.ToIntPtr(handle);
-            }
-
+        // SDL stores one userdata pointer on the tray, not one per callback, so installing a
+        // callback with userdata changes what all four of them receive.
+        private void SetSharedUserdata(nint userdataPtr, string id) {
             if (!Userdata.Set(userdataPtr)) {
-                if (handle.IsAllocated) {
-                    handle.Free();
-                }
+                CallbackRegistry.Unregister<TrayClickCallback, SDL_TrayClickCallbackNative>(id);
+                _clickCallbackIds.Remove(id);
                 throw new SDLException(nameof(Userdata));
             }
+        }
 
-            if (handle.IsAllocated) {
-                _userdataHandles.Add(handle);
+        /// <summary>
+        ///     Moves this group's click registrations onto <paramref name="tray"/>.
+        /// </summary>
+        internal void RehomeClickCallbacks(nint tray) {
+            foreach (string slot in Tray.ClickSlots) {
+                string oldId = Tray.ClickCallbackIdFor(Handle, slot);
+                if (!_clickCallbackIds.Remove(oldId)) continue;
+                CallbackRegistry.UpdateId<TrayClickCallback, SDL_TrayClickCallbackNative>(
+                    oldId, Tray.ClickCallbackIdFor(tray, slot));
             }
         }
 
-        internal (string[] CallbackIds, GCHandle[] UserdataHandles) TakeClickCallbackRegistrations() {
-            string[] callbackIds = new string[_clickCallbackIds.Count];
-            _clickCallbackIds.CopyTo(callbackIds);
-            _clickCallbackIds.Clear();
-
-            GCHandle[] userdataHandles = _userdataHandles.ToArray();
-            _userdataHandles.Clear();
-            return (callbackIds, userdataHandles);
-        }
-
+        /// <remarks>
+        ///     Only registrations that never made it onto a tray are dropped here - once
+        ///     <see cref="RehomeClickCallbacks"/> has moved one across, the tray owns it and frees it
+        ///     with itself.
+        /// </remarks>
         public override void Dispose() {
             foreach (string id in _clickCallbackIds) {
                 CallbackRegistry.Unregister<TrayClickCallback, SDL_TrayClickCallbackNative>(id);
             }
             _clickCallbackIds.Clear();
-
-            foreach (GCHandle handle in _userdataHandles) {
-                if (handle.IsAllocated) {
-                    handle.Free();
-                }
-            }
-            _userdataHandles.Clear();
             base.Dispose();
         }
     }

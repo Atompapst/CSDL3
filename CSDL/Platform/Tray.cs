@@ -7,11 +7,29 @@ using CSDL.Extensions;
 using CSDL.Video;
 
 namespace CSDL {
-    public class Tray : NativeHandle<Opaque.SdlTray> {
-        private string[]? _clickCallbackIds;
-        private GCHandle[]? _clickUserdataHandles;
+    public readonly partial struct Tray {
+        /// <summary>
+        ///     Click slots SDL knows, and the only keys under which a tray's click callbacks
+        ///     are ever registered. Knowing them statically is what lets <see cref="Dispose"/> clean up
+        ///     without the tray having carried an array of ids around.
+        /// </summary>
+        internal static readonly string[] ClickSlots = {
+            nameof(TrayCreateProperties.LeftClickCallback),
+            nameof(TrayCreateProperties.MiddleClickCallback),
+            nameof(TrayCreateProperties.RightClickCallback),
+        };
 
-        static Tray() {
+        /// <summary>
+        ///     The <see cref="CallbackRegistry"/> key for one click slot, keyed by whatever currently
+        ///     identifies the tray - the property group before it exists, its native pointer after.
+        /// </summary>
+        internal static string ClickCallbackIdFor(object owner, string slot) {
+            return $"TrayClick:{owner}:{slot}";
+        }
+
+        // No static constructor: on a struct the type initialiser also runs for an instance member on
+        // `default`, so `default(Tray).IsValid` would spin up the video subsystem just to answer false.
+        private static void EnsureVideo() {
             Init.InitSubSystem(InitFlags.Video);
         }
 
@@ -21,26 +39,39 @@ namespace CSDL {
         ///     can be disposed right after. Both arguments are optional - a tray without an icon shows
         ///     whatever the platform picks as a default.
         /// </remarks>
-        public Tray(Surface? icon = null, string? tooltip = null) {
-            NativePtr<SurfaceData> iconPtr = icon?.Handle ?? NativePtr<SurfaceData>.Zero;
-            Handle = SDL.CreateTray(iconPtr, tooltip).ThrowIfInvalid(nameof(SDL.CreateTray));
+        public Tray(Surface icon = default, string? tooltip = null)
+            : this(Create(icon, tooltip), HandleKind.Owned) { }
+
+        private static NativePtr<Opaque.SdlTray> Create(Surface icon, string? tooltip) {
+            EnsureVideo(); //TODO when surface becomes struct done => icon.IsDefault
+            NativePtr<SurfaceData> iconPtr = icon is { IsValid: true } ? icon.Handle : NativePtr<SurfaceData>.Zero;
+            return SDL.CreateTray(iconPtr, tooltip).ThrowIfInvalid(nameof(SDL.CreateTray));
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.CreateTrayWithProperties"/>
-        public Tray(TrayCreateProperties properties) {
-            ArgumentNullException.ThrowIfNull(properties);
-            Handle = SDL.CreateTrayWithProperties(properties.Handle).ThrowIfInvalid(nameof(SDL.CreateTrayWithProperties));
-            (_clickCallbackIds, _clickUserdataHandles) = properties.TakeClickCallbackRegistrations();
-        }
+        public Tray(TrayCreateProperties properties)
+            : this(CreateWithProperties(properties), HandleKind.Owned) { }
 
-        public Tray(NativePtr<Opaque.SdlTray> handle, bool ownsHandle) : base(handle, ownsHandle) {
-            Handle = handle;
+        /// <remarks>
+        ///     The click callbacks were registered against the property group, because their ids had to
+        ///     exist before the tray did. Now that it does, they are renamed onto its pointer - which is
+        ///     what lets every copy of this value, and <see cref="Dispose"/> after the handle is
+        ///     retired, find the same registrations without a field holding them.
+        /// </remarks>
+        private static NativePtr<Opaque.SdlTray> CreateWithProperties(TrayCreateProperties properties) {
+            EnsureVideo();
+            ArgumentNullException.ThrowIfNull(properties);
+            NativePtr<Opaque.SdlTray> tray = SDL.CreateTrayWithProperties(properties.Handle)
+                .ThrowIfInvalid(nameof(SDL.CreateTrayWithProperties));
+            properties.RehomeClickCallbacks(tray.Ptr);
+            return tray;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayIcon"/>
-        /// <param name="icon">the new icon, or <see langword="null"/> to remove the current one.</param>
-        public void SetIcon(Surface? icon) {
-            NativePtr<SurfaceData> iconPtr = icon?.Handle ?? NativePtr<SurfaceData>.Zero;
+        /// <param name="icon">the new icon, or <see langword="default"/> to remove the current one.</param>
+        public void SetIcon(Surface icon) {
+            //TODO when surface becomes struct done => icon.IsDefault
+            NativePtr<SurfaceData> iconPtr = icon is { IsValid: true } ? icon.Handle : NativePtr<SurfaceData>.Zero;
             SDL.SetTrayIcon(Handle, iconPtr);
         }
 
@@ -82,30 +113,13 @@ namespace CSDL {
             SDL.UpdateTrays();
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Tray.DestroyTray"/>
-        protected override void DisposeResource() {
-            try {
-                SDL.DestroyTray(Handle);
-            } finally {
-                ReleaseClickCallbackRegistrations();
-            }
-        }
-
-        private void ReleaseClickCallbackRegistrations() {
-            if (_clickCallbackIds is not null) {
-                foreach (string id in _clickCallbackIds) {
-                    CallbackRegistry.Unregister<TrayClickCallback, SDL_TrayClickCallbackNative>(id);
-                }
-                _clickCallbackIds = null;
-            }
-
-            if (_clickUserdataHandles is not null) {
-                foreach (GCHandle handle in _clickUserdataHandles) {
-                    if (handle.IsAllocated) {
-                        handle.Free();
-                    }
-                }
-                _clickUserdataHandles = null;
+        /// <summary>
+        ///     Drops every click callback registered for this tray, freeing the userdata each one pinned.
+        /// </summary>
+        private static void ReleaseClickCallbacks(nint tray) {
+            foreach (string slot in ClickSlots) {
+                CallbackRegistry.Unregister<TrayClickCallback, SDL_TrayClickCallbackNative>(
+                    ClickCallbackIdFor(tray, slot));
             }
         }
 
