@@ -9,11 +9,11 @@ namespace CSDL.Audio {
         /// </summary>
         /// <param name="srcData">the audio clip to be converted.</param>
         /// <param name="dstSpec">the format details of the output audio.</param>
-        /// <returns>New Clip with the desired format, or <see langword="null"/> if <paramref name="srcData"/> has no data. Throws on failure</returns>
+        /// <returns>New Clip with the desired format, or <see langword="default"/> if <paramref name="srcData"/> has no data. Throws on failure</returns>
         /// <seealso cref="CSDL.Internal.Docs.Audio.ConvertAudioSamples">ConvertAudioSamples</seealso>
         /// <seealso cref="Convert(byte[], AudioSpec, AudioSpec)">Convert(byte[], AudioSpec, AudioSpec)</seealso>
-        public static AudioClip? Convert(this AudioClip srcData, AudioSpec dstSpec) {
-            if (srcData.Handle.IsNull) return null;
+        public static AudioClip Convert(this AudioClip srcData, AudioSpec dstSpec) {
+            if (srcData.IsDefault) return default;
 
             SDL.ConvertAudioSamples(srcData.Spec, srcData.Handle, (int)srcData.Length, dstSpec, out NativePtr<byte> dstData, out int dstLen).ThrowIfFalse();
             return new AudioClip(dstSpec, dstData, (uint)dstLen);

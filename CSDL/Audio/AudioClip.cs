@@ -14,34 +14,16 @@ namespace CSDL.Audio {
     /// <seealso cref="AudioSpec" />
     /// <seealso cref="AudioLoader" />
     /// <seealso cref="PlaybackDevice" />
-    public class AudioClip : NativeHandle<byte> {
-
-        internal AudioClip(AudioSpec spec, NativePtr<byte> data, uint length, bool ownsHandle = true) : base(data, ownsHandle) {
-            Spec = spec;
-            Handle = data;
-            Length = length;
-        }
+    public readonly partial struct AudioClip {
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AudioClip" /> from managed PCM audio data.
         /// </summary>
         /// <param name="spec">The audio format specification for the clip.</param>
         /// <param name="data">The PCM audio data for the clip.</param>
-        public AudioClip(AudioSpec spec, byte[] data) {
-            Spec = spec;
-            Handle = data.ToUnmanaged();
-            Length = (uint)data.Length;
-        }
+        public AudioClip(AudioSpec spec, byte[] data)
+            : this(spec, data.ToUnmanaged(), (uint)(data?.Length ?? 0)) { }
 
-        /// <summary>
-        ///     Gets the audio format specification of this clip.
-        /// </summary>
-        public AudioSpec Spec { get; }
-
-        /// <summary>
-        ///     Gets the size of the audio data in bytes.
-        /// </summary>
-        public uint Length { get; }
 
         /// <summary>
         /// Number of frames in the audio clip.
@@ -65,10 +47,6 @@ namespace CSDL.Audio {
         /// <returns>a copy of the clip's PCM audio data.</returns>
         public byte[] ToArray() {
             return Handle.ToManaged<byte>((int)Length);
-        }
-
-        protected override void DisposeResource() {
-            Memory.Free(Handle);
         }
 
         public override string ToString() {
