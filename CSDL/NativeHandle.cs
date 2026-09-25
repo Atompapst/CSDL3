@@ -4,9 +4,6 @@
 using System;
 using CSDL.Internal;
 namespace CSDL {
-    public interface INativeHandle {
-        nint NativePointer { get; }
-    }
     /// <summary>
     /// A high-stakes wrapper around a raw unmanaged resource pointer.
     /// </summary>
@@ -63,7 +60,7 @@ namespace CSDL {
         /// <summary>
         /// Checks if the handle is valid (not null)
         /// </summary>
-        protected bool IsValid => !_handle.IsNull;
+        public bool IsValid => !_handle.IsNull;
 
         /// <summary>
         /// Releases any unmanaged resources of the derived class.
