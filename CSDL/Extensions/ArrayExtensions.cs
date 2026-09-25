@@ -13,11 +13,15 @@ namespace CSDL.Extensions {
 
         internal static void WithPointers<T>(this T[]? items, PointerArrayAction action)
             where T : INativeHandle {
-            if (items == null || items.Length == 0) {
+            ((ReadOnlySpan<T>)items).WithPointers(action);
+        }
+
+        internal static void WithPointers<T>(this ReadOnlySpan<T> items, PointerArrayAction action)
+            where T : INativeHandle {
+            int count = items.Length;
+            if (count == 0) {
                 return;
             }
-
-            int count = items.Length;
 
             if (count <= StackLimit) {
                 Span<nint> raw = stackalloc nint[count];
@@ -50,7 +54,7 @@ namespace CSDL.Extensions {
             }
         }
 
-        private static void FillPointers<T>(T[] items, Span<nint> destination)
+        private static void FillPointers<T>(ReadOnlySpan<T> items, Span<nint> destination)
             where T : INativeHandle {
             for (int i = 0; i < items.Length; i++) {
                 destination[i] = items[i].NativePointer;
