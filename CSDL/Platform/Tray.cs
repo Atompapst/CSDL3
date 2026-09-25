@@ -17,6 +17,7 @@ namespace CSDL {
             nameof(TrayCreateProperties.LeftClickCallback),
             nameof(TrayCreateProperties.MiddleClickCallback),
             nameof(TrayCreateProperties.RightClickCallback),
+            //TODO uncomment after sdl 3.6.0 release nameof(TrayCreateProperties.DoubleClickCallback),
         };
 
         /// <summary>

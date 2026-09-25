@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using CSDL.Properties;
 using CSDL.Video;
 using CSDL.Extensions;
@@ -30,6 +31,11 @@ namespace CSDL {
         /// <inheritdoc cref="CSDL.Props.TrayCreateRightclickCallbackPointer"/>
         public PointerProperty RightClickCallback => PropPointer(Props.TrayCreateRightclickCallbackPointer);
 
+        // TODO: uncomment after sdl 3.6.0 release
+        // private const string DoubleclickCallbackPointer = "SDL.tray.create.doubleclick_callback";
+        // /// <inheritdoc cref="CSDL.Props.TrayCreateDoubleclickCallbackPointer"/>
+        // public PointerProperty DoubleClickCallback => PropPointer(DoubleclickCallbackPointer);
+
         /// <inheritdoc cref="CSDL.Props.TrayCreateUserdataPointer"/>
         public PointerProperty Userdata => PropPointer(Props.TrayCreateUserdataPointer);
 
@@ -54,6 +60,12 @@ namespace CSDL {
         public void SetRightClickCallback(TrayClickCallback callback, object? userdata = null) {
             SetClickCallback(Props.TrayCreateRightclickCallbackPointer, nameof(RightClickCallback), callback, userdata);
         }
+
+        // TODO: uncomment after sdl 3.6.0 release
+        /// <inheritdoc cref="SetClickCallback"/>
+        // public void SetDoubleClickCallback(TrayClickCallback callback, object? userdata = null) {
+        //     SetClickCallback(DoubleclickCallbackPointer, nameof(DoubleClickCallback), callback, userdata);
+        // }
 
         /// <summary>
         ///     Installs a managed click callback: the delegate is rooted for as long as it stays

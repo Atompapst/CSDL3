@@ -9,7 +9,12 @@ namespace CSDL {
         /// <summary>
         ///     The <see cref="CallbackRegistry"/> key for this entry's click callback.
         /// </summary>
-        private static string CallbackIdFor(nint entry) {
+        /// <remarks>
+        ///     Derived from the native pointer rather than stored in a field: every copy of this value
+        ///     has to mean the same registration, and <see cref="Dispose"/> needs the key after the
+        ///     handle has already been retired.
+        /// </remarks>
+        internal static string CallbackIdFor(nint entry) {
             return $"TrayEntry:{entry}";
         }
 
@@ -69,7 +74,9 @@ namespace CSDL {
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Tray.SetTrayEntryCallback"/>
         /// <remarks>
-        ///     Replaces any callback previously set on this entry.
+        ///     Replaces any callback previously set on this entry. The delegate and
+        ///     <paramref name="userdata"/> are rooted for as long as they are installed, so neither
+        ///     needs to be kept alive by the caller.
         /// </remarks>
         public void SetCallback(TrayCallback callback, object? userdata = null) {
             ArgumentNullException.ThrowIfNull(callback);
@@ -93,5 +100,7 @@ namespace CSDL {
             SDL.SetTrayEntryCallback(Handle, null!, IntPtr.Zero);
             CallbackRegistry.Unregister<TrayCallback, SDL_TrayCallbackNative>(CallbackId);
         }
+
+
     }
 }
