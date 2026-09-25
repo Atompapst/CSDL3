@@ -140,7 +140,7 @@ namespace CSDL.Audio {
         /// <exception cref="ArgumentException">The clips could not be mixed.</exception>
         /// <seealso cref="TryMix(AudioClip, AudioClip, out AudioClip, float)">TryMix(AudioClip, AudioClip, out AudioClip, float)</seealso>
         public static AudioClip Mix(AudioClip a, AudioClip b, float volume = 1.0f) {
-            if (!TryMix(a, b, out AudioClip? result, volume)) {
+            if (!TryMix(a, b, out AudioClip result, volume)) {
                 throw new ArgumentException("Could not mix clips.");
             }
 
@@ -152,14 +152,14 @@ namespace CSDL.Audio {
         /// </summary>
         /// <param name="a">The first audio clip.</param>
         /// <param name="b">The second audio clip.</param>
-        /// <param name="result">When this method returns <see langword="true"/>, contains a new clip with the mixed audio data; otherwise, <see langword="null"/>.</param>
+        /// <param name="result">When this method returns <see langword="true"/>, contains a new clip with the mixed audio data; otherwise the default clip, which is inert.</param>
         /// <param name="volume">The volume of the shorter clip, from 0.0 to 1.0.</param>
         /// <returns><see langword="true"/> if the clips were mixed successfully; otherwise, <see langword="false"/>.</returns>
         /// <seealso cref="Mix(AudioClip, AudioClip, float)">Mix(AudioClip, AudioClip, float)</seealso>
-        public static bool TryMix(AudioClip a, AudioClip b, [NotNullWhen(true)] out AudioClip? result, float volume = 1.0f) {
-            result = null;
+        public static bool TryMix(AudioClip a, AudioClip b, out AudioClip result, float volume = 1.0f) {
+            result = default;
 
-            if (a == null || b == null) {
+            if (!a.IsValid || !b.IsValid) {
                 return false;
             }
 
@@ -205,7 +205,7 @@ namespace CSDL.Audio {
             AudioClip source, int sourceFrameOffset,
             float volume = 1.0f) {
 
-            if (destination == null || source == null || destination.Spec.FrameSize <= 0) {
+            if (!destination.IsValid || !source.IsValid || destination.Spec.FrameSize <= 0) {
                 return false;
             }
 
@@ -232,7 +232,7 @@ namespace CSDL.Audio {
             int frameCount,
             float volume = 1.0f) {
 
-            if (destination == null || source == null) {
+            if (!destination.IsValid || !source.IsValid) {
                 return false;
             }
 
@@ -259,7 +259,7 @@ namespace CSDL.Audio {
             int length,
             float volume) {
 
-            if (destination == null || source == null) {
+            if (!destination.IsValid || !source.IsValid) {
                 return false;
             }
 
