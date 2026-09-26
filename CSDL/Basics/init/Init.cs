@@ -110,9 +110,11 @@ namespace CSDL {
                 } catch (Exception ex) {
                     callbackException = ex;
                 }
+                HandleTable.ReportLeaks();
                 SDL.Quit();
             }
             finally {
+                HandleTable.Reset();
                 _state.SetFalse();
             }
 
