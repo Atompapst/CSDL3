@@ -9,31 +9,21 @@ namespace CSDL.Mixer {
     /// A single playable slot within a <see cref="Mixer"/>: assign <see cref="Audio"/> to it, then
     /// play/pause/resume/stop and loop it independently of the mixer's other tracks.
     /// </summary>
-    public sealed class Track : NativeHandle<Opaque.SdlTrack> {
-        private readonly object _callbackLock = new object();
-        private CSDL.Audio.AudioStream? _inputStream;
-        private File.IOStream? _inputIO;
-        private string? _cookedCallbackId;
-        private string? _rawCallbackId;
-        private string? _stoppedCallbackId;
-
-        internal Track(NativePtr<Opaque.SdlTrack> handle, bool ownsHandle, Mixer? owner) : base(handle, ownsHandle) {
-            owner?.RegisterChild(Invalidation);
-        }
-
+    public readonly partial struct Track {
         /// <summary>
         /// The mixer that was passed to <see cref="Mixer.CreateTrack"/> to create this track. The
         /// returned wrapper is a borrowed handle - do not dispose it.
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetTrackMixer"/>
-        public Mixer? Mixer {
+        /// <returns>A borrowed view of the owning mixer, or <see langword="default"/> if there is none.</returns>
+        public Mixer Mixer {
             get {
                 NativePtr<Opaque.SdlMixer> mixer = SDL.GetTrackMixer(Handle);
                 if (mixer.IsNull) {
                     Error.LogError(nameof(SDL.GetTrackMixer));
-                    return null;
                 }
                 return new Mixer(mixer, false);
+                //TODO return new Mixer(mixer, HandleKind.Borrowed);
             }
         }
 
@@ -51,87 +41,79 @@ namespace CSDL.Mixer {
 
         /// <summary>
         /// The audio assigned through <see cref="SetAudio"/>, as a borrowed handle - do not dispose
-        /// it. Null if this track has no input, or an input that isn't a <see cref="Audio"/>.
+        /// it. <see langword="default"/> if this track has no input, or an input that isn't a
+        /// <see cref="Audio"/>.
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetTrackAudio"/>
-        public Audio? GetAudio() {
-            NativePtr<Opaque.SdlAudio> audio = SDL.GetTrackAudio(Handle);
-            return audio.IsNull ? null : new Audio(audio, false);
+        public Audio GetAudio() {
+            
+            return new Audio(SDL.GetTrackAudio(Handle), false);
+            //TODO return new Audio(SDL.GetTrackAudio(Handle), HandleKind.Borrowed);
         }
 
         /// <summary>
         /// The stream assigned through <see cref="SetAudioStream"/>, as a borrowed handle - do not
-        /// dispose it. Null if this track has no input, or an input that isn't an
-        /// <see cref="CSDL.Audio.AudioStream"/>.
+        /// dispose it. <see langword="default"/> if this track has no input, or an input that isn't
+        /// an <see cref="CSDL.Audio.AudioStream"/>.
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetTrackAudioStream"/>
-        public CSDL.Audio.AudioStream? GetAudioStream() {
-            NativePtr<Opaque.SdlAudioStream> stream = SDL.GetTrackAudioStream(Handle);
-            return stream.IsNull ? null : new CSDL.Audio.AudioStream(stream.Ptr);
+        public CSDL.Audio.AudioStream GetAudioStream() {
+            return new CSDL.Audio.AudioStream(SDL.GetTrackAudioStream(Handle), HandleKind.Borrowed);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackAudio"/>
-        public bool SetAudio(Audio? audio) {
-            bool ok = SDL.SetTrackAudio(Handle, audio?.Handle ?? NativePtr<Opaque.SdlAudio>.Zero).LogIfFalse();
-            if (ok) ClearInputReferences();
-            return ok;
+        /// <param name="audio">the clip to play, or <see langword="default"/> to clear the input.</param>
+        public bool SetAudio(Audio audio) {
+            //TODO NativePtr<Opaque.SdlAudio> handle = audio.IsDefault ? NativePtr<Opaque.SdlAudio>.Zero : audio.Handle;
+            NativePtr<Opaque.SdlAudio> handle = audio.IsValid ? NativePtr<Opaque.SdlAudio>.Zero : audio.Handle;
+            if (!SDL.SetTrackAudio(Handle, handle).LogIfFalse()) return false;
+
+            // An Audio is a whole decoded clip the caller owns outright.
+            ReleaseInputs();
+            return true;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackAudioStream"/>
         public bool SetAudioStream(CSDL.Audio.AudioStream stream) {
-            ArgumentNullException.ThrowIfNull(stream);
-            bool ok = SDL.SetTrackAudioStream(Handle, stream.Handle).LogIfFalse();
-            if (ok) {
-                if (!ReferenceEquals(_inputStream, stream)) {
-                    ReleaseInputStream();
-                    stream.AcquireTrackLease();
-                }
-                _inputStream = stream;
-                ReleaseInputIO();
-            }
-            return ok;
+            stream.ThrowIfInvalid(nameof(stream));
+            if (!SDL.SetTrackAudioStream(Handle, stream.Handle).LogIfFalse()) return false;
+            AdoptInput(stream);
+            return true;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackIOStream"/>
+        /// <inheritdoc cref="SetAudioStream"/>
         public bool SetIOStream(File.IOStream io, bool closeIo = false) {
-            ArgumentNullException.ThrowIfNull(io);
+            io.ThrowIfInvalid(nameof(io));
             bool ok = SDL.SetTrackIOStream(Handle, io.Handle, closeIo).LogIfFalse();
             if (closeIo) io.Invalidate();
             if (ok) {
-                ReleaseInputStream();
-                bool sameIO = ReferenceEquals(_inputIO, io);
-                if (closeIo || !sameIO) {
-                    ReleaseInputIO();
-                    if (!closeIo) io.AcquireTrackLease();
-                }
-                _inputIO = closeIo ? null : io;
+                if (closeIo) ReleaseInputs();
+                else AdoptInput(io);
             }
             return ok;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackRawIOStream"/>
-        public bool SetRawIOStream(File.IOStream io, CSDL.Audio.AudioSpec spec, bool closeIo = false) {
-            ArgumentNullException.ThrowIfNull(io);
+        public bool SetIOStreamRaw(File.IOStream io, CSDL.Audio.AudioSpec spec, bool closeIo = false) {
+            io.ThrowIfInvalid(nameof(io));
             bool ok = SDL.SetTrackRawIOStream(Handle, io.Handle, in spec, closeIo).LogIfFalse();
             if (closeIo) io.Invalidate();
             if (ok) {
-                ReleaseInputStream();
-                bool sameIO = ReferenceEquals(_inputIO, io);
-                if (closeIo || !sameIO) {
-                    ReleaseInputIO();
-                    if (!closeIo) io.AcquireTrackLease();
-                }
-                _inputIO = closeIo ? null : io;
+                if (closeIo) ReleaseInputs();
+                else AdoptInput(io);
             }
             return ok;
         }
 
         /// <summary>Removes the track's current audio input.</summary>
-        public bool ClearInput() => SetAudio(null);
+        public bool ClearInput() => SetAudio(default);
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackGroup"/>
-        public bool SetGroup(Group? group) {
-            return SDL.SetTrackGroup(Handle, group?.Handle ?? default).LogIfFalse();
+        /// <param name="group">the group to join, or <see langword="default"/> to leave any group.</param>
+        public bool SetGroup(Group group) {
+            //TODO return SDL.SetTrackGroup(Handle, group.IsDefault ? default : group.Handle).LogIfFalse();
+            return SDL.SetTrackGroup(Handle, group.IsValid ? default : group.Handle).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackOutputChannelMap"/>
@@ -269,123 +251,103 @@ namespace CSDL.Mixer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackCookedCallback"/>
         public bool SetCookedCallback(TrackMixCallback callback, object? userData = null) {
             ArgumentNullException.ThrowIfNull(callback);
-            string id = $"TrackCooked:{Guid.NewGuid()}";
-            MIX_TrackMixCallbackNative native = TrackMixCallbackWrapper.Create(callback);
-            (IntPtr functionPtr, IntPtr userdataPtr) reg = CallbackRegistry.Register(id, callback, native, userData);
-            lock (_callbackLock) {
-                bool ok = SDL.SetTrackCookedCallback(Handle, native, reg.userdataPtr).LogIfFalse();
-                if (!ok) {
-                    CallbackRegistry.Unregister<TrackMixCallback, MIX_TrackMixCallbackNative>(id);
-                    return false;
-                }
-                UnregisterCookedCallback();
-                _cookedCallbackId = id;
-                return true;
-            }
+            NativePtr<Opaque.SdlTrack> track = Handle;
+            return Install(
+                SetTrackCooked, track, TrackMixCallbackWrapper.Create(callback), callback, userData,
+                CookedCallbackIdFor(track.Ptr));
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackRawCallback"/>
         public bool SetRawCallback(TrackMixCallback callback, object? userData = null) {
             ArgumentNullException.ThrowIfNull(callback);
-            string id = $"TrackRaw:{Guid.NewGuid()}";
-            MIX_TrackMixCallbackNative native = TrackMixCallbackWrapper.Create(callback);
-            (IntPtr functionPtr, IntPtr userdataPtr) reg = CallbackRegistry.Register(id, callback, native, userData);
-            lock (_callbackLock) {
-                bool ok = SDL.SetTrackRawCallback(Handle, native, reg.userdataPtr).LogIfFalse();
-                if (!ok) {
-                    CallbackRegistry.Unregister<TrackMixCallback, MIX_TrackMixCallbackNative>(id);
-                    return false;
-                }
-                UnregisterRawCallback();
-                _rawCallbackId = id;
-                return true;
-            }
+            NativePtr<Opaque.SdlTrack> track = Handle;
+            return Install(
+                SetTrackRaw, track, TrackMixCallbackWrapper.Create(callback), callback, userData,
+                RawCallbackIdFor(track.Ptr));
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackStoppedCallback"/>
         public bool SetStoppedCallback(TrackStoppedCallback callback, object? userData = null) {
             ArgumentNullException.ThrowIfNull(callback);
-            string id = $"TrackStopped:{Guid.NewGuid()}";
-            MIX_TrackStoppedCallbackNative native = TrackStoppedCallbackWrapper.Create(callback);
-            (IntPtr functionPtr, IntPtr userdataPtr) reg = CallbackRegistry.Register(id, callback, native, userData);
-            lock (_callbackLock) {
-                bool ok = SDL.SetTrackStoppedCallback(Handle, native, reg.userdataPtr).LogIfFalse();
-                if (!ok) {
-                    CallbackRegistry.Unregister<TrackStoppedCallback, MIX_TrackStoppedCallbackNative>(id);
+            NativePtr<Opaque.SdlTrack> track = Handle;
+            return Install(
+                SetTrackStopped, track, TrackStoppedCallbackWrapper.Create(callback), callback, userData,
+                StoppedCallbackIdFor(track.Ptr));
+        }
+
+        public bool ClearCookedCallback() {
+            NativePtr<Opaque.SdlTrack> track = Handle;
+            return Clear<TrackMixCallback, MIX_TrackMixCallbackNative>(SetTrackCooked, track, CookedCallbackIdFor(track.Ptr));
+        }
+
+        public bool ClearRawCallback() {
+            NativePtr<Opaque.SdlTrack> track = Handle;
+            return Clear<TrackMixCallback, MIX_TrackMixCallbackNative>(SetTrackRaw, track, RawCallbackIdFor(track.Ptr));
+        }
+
+        public bool ClearStoppedCallback() {
+            NativePtr<Opaque.SdlTrack> track = Handle;
+            return Clear<TrackStoppedCallback, MIX_TrackStoppedCallbackNative>(SetTrackStopped, track, StoppedCallbackIdFor(track.Ptr));
+        }
+
+        // Named methods rather than lambdas: a lambda in a struct that touched Handle would capture
+        // `this` and not compile (CS1673), and these capture nothing to begin with.
+        private static CBool SetTrackCooked(NativePtr<Opaque.SdlTrack> track, MIX_TrackMixCallbackNative callback, IntPtr userData) {
+            return SDL.SetTrackCookedCallback(track, callback, userData);
+        }
+
+        private static CBool SetTrackRaw(NativePtr<Opaque.SdlTrack> track, MIX_TrackMixCallbackNative callback, IntPtr userData) {
+            return SDL.SetTrackRawCallback(track, callback, userData);
+        }
+
+        private static CBool SetTrackStopped(NativePtr<Opaque.SdlTrack> track, MIX_TrackStoppedCallbackNative callback, IntPtr userData) {
+            return SDL.SetTrackStoppedCallback(track, callback, userData);
+        }
+
+        /// <summary>
+        ///     Hands <paramref name="native"/> to SDL_mixer and, if it takes it, files the registration
+        ///     under <paramref name="id"/> - replacing whatever was there.
+        /// </summary>
+        /// <remarks>
+        ///     The throwaway id exists because <paramref name="id"/> is derived from the track pointer
+        ///     and is therefore still held by the callback being replaced, which
+        ///     <see cref="CallbackRegistry.Register"/> refuses to duplicate. Freeing the old one first
+        ///     would release its userdata while SDL_mixer could still be calling it.
+        /// </remarks>
+        private static bool Install<TPublic, TNative>(
+            Func<NativePtr<Opaque.SdlTrack>, TNative, IntPtr, CBool> set,
+            NativePtr<Opaque.SdlTrack> track,
+            TNative native,
+            TPublic callback,
+            object? userData,
+            string id)
+            where TPublic : Delegate
+            where TNative : Delegate {
+            string staging = $"{id}:pending:{Guid.NewGuid()}";
+            (IntPtr functionPtr, IntPtr userdataPtr) reg = CallbackRegistry.Register(staging, callback, native, userData);
+
+            lock (CallbackLock) {
+                if (!set(track, native, reg.userdataPtr).LogIfFalse()) {
+                    CallbackRegistry.Unregister<TPublic, TNative>(staging);
                     return false;
                 }
-                UnregisterStoppedCallback();
-                _stoppedCallbackId = id;
-                return true;
+
+                CallbackRegistry.Unregister<TPublic, TNative>(id);
+                return CallbackRegistry.UpdateId<TPublic, TNative>(staging, id);
             }
         }
 
-        public bool ClearCookedCallback() => ClearCallback<MIX_TrackMixCallbackNative>((track, callback, userData) => SDL.SetTrackCookedCallback(track, callback, userData), UnregisterCookedCallback);
-        public bool ClearRawCallback() => ClearCallback<MIX_TrackMixCallbackNative>((track, callback, userData) => SDL.SetTrackRawCallback(track, callback, userData), UnregisterRawCallback);
-        public bool ClearStoppedCallback() => ClearCallback<MIX_TrackStoppedCallbackNative>((track, callback, userData) => SDL.SetTrackStoppedCallback(track, callback, userData), UnregisterStoppedCallback);
-
-        /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.DestroyTrack"/>
-        protected override void DisposeResource() {
-            lock (_callbackLock) {
-                SDL.SetTrackCookedCallback(Handle, null!, IntPtr.Zero);
-                SDL.SetTrackRawCallback(Handle, null!, IntPtr.Zero);
-                SDL.SetTrackStoppedCallback(Handle, null!, IntPtr.Zero);
-                UnregisterCookedCallback();
-                UnregisterRawCallback();
-                UnregisterStoppedCallback();
-            }
-            SDL.DestroyTrack(Handle);
-            ClearInputReferences();
-        }
-
-        private bool ClearCallback<TNative>(Func<NativePtr<Opaque.SdlTrack>, TNative, IntPtr, CBool> set, Action unregister) where TNative : Delegate {
-            lock (_callbackLock) {
-                bool ok = set(Handle, null!, IntPtr.Zero).LogIfFalse();
-                if (ok) unregister();
+        private static bool Clear<TPublic, TNative>(
+            Func<NativePtr<Opaque.SdlTrack>, TNative, IntPtr, CBool> set,
+            NativePtr<Opaque.SdlTrack> track,
+            string id)
+            where TPublic : Delegate
+            where TNative : Delegate {
+            lock (CallbackLock) {
+                bool ok = set(track, null!, IntPtr.Zero).LogIfFalse();
+                if (ok) CallbackRegistry.Unregister<TPublic, TNative>(id);
                 return ok;
             }
-        }
-
-        private void ClearInputReferences() {
-            ReleaseInputStream();
-            ReleaseInputIO();
-        }
-
-        private void ReleaseInputStream() {
-            CSDL.Audio.AudioStream? stream = _inputStream;
-            _inputStream = null;
-            stream?.ReleaseTrackLease();
-        }
-
-        private void ReleaseInputIO() {
-            File.IOStream? io = _inputIO;
-            _inputIO = null;
-            io?.ReleaseTrackLease();
-        }
-
-        protected override void InvalidateResource() {
-            UnregisterCookedCallback();
-            UnregisterRawCallback();
-            UnregisterStoppedCallback();
-            ClearInputReferences();
-        }
-
-        private void UnregisterCookedCallback() {
-            if (_cookedCallbackId is null) return;
-            CallbackRegistry.Unregister<TrackMixCallback, MIX_TrackMixCallbackNative>(_cookedCallbackId);
-            _cookedCallbackId = null;
-        }
-
-        private void UnregisterRawCallback() {
-            if (_rawCallbackId is null) return;
-            CallbackRegistry.Unregister<TrackMixCallback, MIX_TrackMixCallbackNative>(_rawCallbackId);
-            _rawCallbackId = null;
-        }
-
-        private void UnregisterStoppedCallback() {
-            if (_stoppedCallbackId is null) return;
-            CallbackRegistry.Unregister<TrackStoppedCallback, MIX_TrackStoppedCallbackNative>(_stoppedCallbackId);
-            _stoppedCallbackId = null;
         }
     }
 }

@@ -140,7 +140,9 @@ namespace CSDL.Mixer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateTrack"/>
         public Track CreateTrack() {
             NativePtr<Opaque.SdlTrack> track = SDL.CreateTrack(Handle).ThrowIfInvalid();
-            return new Track(track, true, this);
+            throw new NotImplementedException();
+            //TODO return new Track(track, HandleKind.Owned, default);
+            //return new Track(track, true, this);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateGroup"/>
@@ -165,7 +167,8 @@ namespace CSDL.Mixer {
             Track[] result = new Track[count];
             for (int i = 0; i < count; i++) {
                 IntPtr trackPtr = Marshal.ReadIntPtr(tracks, i * IntPtr.Size);
-                result[i] = new Track(trackPtr, false, this);
+                throw new NotImplementedException();
+                //TODO result[i] = new Track(trackPtr, false, this);
             }
 
             Memory.Free(tracks);

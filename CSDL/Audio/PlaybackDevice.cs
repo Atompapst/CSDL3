@@ -5,42 +5,116 @@ using System;
 using CSDL.Extensions;
 
 namespace CSDL.Audio {
-    public sealed class PlaybackDevice : AudioDeviceBase {
+    public sealed class PlaybackDevice : IDisposable {
         private readonly object _postmixCallbackLock = new object();
         private string? _postmixCallbackId;
-        internal PlaybackDevice(uint logicalId, uint sourceDeviceId, AudioSpec spec, AudioStream stream)
-            : base(logicalId, sourceDeviceId, spec, stream) { }
 
-        internal PlaybackDevice(uint logicalId, uint sourceDeviceId, AudioSpec spec, AudioStream stream, bool deviceOwnedByStream)
-            : base(logicalId, sourceDeviceId, spec, stream, deviceOwnedByStream) { }
+        internal PlaybackDevice(uint logicalId, uint sourceDeviceId, AudioSpec spec, AudioStream stream)
+            : this(logicalId, sourceDeviceId, spec, stream, false) { }
+
+        internal PlaybackDevice(uint logicalId, uint sourceDeviceId, AudioSpec spec, AudioStream stream, bool deviceOwnedByStream) {
+            _core = new AudioDeviceCore(logicalId, sourceDeviceId, spec, stream, deviceOwnedByStream);
+        }
+
+        private AudioDeviceCore _core;
+        private int _disposed;
+
+        /// <summary>The logical device id SDL opened for this device.</summary>
+        public uint Id => _core.Id;
+
+        /// <summary>The physical device this logical one was opened from.</summary>
+        public uint SourceDeviceId => _core.SourceDeviceId;
+
+        /// <summary>The format SDL actually selected for this device.</summary>
+        public AudioSpec Spec => _core.Spec;
+
+        /// <summary>The device buffer size SDL actually selected, in sample frames.</summary>
+        public int SampleFrames => _core.SampleFrames;
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.IsAudioDevicePhysical"/>
+        public bool IsPhysical => _core.IsPhysical;
+
+        /// <summary>The opposite of <see cref="IsPhysical"/>.</summary>
+        public bool IsLogical => !_core.IsPhysical;
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.AudioDevicePaused"/>
+        public bool Paused => _core.Paused;
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.SetAudioDeviceGain"/>
+        public float Gain {
+            get => _core.GetGain();
+            set => _core.SetGain(value);
+        }
+
+        internal AudioStream Stream => _core.Stream;
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.GetAudioDeviceChannelMap"/>
+        public NativePtr<int> ChannelMap(out int count) {
+            return _core.ChannelMap(out count);
+        }
+
+        /// <summary>Gets a managed copy of the device channel map, or an empty array for SDL's default mapping.</summary>
+        public int[] GetChannelMap() {
+            return _core.GetChannelMap();
+        }
+
+        /// <summary>Gets the device format SDL actually selected for this logical device.</summary>
+        public bool GetFormat(out AudioSpec spec, out int sampleFrames) {
+            return _core.GetFormat(out spec, out sampleFrames);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.BindAudioStreams"/>
+        public bool BindStreams(AudioStream[] streams) {
+            return _core.BindStreams(streams);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.BindAudioStreams"/>
+        public bool BindStreams(ReadOnlySpan<AudioStream> streams) {
+            return _core.BindStreams(streams);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.UnbindAudioStreams"/>
+        public static void UnbindStreams(AudioStream[]? streams) {
+            AudioDeviceCore.UnbindStreams(streams);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.UnbindAudioStreams"/>
+        public static void UnbindStreams(ReadOnlySpan<AudioStream> streams) {
+            AudioDeviceCore.UnbindStreams(streams);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.PauseAudioDevice"/>
+        public bool Pause() {
+            return _core.Pause();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.ResumeAudioDevice"/>
+        public bool Resume() {
+            return _core.Resume();
+        }
+
+        /// <summary>Closes the device. Equivalent to <see cref="Dispose"/>.</summary>
+        public void Close() {
+            Dispose();
+        }
 
         static PlaybackDevice() {
             Init.InitSubSystem(InitFlags.Audio);
         }
 
-        public int QueuedBytes => Stream?.Queued ?? 0;
-        public int AvailableBytes => Stream?.Available ?? 0;
+        public int QueuedBytes => Stream.Queued;
+        public int AvailableBytes => Stream.Available;
 
         public float FrequencyRatio {
-            get => Stream?.FrequencyRatio ?? 1.0f;
-            set {
-                if (Stream != null) {
-                    Stream.FrequencyRatio = value;
-                }
-            }
+            get => Stream.FrequencyRatio;
+            set => _core.Stream.FrequencyRatio = value;
         }
 
         public float StreamGain {
-            get => Stream?.Gain ?? 1.0f;
-            set {
-                if (Stream != null) {
-                    Stream.Gain = value;
-                }
-            }
+            get => Stream.Gain;
+            set => _core.Stream.Gain = value;
         }
 
-        // Stream is always set by the constructor (see AudioDeviceBase) and is never re-nulled, so
-        // it is accessed directly here rather than via the null-conditional operator.
         public int[] InputChannelMap => Stream.GetInputChannelMapArray();
         public int[] OutputChannelMap => Stream.GetOutputChannelMapArray();
 
@@ -51,9 +125,17 @@ namespace CSDL.Audio {
             Stream.ResumeDevice();
         }
 
+        /// <summary>
+        /// Queues a clip for playback, converting it from its own format to the device's.
+        /// </summary>
+        /// <remarks>
+        /// Data already queued keeps the format it was queued with - SDL records it per buffer - so
+        /// clips of different formats can be written back to back.
+        /// </remarks>
         public void Write(AudioClip clip) {
-            if (clip == null || clip.Handle.IsNull || clip.Length == 0) return;
+            if (!clip.IsValid || clip.Length == 0) return;
 
+            Stream.SetAudioStreamFormat(clip.Spec, null);
             Stream.PutData(clip.Handle, (int)clip.Length);
             Stream.ResumeDevice();
         }
@@ -117,9 +199,12 @@ namespace CSDL.Audio {
             Stream.SetOutputChannelMap(map);
         }
 
-        protected override void DisposeResource() {
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.CloseAudioDevice"/>
+        public void Dispose() {
+            if (System.Threading.Interlocked.Exchange(ref _disposed, 1) != 0) return;
             ClearPostmixCallback();
-            base.DisposeResource();
+            _core.Close();
+            GC.SuppressFinalize(this);
         }
 
         public override string ToString() {
@@ -139,8 +224,8 @@ namespace CSDL.Audio {
         public static PlaybackDevice OpenDefault(AudioSpec? spec = null) {
             AudioSpec desiredSpec = spec ?? ResolveDefaultSpec(Macros.AudioDeviceDefaultPlayback);
 
-            uint logicalId = SDL.OpenAudioDevice(Macros.AudioDeviceDefaultPlayback, desiredSpec);
-            if (logicalId == 0) {
+            AudioDeviceID logicalId = SDL.OpenAudioDevice(Macros.AudioDeviceDefaultPlayback, desiredSpec);
+            if (logicalId.Value == 0) {
                 Error.Throw(nameof(SDL.OpenAudioDevice));
             }
 
@@ -182,14 +267,7 @@ namespace CSDL.Audio {
         }
 
         internal static PlaybackDevice OpenFromDeviceStream(AudioDeviceID sourceDeviceId, AudioSpec spec, AudioStreamCallback callback, object? userdata = null) {
-            AudioStream? stream = null;
-            SDL_AudioStreamCallbackNative cb = (userdataPtr, _, additionalAmount, totalAmount) => {
-                try {
-                    callback(CallbackRegistry.GetUserdata(userdataPtr), stream!, additionalAmount, totalAmount);
-                } catch (Exception ex) {
-                    Log.Error(ex, "Managed playback callback threw an exception.");
-                }
-            };
+            SDL_AudioStreamCallbackNative cb = AudioStreamCallbackWrapper.Create(callback);
             string callbackId = $"PlaybackDeviceStream:{Guid.NewGuid()}";
             (IntPtr functionPtr, IntPtr userdataPtr) res = CallbackRegistry.Register(callbackId, callback, cb, userdata);
 
@@ -199,8 +277,8 @@ namespace CSDL.Audio {
                 Error.Throw(nameof(SDL.OpenAudioDeviceStream));
             }
 
-            stream = new AudioStream(streamHandle, true);
-            stream.SetGetCallbackRegistration(callbackId);
+            AudioStream stream = new AudioStream(streamHandle, true);
+            stream.AdoptGetCallbackRegistration(callbackId);
             uint logicalId = stream.DeviceId;
 
             if (logicalId == 0) {
