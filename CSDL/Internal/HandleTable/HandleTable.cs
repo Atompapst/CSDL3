@@ -134,8 +134,8 @@ namespace CSDL {
         ///     Releases one reference taken through <see cref="AcquireShared{T}" />. Unlike
         ///     <see cref="Release{T}(HandleId{T}, out NativePtr{T}, out bool)" />, this hands back the
         ///     pointer on every call, not just the last: a shared slot stands for a resource the native
-        ///     library refcounts itself and re-refs on every hand-out (see the remarks on
-        ///     <see cref="AcquireShared{T}" />), so every acquisition owes its own release call, and the
+        ///     library refcounts itself and re-refs on every hand-out,
+        ///     so every acquisition owes its own release call, and the
         ///     local slot is retired. Purely as bookkeeping.
         /// </summary>
         /// <returns>

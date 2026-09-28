@@ -9,25 +9,30 @@ namespace CSDL.Mixer {
     /// Decodes audio data on demand into a caller-supplied buffer, without playing it and without
     /// needing a <see cref="Mixer"/> at all - useful for turning a file into raw PCM data directly.
     /// </summary>
-    public sealed class AudioDecoder : NativeHandle<Opaque.SdlAudioDecoder> {
-        static AudioDecoder() {
-            Mixer.EnsureInitialized();
-        }
-
+    public readonly partial struct AudioDecoder {
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateAudioDecoder"/>
-        public AudioDecoder(string path, PropertiesID props = default) {
-            Handle = SDL.CreateAudioDecoder(path, props).ThrowIfInvalid();
+        public AudioDecoder(string path, PropertiesID props = default) 
+            : this(CreateFromPath(path, props), HandleKind.Owned) { }
+
+
+        private static NativePtr<Opaque.SdlAudioDecoder> CreateFromPath(string path, PropertiesID props) {
+            Mixer.EnsureInitialized();
+            return SDL.CreateAudioDecoder(path, props).ThrowIfInvalid();
         }
 
         /// <param name="src">the stream to decode from.</param>
         /// <param name="closeAfter">if true, SDL_mixer closes <paramref name="src"/> when the decoder is done with it - including when this constructor fails.</param>
         /// <param name="props">decoder-specific properties, e.g. from <see cref="AudioLoadProperties"/>. May be left at zero.</param>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateAudioDecoder_IO"/>
-        public AudioDecoder(File.IOStream src, bool closeAfter = false, PropertiesID props = default) {
-            ArgumentNullException.ThrowIfNull(src);
+        public AudioDecoder(File.IOStream src, bool closeAfter = false, PropertiesID props = default)
+            : this(CreateFromStream(src, closeAfter, props), HandleKind.Owned) { }
+
+        private static NativePtr<Opaque.SdlAudioDecoder> CreateFromStream(File.IOStream src, bool closeAfter, PropertiesID props) {
+            Mixer.EnsureInitialized();
+            src.ThrowIfInvalid(nameof(src));
             NativePtr<Opaque.SdlAudioDecoder> decoder = SDL.CreateAudioDecoder_IO(src.Handle, closeAfter, props);
             Audio.ReleaseStream(src, closeAfter);
-            Handle = decoder.ThrowIfInvalid();
+            return decoder.ThrowIfInvalid();
         }
 
         /// <remarks>
@@ -67,9 +72,5 @@ namespace CSDL.Mixer {
             }
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.DestroyAudioDecoder"/>
-        protected override void DisposeResource() {
-            SDL.DestroyAudioDecoder(Handle);
-        }
     }
 }

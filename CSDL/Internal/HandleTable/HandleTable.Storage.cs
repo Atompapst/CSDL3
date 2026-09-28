@@ -45,11 +45,7 @@ namespace CSDL {
                 _rentsSinceSweep = 0;
             }
         }
-
-        /// <param name="typeTag">
-        ///     <see cref="TypeTag{T}" /> for <typeparamref name="T" />, resolved by the caller before it
-        ///     took <see cref="Gate" /> - see the remarks on <see cref="TypeTag{T}" />.
-        /// </param>
+        
         private static HandleId<T> CreateSlotLocked<T>(NativePtr<T> pointer, HandleKind kind, OwnerId owner,
             ushort typeTag, bool survivesOwner) where T : unmanaged {
             int slot = RentLocked();

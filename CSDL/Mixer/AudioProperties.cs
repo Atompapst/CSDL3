@@ -14,10 +14,6 @@ namespace CSDL.Mixer {
     /// This group is created and owned by SDL_mixer and lives as long as the audio does. It must not
     /// be disposed, so the finalizer that would otherwise destroy it is suppressed.
     /// </para>
-    /// <para>
-    /// The metadata is whatever SDL_mixer found in things like ID3 tags: it is often unformatted,
-    /// frequently missing, and can be outright wrong if the source data is untrustworthy.
-    /// </para>
     /// </remarks>
     /// <seealso cref="Audio.Properties"/>
     /// <seealso cref="AudioDecoder.Properties"/>

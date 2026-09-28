@@ -11,27 +11,23 @@ namespace CSDL.Mixer {
     /// data via <see cref="SetPostMixCallback"/> before it joins the rest of a <see cref="Mixer"/>'s
     /// final mix.
     /// </summary>
-    public sealed class Group : NativeHandle<Opaque.SdlGroup> {
-        private readonly object _callbackLock = new object();
-        private string? _postMixCallbackId;
-
-        internal Group(NativePtr<Opaque.SdlGroup> handle, Mixer owner) : base(handle, true) {
-            owner.RegisterChild(Invalidation);
-        }
+    public readonly partial struct Group {
+        internal Group(NativePtr<Opaque.SdlGroup> handle, Mixer owner)
+            : this(handle, HandleKind.Owned, owner.AsOwner) { }
 
         /// <summary>
         /// The mixer that was passed to <see cref="Mixer.CreateGroup"/> to create this group. The
         /// returned wrapper is a borrowed handle - do not dispose it.
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetGroupMixer"/>
-        public Mixer? Mixer {
+        /// <returns>A borrowed view of the owning mixer, or <see langword="default"/> if there is none.</returns>
+        public Mixer Mixer {
             get {
                 NativePtr<Opaque.SdlMixer> mixer = SDL.GetGroupMixer(Handle);
                 if (mixer.IsNull) {
                     Error.LogError(nameof(SDL.GetGroupMixer));
-                    return null;
                 }
-                return new Mixer(mixer, false);
+                return new Mixer(mixer, HandleKind.Borrowed);
             }
         }
 
@@ -47,49 +43,52 @@ namespace CSDL.Mixer {
             }
         }
 
+        /// <summary>The <see cref="CallbackRegistry"/> key for this Group's post-mix callback.</summary>
+        /// <remarks>
+        ///     Derived from the native pointer rather than stored in a field: every copy of this value
+        ///     has to mean the same registration, and <see cref="Dispose"/> needs the key after the
+        ///     handle has already been retired.
+        /// </remarks>
+        private static string PostMixCallbackId(nint handle) {
+            return $"GroupPostMix:{handle}";
+        }
+
+        /// <summary>Drops the post-mix callback registered for this Group, if any.</summary>
+        private static void ReleaseCallbacks(nint handle) {
+            CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(PostMixCallbackId(handle));
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetGroupPostMixCallback"/>
         public bool SetPostMixCallback(GroupMixCallback callback, object? userData = null) {
             ArgumentNullException.ThrowIfNull(callback);
-            string id = $"GroupPostMix:{Guid.NewGuid()}";
+
+            nint handle = Handle.Ptr;
+            string id = PostMixCallbackId(handle);
+
+            // Replace rather than stack: one callback per Group, so the previous registration under
+            // this key goes first - which also frees the userdata it pinned.
+            CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(id);
+
             MIX_GroupMixCallbackNative native = GroupMixCallbackWrapper.Create(callback);
             (IntPtr functionPtr, IntPtr userdataPtr) reg = CallbackRegistry.Register(id, callback, native, userData);
-            lock (_callbackLock) {
-                bool ok = SDL.SetGroupPostMixCallback(Handle, native, reg.userdataPtr).LogIfFalse();
-                if (!ok) {
-                    CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(id);
-                    return false;
-                }
-                if (_postMixCallbackId is not null) {
-                    CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(_postMixCallbackId);
-                }
-                _postMixCallbackId = id;
-                return true;
+            if (!SDL.SetGroupPostMixCallback(Handle, native, reg.userdataPtr).LogIfFalse()) {
+                CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(id);
+                return false;
             }
+
+            return true;
         }
 
-        /// <summary>Removes the group's post-mix callback.</summary>
+        /// <summary>Removes the Group's post-mix callback.</summary>
         public bool ClearPostMixCallback() {
-            lock (_callbackLock) {
-                bool ok = SDL.SetGroupPostMixCallback(Handle, null!, IntPtr.Zero).LogIfFalse();
-                if (ok && _postMixCallbackId is not null) {
-                    CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(_postMixCallbackId);
-                    _postMixCallbackId = null;
-                }
-                return ok;
+            nint handle = Handle.Ptr;
+            if (!SDL.SetGroupPostMixCallback(Handle, null!, IntPtr.Zero).LogIfFalse()) {
+                return false;
             }
+
+            ReleaseCallbacks(handle);
+            return true;
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.DestroyGroup"/>
-        protected override void DisposeResource() {
-            ClearPostMixCallback();
-            SDL.DestroyGroup(Handle);
-        }
-
-        protected override void InvalidateResource() {
-            if (_postMixCallbackId is not null) {
-                CallbackRegistry.Unregister<GroupMixCallback, MIX_GroupMixCallbackNative>(_postMixCallbackId);
-                _postMixCallbackId = null;
-            }
-        }
     }
 }

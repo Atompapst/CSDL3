@@ -3,16 +3,9 @@
 
 using CSDL.Properties;
 
+using CSDL.Extensions;
+
 namespace CSDL.Mixer {
-    /// <summary>
-    /// The knobs for <see cref="Audio.Load(AudioLoadProperties)"/> - the load path that exposes
-    /// everything the simpler <see cref="Audio"/> constructors don't. <see cref="Source"/> is the only
-    /// required one. This group is created and owned by the caller, so dispose it when done.
-    /// </summary>
-    /// <remarks>
-    /// Individual decoders may accept further custom properties (where to find SoundFonts for MIDI
-    /// playback, for instance); set those by name through <see cref="PropertyGroup.String"/> and friends.
-    /// </remarks>
     public class AudioLoadProperties : PropertyGroup {
         private File.IOStream? _source;
         private bool _closeAfter;
@@ -44,7 +37,7 @@ namespace CSDL.Mixer {
         /// close <paramref name="source"/> once it is done loading.
         /// </summary>
         public AudioLoadProperties Source(File.IOStream source, bool closeAfter = false) {
-            System.ArgumentNullException.ThrowIfNull(source);
+            source.ThrowIfInvalid(nameof(source));
             IOStream.Set(source.NativePointer);
             CloseIO.Set(closeAfter);
             _source = source;

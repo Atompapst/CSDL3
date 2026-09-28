@@ -20,15 +20,12 @@ namespace CSDL.Mixer {
         /// <summary>The table id of the <see cref="File.IOStream" /> this track holds a reference on.</summary>
         internal const string InputIOStreamProperty = "csdl.track.input.iostream";
 
-        // internal Track(NativePtr<Opaque.SdlTrack> handle, bool ownsHandle, Mixer owner)
-        //     : this(handle, ownsHandle ? HandleKind.Owned : HandleKind.Borrowed, owner.AsOwner) { }
+        internal Track(NativePtr<Opaque.SdlTrack> handle, bool ownsHandle, Mixer owner)
+            : this(handle, ownsHandle ? HandleKind.Owned : HandleKind.Borrowed, owner.AsOwner) { }
 
         internal Track(NativePtr<Opaque.SdlTrack> handle, HandleKind kind, OwnerId owner = default) {
             _id = HandleTable.Acquire(handle, kind, owner);
         }
-
-        /// <summary>The table identity of this track.</summary>
-        internal HandleId<Opaque.SdlTrack> TableId => _id;
 
         /// <summary>The <see cref="CallbackRegistry" /> key of this track's cooked-mix callback.</summary>
         internal static string CookedCallbackIdFor(nint track) {
@@ -146,7 +143,6 @@ namespace CSDL.Mixer {
 
         /// <remarks>A note whose handle is no longer live rebuilds into one that releases nothing.</remarks>
         private static void Release(long stream, long io) {
-            throw new NotImplementedException();
             if (stream != 0) CSDL.Audio.AudioStream.FromTableId(stream).Dispose();
             //TODO if (io != 0) File.IOStream.FromTableId(io).Dispose();
         }

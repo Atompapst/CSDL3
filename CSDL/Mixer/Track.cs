@@ -22,8 +22,7 @@ namespace CSDL.Mixer {
                 if (mixer.IsNull) {
                     Error.LogError(nameof(SDL.GetTrackMixer));
                 }
-                return new Mixer(mixer, false);
-                //TODO return new Mixer(mixer, HandleKind.Borrowed);
+                return new Mixer(mixer, HandleKind.Borrowed);
             }
         }
 
@@ -46,9 +45,7 @@ namespace CSDL.Mixer {
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetTrackAudio"/>
         public Audio GetAudio() {
-            
-            return new Audio(SDL.GetTrackAudio(Handle), false);
-            //TODO return new Audio(SDL.GetTrackAudio(Handle), HandleKind.Borrowed);
+            return new Audio(SDL.GetTrackAudio(Handle), HandleKind.Borrowed);
         }
 
         /// <summary>
@@ -64,8 +61,7 @@ namespace CSDL.Mixer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackAudio"/>
         /// <param name="audio">the clip to play, or <see langword="default"/> to clear the input.</param>
         public bool SetAudio(Audio audio) {
-            //TODO NativePtr<Opaque.SdlAudio> handle = audio.IsDefault ? NativePtr<Opaque.SdlAudio>.Zero : audio.Handle;
-            NativePtr<Opaque.SdlAudio> handle = audio.IsValid ? NativePtr<Opaque.SdlAudio>.Zero : audio.Handle;
+            NativePtr<Opaque.SdlAudio> handle = audio.IsDefault ? NativePtr<Opaque.SdlAudio>.Zero : audio.Handle;
             if (!SDL.SetTrackAudio(Handle, handle).LogIfFalse()) return false;
 
             // An Audio is a whole decoded clip the caller owns outright.
@@ -77,6 +73,8 @@ namespace CSDL.Mixer {
         public bool SetAudioStream(CSDL.Audio.AudioStream stream) {
             stream.ThrowIfInvalid(nameof(stream));
             if (!SDL.SetTrackAudioStream(Handle, stream.Handle).LogIfFalse()) return false;
+
+            // AdoptInput gives back the reference the previous input held.
             AdoptInput(stream);
             return true;
         }
@@ -95,7 +93,8 @@ namespace CSDL.Mixer {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackRawIOStream"/>
-        public bool SetIOStreamRaw(File.IOStream io, CSDL.Audio.AudioSpec spec, bool closeIo = false) {
+        /// <inheritdoc cref="SetAudioStream"/>
+        public bool SetRawIOStream(File.IOStream io, CSDL.Audio.AudioSpec spec, bool closeIo = false) {
             io.ThrowIfInvalid(nameof(io));
             bool ok = SDL.SetTrackRawIOStream(Handle, io.Handle, in spec, closeIo).LogIfFalse();
             if (closeIo) io.Invalidate();
@@ -112,8 +111,7 @@ namespace CSDL.Mixer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackGroup"/>
         /// <param name="group">the group to join, or <see langword="default"/> to leave any group.</param>
         public bool SetGroup(Group group) {
-            //TODO return SDL.SetTrackGroup(Handle, group.IsDefault ? default : group.Handle).LogIfFalse();
-            return SDL.SetTrackGroup(Handle, group.IsValid ? default : group.Handle).LogIfFalse();
+            return SDL.SetTrackGroup(Handle, group.IsDefault ? default : group.Handle).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetTrackOutputChannelMap"/>

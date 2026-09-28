@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Zlib
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using CSDL.Extensions;
 
@@ -11,15 +10,11 @@ namespace CSDL.Mixer {
     /// A mixing engine: owns an audio output device (or generates PCM with no device at all) and
     /// plays <see cref="Track"/>s and one-shot <see cref="Audio"/> into it.
     /// </summary>
-    public sealed class Mixer : NativeHandle<Opaque.SdlMixer> {
+    public readonly partial struct Mixer {
         private static bool _initialized;
         private static readonly object InitializationLock = new object();
-        private readonly List<WeakReference<Internal.InvalidationRegistration>> _children = new List<WeakReference<Internal.InvalidationRegistration>>();
-        private readonly object _callbackLock = new object();
-        private string? _postMixCallbackId;
-
+        
         static Mixer() {
-            EnsureInitialized();
             Init.OnQuit += Quit;
         }
 
@@ -79,9 +74,13 @@ namespace CSDL.Mixer {
         /// <param name="device">The audio device to open, e.g. <see cref="CSDL.Audio.Macros.AudioDeviceDefaultPlayback"/>.</param>
         /// <param name="spec">The format to mix and play at. Defaults to 48kHz 16-bit stereo if omitted.</param>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateMixerDevice"/>
-        public Mixer(CSDL.Audio.AudioDeviceID device, CSDL.Audio.AudioSpec? spec = null) {
+        public Mixer(CSDL.Audio.AudioDeviceID device, CSDL.Audio.AudioSpec? spec = null)
+            : this(CreateDevice(device, spec), HandleKind.Owned) { }
+
+        private static NativePtr<Opaque.SdlMixer> CreateDevice(CSDL.Audio.AudioDeviceID device, CSDL.Audio.AudioSpec? spec) {
+            EnsureInitialized();
             CSDL.Audio.AudioSpec resolvedSpec = spec ?? new CSDL.Audio.AudioSpec(CSDL.Audio.AudioFormats.S16, 48000, 2);
-            Handle = SDL.CreateMixerDevice(device, in resolvedSpec).ThrowIfInvalid();
+            return SDL.CreateMixerDevice(device, in resolvedSpec).ThrowIfInvalid();
         }
 
         /// <summary>
@@ -89,11 +88,12 @@ namespace CSDL.Mixer {
         /// <see cref="Generate"/>) without ever opening real audio hardware.
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateMixer"/>
-        public Mixer(CSDL.Audio.AudioSpec spec) {
-            Handle = SDL.CreateMixer(in spec).ThrowIfInvalid();
-        }
+        public Mixer(CSDL.Audio.AudioSpec spec) : this(CreateDeviceless(spec), HandleKind.Owned) { }
 
-        internal Mixer(NativePtr<Opaque.SdlMixer> handle, bool ownsHandle) : base(handle, ownsHandle) { }
+        private static NativePtr<Opaque.SdlMixer> CreateDeviceless(CSDL.Audio.AudioSpec spec) {
+            EnsureInitialized();
+            return SDL.CreateMixer(in spec).ThrowIfInvalid();
+        }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.GetMixerProperties"/>
         public MixerProperties? Properties {
@@ -140,9 +140,7 @@ namespace CSDL.Mixer {
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateTrack"/>
         public Track CreateTrack() {
             NativePtr<Opaque.SdlTrack> track = SDL.CreateTrack(Handle).ThrowIfInvalid();
-            throw new NotImplementedException();
-            //TODO return new Track(track, HandleKind.Owned, default);
-            //return new Track(track, true, this);
+            return new Track(track, true, this);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.CreateGroup"/>
@@ -167,8 +165,7 @@ namespace CSDL.Mixer {
             Track[] result = new Track[count];
             for (int i = 0; i < count; i++) {
                 IntPtr trackPtr = Marshal.ReadIntPtr(tracks, i * IntPtr.Size);
-                throw new NotImplementedException();
-                //TODO result[i] = new Track(trackPtr, false, this);
+                result[i] = new Track(trackPtr, false, this);
             }
 
             Memory.Free(tracks);
@@ -182,7 +179,7 @@ namespace CSDL.Mixer {
         /// </summary>
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.PlayAudio"/>
         public bool Play(Audio audio) {
-            ArgumentNullException.ThrowIfNull(audio);
+            audio.ThrowIfInvalid(nameof(audio));
             return SDL.PlayAudio(Handle, audio.Handle).LogIfFalse();
         }
 
@@ -225,37 +222,45 @@ namespace CSDL.Mixer {
         public bool SetTagGain(string tag, float gain) {
             return SDL.SetTagGain(Handle, tag, gain).LogIfFalse();
         }
+        
+        private static string PostMixCallbackId(nint handle) {
+            return $"MixerPostMix:{handle}";
+        }
+
+        /// <summary>Drops the post-mix callback registered for this mixer, if any.</summary>
+        private static void ReleaseCallbacks(nint handle) {
+            CallbackRegistry.Unregister<PostMixCallback, MIX_PostMixCallbackNative>(PostMixCallbackId(handle));
+        }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.SetPostMixCallback"/>
         public bool SetPostMixCallback(PostMixCallback callback, object? userData = null) {
             ArgumentNullException.ThrowIfNull(callback);
-            string id = $"MixerPostMix:{Guid.NewGuid()}";
+
+            nint handle = Handle.Ptr;
+            string id = PostMixCallbackId(handle);
+
+            // one callback per mixer
+            CallbackRegistry.Unregister<PostMixCallback, MIX_PostMixCallbackNative>(id);
+
             MIX_PostMixCallbackNative native = PostMixCallbackWrapper.Create(callback);
             (IntPtr functionPtr, IntPtr userdataPtr) reg = CallbackRegistry.Register(id, callback, native, userData);
-            lock (_callbackLock) {
-                bool ok = SDL.SetPostMixCallback(Handle, native, reg.userdataPtr).LogIfFalse();
-                if (!ok) {
-                    CallbackRegistry.Unregister<PostMixCallback, MIX_PostMixCallbackNative>(id);
-                    return false;
-                }
-                if (_postMixCallbackId is not null) {
-                    CallbackRegistry.Unregister<PostMixCallback, MIX_PostMixCallbackNative>(_postMixCallbackId);
-                }
-                _postMixCallbackId = id;
-                return true;
+            if (!SDL.SetPostMixCallback(Handle, native, reg.userdataPtr).LogIfFalse()) {
+                CallbackRegistry.Unregister<PostMixCallback, MIX_PostMixCallbackNative>(id);
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>Removes the mixer post-mix callback.</summary>
         public bool ClearPostMixCallback() {
-            lock (_callbackLock) {
-                bool ok = SDL.SetPostMixCallback(Handle, null!, IntPtr.Zero).LogIfFalse();
-                if (ok && _postMixCallbackId is not null) {
-                    CallbackRegistry.Unregister<PostMixCallback, MIX_PostMixCallbackNative>(_postMixCallbackId);
-                    _postMixCallbackId = null;
-                }
-                return ok;
+            nint handle = Handle.Ptr;
+            if (!SDL.SetPostMixCallback(Handle, null!, IntPtr.Zero).LogIfFalse()) {
+                return false;
             }
+
+            ReleaseCallbacks(handle);
+            return true;
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.LockMixer"/>
@@ -298,20 +303,5 @@ namespace CSDL.Mixer {
             return SDL.Generate(Handle, buffer, length).LogIfInvalid(-1);
         }
 
-        /// <inheritdoc cref="CSDL.Internal.Docs.Mixer.DestroyMixer"/>
-        protected override void DisposeResource() {
-            ClearPostMixCallback();
-            SDL.DestroyMixer(Handle);
-            foreach (WeakReference<Internal.InvalidationRegistration> child in _children) {
-                if (child.TryGetTarget(out Internal.InvalidationRegistration? target)) {
-                    target.Invalidate();
-                }
-            }
-            _children.Clear();
-        }
-
-        internal void RegisterChild(Internal.InvalidationRegistration child) {
-            _children.Add(new WeakReference<Internal.InvalidationRegistration>(child));
-        }
     }
 }

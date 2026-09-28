@@ -19,20 +19,18 @@ namespace CSDL {
         internal uint Generation => (uint)(Value >> 32);
 
         /// <summary>
-        ///     Whether this is the zero handle. One that was never given a resource, as opposed
-        ///     to one whose resource is gone.
+        ///     Whether this is the zero handle or that was never given a resource.
         /// </summary>
         internal bool IsDefault => Value == 0;
 
-        /// <summary>A non-owning view: same identity, ignored by release.</summary>
+        /// <summary>A non-owning view</summary>
         internal bool IsView => ((uint)Value & HandleTable.ViewFlag) != 0;
 
         /// <summary>This handle seen as something other resources can be created against.</summary>
         internal OwnerId AsOwner => new OwnerId(Value & ~(long)HandleTable.ViewFlag);
 
         public bool Equals(HandleId<T> other) {
-            // The view bit says who releases, not what is addressed: a view and the handle it
-            // was derived from sit on the same slot, so identity has to ignore it.
+            // a view and the handle it was derived from sit on the same slot, so ignore the view flag.
             return (Value & ~(long)HandleTable.ViewFlag) == (other.Value & ~(long)HandleTable.ViewFlag);
         }
 
