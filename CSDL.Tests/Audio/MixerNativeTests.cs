@@ -147,7 +147,28 @@ namespace CSDL3.Tests.Audio {
                 Assert.True(track.SetGroup(group), CSDL.Error.GetError());
 
                 // Detaching has to work too, or the group would outlive its members.
-                Assert.True(track.SetGroup(null), CSDL.Error.GetError());
+                Assert.True(track.SetGroup(default), CSDL.Error.GetError());
+            }
+        }
+
+        [Fact]
+        public void SetAudioStream_TakesItsOwnReference_KeepingTheStreamAliveAfterTheCallerDisposesTheirCopy() {
+            // What a track does while it is feeding from a stream the caller has let go of:
+            // assigning it takes the track's own reference, so the caller's Dispose only drops
+            // their copy.
+            using (MixerApi mixer = new MixerApi(TestSpec))
+            using (CSDL.Mixer.Track track = mixer.CreateTrack()) {
+                AudioStream stream = new AudioStream(TestSpec, TestSpec);
+                Assert.True(track.SetAudioStream(stream), CSDL.Error.GetError());
+
+                stream.Dispose();
+                Assert.True(stream.IsValid);
+                Assert.True(stream.Flush());
+
+                // Clearing the track's input gives back the reference it took, which was the
+                // last one outstanding.
+                Assert.True(track.ClearInput(), CSDL.Error.GetError());
+                Assert.False(stream.IsValid);
             }
         }
 

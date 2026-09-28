@@ -1,9 +1,11 @@
-// SPDX-FileCopyrightText: 2026 Christof Ignacy
+﻿// SPDX-FileCopyrightText: 2026 Christof Ignacy
 // SPDX-License-Identifier: Zlib
 
 using CSDL.Audio;
+using CSDL3.Tests.TestSupport;
 
 namespace CSDL3.Tests.Audio {
+    [Collection(SdlCollection.Name)]
     public class AudioSafetyTests {
         [Fact]
         public void AudioFormatInfo_ConstructsTheSdlDefinedFormat() {
