@@ -471,6 +471,24 @@ namespace CSDL.Internal.Docs {
         public static extern void GetRenderClipRect();
 
         /// <summary>
+        /// <para>Get the clip rectangle for the current target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Each render target has its own clip rectangle. This function gets the cliprect for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">an <see cref="CSDL.Video.FRect">FRect</see> structure filled in with the current clipping area or an empty rectangle if clipping is disabled.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderClipRectFloat">SDL_GetRenderClipRectFloat</seealso></SDLWiki>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
+        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
+        public static extern void GetRenderClipRectFloat();
+
+        /// <summary>
         /// <para>Get the color scale used for render operations.</para>
         /// </summary>
         /// <param name="renderer">the rendering context.</param>
@@ -824,6 +842,24 @@ namespace CSDL.Internal.Docs {
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
         public static extern void GetRenderViewport();
+
+        /// <summary>
+        /// <para>Get the drawing area for the current target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Each render target has its own viewport. This function gets the viewport for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">an <see cref="CSDL.Video.FRect">FRect</see> structure filled in with the current drawing area.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderViewportFloat">SDL_GetRenderViewportFloat</seealso></SDLWiki>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
+        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
+        public static extern void GetRenderViewportFloat();
 
         /// <summary>
         /// <para>Get VSync of the given renderer.</para>
@@ -1718,6 +1754,24 @@ namespace CSDL.Internal.Docs {
         public static extern void SetRenderClipRect();
 
         /// <summary>
+        /// <para>Set the clip rectangle for rendering on the specified target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Each render target has its own clip rectangle. This function sets the cliprect for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">an <see cref="CSDL.Video.FRect">FRect</see> structure representing the clip area, relative to the viewport, or NULL to disable clipping.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderClipRectFloat">SDL_SetRenderClipRectFloat</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
+        public static extern void SetRenderClipRectFloat();
+
+        /// <summary>
         /// <para>Set the color scale used for render operations.</para>
         /// </summary>
         /// <remarks>
@@ -1896,6 +1950,26 @@ namespace CSDL.Internal.Docs {
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
         /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
         public static extern void SetRenderViewport();
+
+        /// <summary>
+        /// <para>Set the drawing area for rendering on the current target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Drawing will clip to this area (separately from any clipping done with <see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see>), and the top left of the area will become coordinate (0, 0) for future drawing commands.</para>
+        /// <para>The area's width and height must be >= 0.</para>
+        /// <para>Each render target has its own viewport. This function sets the viewport for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">the <see cref="CSDL.Video.FRect">FRect</see> structure representing the drawing area, or NULL to set the viewport to the entire target.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderViewportFloat">SDL_SetRenderViewportFloat</seealso></SDLWiki>
+        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
+        public static extern void SetRenderViewportFloat();
 
         /// <summary>
         /// <para>Toggle VSync of the given renderer.</para>

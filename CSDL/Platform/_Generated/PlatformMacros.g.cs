@@ -190,6 +190,14 @@ namespace CSDL {
         public static extern void PlatformOpenbsd();
 
         /// <summary>
+        /// <para>A preprocessor macro that is only defined if compiling for OpenHarmony/HarmonyOS.</para>
+        /// </summary>
+        /// <since>This macro is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PLATFORM_OPENHARMONY">SDL_PLATFORM_OPENHARMONY</seealso></SDLWiki>
+        [System.Obsolete("Do not use this here, try to find it in CSDL.Platform", true)]
+        public static extern void PlatformOpenharmony();
+
+        /// <summary>
         /// <para>A preprocessor macro that is only defined if compiling for OS/2.</para>
         /// </summary>
         /// <since>This macro is available since SDL 3.2.0</since>

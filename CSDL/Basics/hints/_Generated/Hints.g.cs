@@ -198,6 +198,7 @@ namespace CSDL {
             public const string PenTouchEvents = "SDL_PEN_TOUCH_EVENTS";
             public const string PollSentinel = "SDL_POLL_SENTINEL";
             public const string PreferredLocales = "SDL_PREFERRED_LOCALES";
+            public const string PS2GsColorDepth = "SDL_PS2_GS_COLOR_DEPTH";
             public const string PS2GsHeight = "SDL_PS2_GS_HEIGHT";
             public const string PS2GsMode = "SDL_PS2_GS_MODE";
             public const string PS2GsProgressive = "SDL_PS2_GS_PROGRESSIVE";
@@ -3059,6 +3060,21 @@ namespace CSDL {
         /// <since>This hint is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HINT_PREFERRED_LOCALES">SDL_HINT_PREFERRED_LOCALES</seealso></SDLWiki>
         public static Hint PreferredLocales => For(Names.PreferredLocales);
+
+        /// <summary>
+        /// <para>A variable controlling the pixel storage mode of the PS2's framebuffer.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>The variable can be set to the following values:</para>
+        /// <list type="bullet">
+        /// <item><description>"32"</description></item>
+        /// <item><description>"24" (default)</description></item>
+        /// <item><description>"16"</description></item>
+        /// </list>
+        /// </remarks>
+        /// <since>This hint is available since SDL 3.4.20</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_HINT_PS2_GS_COLOR_DEPTH">SDL_HINT_PS2_GS_COLOR_DEPTH</seealso></SDLWiki>
+        public static Hint PS2GsColorDepth => For(Names.PS2GsColorDepth);
 
         /// <summary>
         /// <para>A variable controlling the height of the PS2's framebuffer in pixels.</para>

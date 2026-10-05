@@ -47,5 +47,10 @@ namespace CSDL {
         /// <para>Complete pen input state at time of event (added in 3.4.16).</para>
         /// </summary>
         public CSDL.Input.PenInputFlags PenState;
+
+        /// <summary>
+        /// <para>the device type of the pen, if known (added in 3.4.18).</para>
+        /// </summary>
+        public CSDL.Input.PenDeviceType DeviceType;
     }
 }

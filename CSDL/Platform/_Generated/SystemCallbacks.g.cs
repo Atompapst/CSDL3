@@ -75,6 +75,38 @@ namespace CSDL {
     }
 
     /// <summary>
+    /// <para>Callback that presents <c>SDL_RequestOpenHarmonyPermission</c> results.</para>
+    /// </summary>
+    /// <param name="userData">an app-controlled pointer that is passed to the callback.</param>
+    /// <param name="permission">the OpenHarmony-specific permission name that was requested.</param>
+    /// <param name="granted">true if permission is granted, false if denied.</param>
+    /// <version>
+    /// <para>This datatype is available since SDL 3.6.0</para>
+    /// </version>
+    /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RequestOpenHarmonyPermissionCallback">SDL_RequestOpenHarmonyPermissionCallback</seealso></SDLWiki>
+    /// <seealso><c>SDL_RequestOpenHarmonyPermission</c></seealso>
+    public delegate void RequestOpenHarmonyPermissionCallback(object? userData, string permission, bool granted);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void SDL_RequestOpenHarmonyPermissionCallbackNative(nint userData, nint permission, bool granted);
+
+    internal static class RequestOpenHarmonyPermissionCallbackWrapper {
+        public static SDL_RequestOpenHarmonyPermissionCallbackNative Create(RequestOpenHarmonyPermissionCallback fn) {
+            return (userDataPtr, permissionPtr, granted) => {
+                try {
+                    object? userData = CallbackRegistry.GetUserdata(userDataPtr);
+                    string permission = Marshal.PtrToStringUTF8(permissionPtr);
+                    fn(userData, permission, granted);
+                }
+                catch (System.Exception ex) {
+                    CSDL.Log.Error(ex, "Managed callback threw an exception.");
+                    return;
+                }
+            };
+        }
+    }
+
+    /// <summary>
     /// <para>A callback to be used with <see cref="CSDL.Windows.SetMessageHook">SetMessageHook</see>.</para>
     /// </summary>
     /// <param name="userData">the app-defined pointer provided to <see cref="CSDL.Windows.SetMessageHook">SetMessageHook</see>.</param>

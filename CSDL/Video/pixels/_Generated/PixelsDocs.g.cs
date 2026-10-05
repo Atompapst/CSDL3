@@ -11,6 +11,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Create a palette structure with the specified number of color entries.</para>
         /// </summary>
         /// <remarks>
+        /// <para>If <c>ncolors</c> is larger than the palette's size - <c>firstcolor</c>, it is truncated to the amount that will fit.</para>
         /// <para>The palette entries are initialized to white.</para>
         /// </remarks>
         /// <param name="ncolors">represents the number of color entries in the color palette.</param>

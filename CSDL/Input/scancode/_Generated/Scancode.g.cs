@@ -266,6 +266,10 @@ namespace CSDL.Input {
         Clearagain = 162,
         Crsel = 163,
         Exsel = 164,
+        /// <summary>
+        /// <para>Front (Sun keyboards)</para>
+        /// </summary>
+        Front = 165,
         Kp00 = 176,
         Kp000 = 177,
         Thousandsseparator = 178,
