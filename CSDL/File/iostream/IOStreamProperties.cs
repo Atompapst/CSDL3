@@ -33,7 +33,9 @@ namespace CSDL {
         /// <inheritdoc cref="CSDL.Props.IostreamMemoryFreeFuncPointer"/>
         public PointerProperty MemoryFreeFunc => PropPointer(Props.IostreamMemoryFreeFuncPointer);
 
+        // Set by IOFromDynamicMem
         /// <inheritdoc cref="CSDL.Props.IostreamDynamicMemoryPointer"/>
+        /// <remarks>Setting it to null hands the buffer over to the app (free it with <seealso cref="CSDL.Memory.Free"/>); the next call must be close.</remarks>
         public PointerProperty DynamicMemory => PropPointer(Props.IostreamDynamicMemoryPointer);
 
         /// <inheritdoc cref="CSDL.Props.IostreamDynamicChunksizeNumber"/>

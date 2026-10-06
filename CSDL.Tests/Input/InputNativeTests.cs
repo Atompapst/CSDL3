@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Zlib
 
 using CSDL.Input;
+using CSDL.Video;
 using CSDL3.Tests.TestSupport;
+using Macros = CSDL.Input.Macros;
 using Sdl = CSDL;
 
 namespace CSDL3.Tests.Input {
@@ -67,6 +69,36 @@ namespace CSDL3.Tests.Input {
             _ = Mouse.GetConnectedMice();
             _ = Gamepads.GetConnectedGamepads();
             _ = Haptics.GetConnected();
+        }
+
+        [Fact]
+        public void TextInputProperties_RoundTripValues() {
+            using TextInputProperties props = new TextInputProperties();
+
+            Assert.True(props.Type.Set((long)TextInputType.TextEmail));
+            Assert.True(props.Capitalization.Set((long)Capitalization.Words));
+            Assert.True(props.Autocorrect.Set(true));
+            Assert.True(props.Multiline.Set(true));
+            Assert.True(props.MaxLength.Set(12));
+            Assert.True(props.Title.Set("title"));
+            Assert.True(props.Placeholder.Set("hint"));
+            Assert.True(props.DefaultText.Set("text"));
+
+            Assert.Equal((long)TextInputType.TextEmail, props.Type.Get());
+            Assert.Equal((long)Capitalization.Words, props.Capitalization.Get());
+            Assert.True(props.Autocorrect.Get());
+            Assert.True(props.Multiline.Get());
+            Assert.Equal(12, props.MaxLength.Get());
+            Assert.Equal("title", props.Title.Get());
+            Assert.Equal("hint", props.Placeholder.Get());
+            Assert.Equal("text", props.DefaultText.Get());
+        }
+
+        [Fact]
+        public void StartTextInputWithProperties_RejectsNullArguments() {
+            using TextInputProperties props = new TextInputProperties();
+
+            Assert.Throws<ArgumentNullException>(() => Keyboards.StartTextInputWithProperties(null, props));
         }
     }
 }
