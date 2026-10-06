@@ -700,7 +700,7 @@ namespace CSDL.Internal.Docs {
         /// <para>Return whether a joystick has a particular sensor.</para>
         /// </summary>
         /// <remarks>
-        /// <para>Sensors are disabled by default and <c>SDL_SetJoystickSensorEnabled</c> is used to enable them.</para>
+        /// <para>Sensors are disabled by default and <see cref="CSDL.Input.JoystickDevice.SetSensorEnabled">SetSensorEnabled</see> is used to enable them.</para>
         /// </remarks>
         /// <param name="joystick">the joystick to query.</param>
         /// <param name="type">the type of sensor to query.</param>
@@ -710,9 +710,9 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.6.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_JoystickHasSensor">SDL_JoystickHasSensor</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetJoystickSensorData</c></seealso>
-        /// <seealso><c>SDL_GetJoystickSensorDataRate</c></seealso>
-        /// <seealso><c>SDL_SetJoystickSensorEnabled</c></seealso>
+        /// <seealso><see cref="CSDL.Input.JoystickDevice.GetSensorData">GetSensorData</see></seealso>
+        /// <seealso><see cref="CSDL.Input.JoystickDevice.GetSensorDataRate">GetSensorDataRate</see></seealso>
+        /// <seealso><see cref="CSDL.Input.JoystickDevice.SetSensorEnabled">SetSensorEnabled</see></seealso>
         public static extern void JoystickHasSensor();
 
         /// <summary>
@@ -726,7 +726,7 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.6.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_JoystickSensorEnabled">SDL_JoystickSensorEnabled</seealso></SDLWiki>
-        /// <seealso><c>SDL_SetJoystickSensorEnabled</c></seealso>
+        /// <seealso><see cref="CSDL.Input.JoystickDevice.SetSensorEnabled">SetSensorEnabled</see></seealso>
         public static extern void JoystickSensorEnabled();
 
         /// <summary>
@@ -896,8 +896,8 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
         /// <since>This function is available since SDL 3.6.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetJoystickSensorEnabled">SDL_SetJoystickSensorEnabled</seealso></SDLWiki>
-        /// <seealso><c>SDL_JoystickHasSensor</c></seealso>
-        /// <seealso><c>SDL_JoystickSensorEnabled</c></seealso>
+        /// <seealso><see cref="CSDL.Input.JoystickDevice.HasSensor">HasSensor</see></seealso>
+        /// <seealso><see cref="CSDL.Input.JoystickDevice.SensorEnabled">SensorEnabled</see></seealso>
         public static extern void SetJoystickSensorEnabled();
 
         /// <summary>

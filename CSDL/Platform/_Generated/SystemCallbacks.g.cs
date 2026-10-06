@@ -75,7 +75,7 @@ namespace CSDL {
     }
 
     /// <summary>
-    /// <para>Callback that presents <c>SDL_RequestOpenHarmonyPermission</c> results.</para>
+    /// <para>Callback that presents <see cref="CSDL.OpenHarmony.RequestPermission">RequestPermission</see> results.</para>
     /// </summary>
     /// <param name="userData">an app-controlled pointer that is passed to the callback.</param>
     /// <param name="permission">the OpenHarmony-specific permission name that was requested.</param>
@@ -84,7 +84,7 @@ namespace CSDL {
     /// <para>This datatype is available since SDL 3.6.0</para>
     /// </version>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RequestOpenHarmonyPermissionCallback">SDL_RequestOpenHarmonyPermissionCallback</seealso></SDLWiki>
-    /// <seealso><c>SDL_RequestOpenHarmonyPermission</c></seealso>
+    /// <seealso><see cref="CSDL.OpenHarmony.RequestPermission">RequestPermission</see></seealso>
     public delegate void RequestOpenHarmonyPermissionCallback(object? userData, string permission, bool granted);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
