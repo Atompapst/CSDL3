@@ -69,5 +69,10 @@ namespace CSDL {
         /// <para>true if the pen is touching or false if the pen is lifted off</para>
         /// </summary>
         public bool Down { readonly get => _down; set => _down = value; }
+
+        /// <summary>
+        /// <para>the device type of the pen, if known (added in 3.4.18).</para>
+        /// </summary>
+        public CSDL.Input.PenDeviceType DeviceType;
     }
 }

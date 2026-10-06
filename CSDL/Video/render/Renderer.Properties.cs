@@ -36,6 +36,12 @@ namespace CSDL.Video {
             set => SetViewport(value);
         }
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderViewportFloat"/>
+        public FRect ViewportFloat {
+            get => GetViewportFloat();
+            set => SetViewportFloat(value);
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderVSync"/>
         public int Vsync {
             get => GetVsync();
@@ -46,6 +52,12 @@ namespace CSDL.Video {
         public Rect ClipRect {
             get => GetClipRect();
             set => SetClipRect(value);
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderClipRectFloat"/>
+        public FRect ClipRectFloat {
+            get => GetClipRectFloat();
+            set => SetClipRectFloat(value);
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderColorScale"/>
@@ -139,6 +151,23 @@ namespace CSDL.Video {
             return SDL.SetRenderViewport(Handle, in rectRef).LogIfFalse();
         }
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRenderViewportFloat"/>
+        private FRect GetViewportFloat() {
+            SDL.GetRenderViewportFloat(Handle, out FRect rect).LogIfFalse();
+            return rect;
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderViewportFloat"/>
+        private bool SetViewportFloat(FRect rect) {
+            return SDL.SetRenderViewportFloat(Handle, rect).LogIfFalse();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderViewportFloat"/>
+        public bool SetViewportFloat(FRect? rect) {
+            ref readonly FRect rectRef = ref rect.AsRef(out FRect value);
+            return SDL.SetRenderViewportFloat(Handle, in rectRef).LogIfFalse();
+        }
+
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRenderVSync"/>
         private int GetVsync() {
             SDL.GetRenderVSync(Handle, out int vsync).LogIfFalse();
@@ -168,6 +197,26 @@ namespace CSDL.Video {
         public bool SetClipRect(Rect? rect) {
             ref readonly Rect rectRef = ref rect.AsRef(out Rect value);
             return SDL.SetRenderClipRect(Handle, in rectRef).LogIfFalse();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRenderClipRectFloat"/>
+        private FRect GetClipRectFloat() {
+            SDL.GetRenderClipRectFloat(Handle, out FRect rect).LogIfFalse();
+            return rect;
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderClipRectFloat"/>
+        private bool SetClipRectFloat(FRect rect) {
+            return SDL.SetRenderClipRectFloat(Handle, rect).LogIfFalse();
+        }
+
+        /// <summary>
+        /// Sets the float clip rectangle, or disables clipping if <paramref name="rect"/> is <see langword="null"/>.
+        /// </summary>
+        /// <inheritdoc cref="CSDL.Internal.Docs.Render.SetRenderClipRectFloat"/>
+        public bool SetClipRectFloat(FRect? rect) {
+            ref readonly FRect rectRef = ref rect.AsRef(out FRect value);
+            return SDL.SetRenderClipRectFloat(Handle, in rectRef).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Render.GetRenderColorScale"/>

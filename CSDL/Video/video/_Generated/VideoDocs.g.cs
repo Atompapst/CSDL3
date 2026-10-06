@@ -182,12 +182,14 @@ namespace CSDL.Internal.Docs {
         /// <item><description>a string used as a stable identifier for toplevel windows for the purpose of allowing the compositor to save/restore their state between runs. This should be human readable, but not translated, and must be unique for each individual window.</description></item>
         /// <item><description><see cref="CSDL.Props.WindowCreateWaylandWlSurfacePointer">WindowCreateWaylandWlSurfacePointer</see></description></item>
         /// <item><description>the wl_surface associated with the window, if you want to wrap an existing window. See <c>README-wayland</c> for more information.</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowCreateWaylandEnableInsetsBoolean">WindowCreateWaylandEnableInsetsBoolean</see></description></item>
+        /// <item><description>true if the application wants to enable custom border inset window properties. See <c>README-wayland</c> for more information.</description></item>
         /// </list>
         /// <para>These are additional supported properties on Windows:</para>
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.WindowCreateWIN32HwndPointer">WindowCreateWIN32HwndPointer</see>: the HWND associated with the window, if you want to wrap an existing window.</description></item>
         /// <item><description><see cref="CSDL.Props.WindowCreateWIN32PixelFormatHwndPointer">WindowCreateWIN32PixelFormatHwndPointer</see>: optional, another window to share pixel format with, useful for OpenGL windows</description></item>
-        /// <item><description><c>SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER</c>: the window style (WS_EX_*) flags to use instead of the defaults.</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowCreateWIN32StyleExNumber">WindowCreateWIN32StyleExNumber</see>: the window style (WS_EX_*) flags to use instead of the defaults.</description></item>
         /// </list>
         /// <para>These are additional supported properties with X11:</para>
         /// <list type="bullet">
@@ -1028,9 +1030,9 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>On OpenHarmony/HarmonyOS:</para>
         /// <list type="bullet">
-        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_XCOMPONENT_POINTER</c>: the OH_NativeXComponent associated with the window</description></item>
-        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_WINDOW_POINTER</c>: the OHNativeWindow associated with the window</description></item>
-        /// <item><description><c>SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER</c>: the EGLSurface associated with the window</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowOpenharmonyXcomponentPointer">WindowOpenharmonyXcomponentPointer</see>: the OH_NativeXComponent associated with the window</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowOpenharmonyWindowPointer">WindowOpenharmonyWindowPointer</see>: the OHNativeWindow associated with the window</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowOpenharmonySurfacePointer">WindowOpenharmonySurfacePointer</see>: the EGLSurface associated with the window</description></item>
         /// </list>
         /// <para>On iOS:</para>
         /// <list type="bullet">
@@ -1074,6 +1076,7 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>On Wayland:</para>
         /// <para>Note: The <c>xdg_*</c> window objects do not internally persist across window show/hide calls. They will be null if the window is hidden and must be queried each time it is shown.</para>
+        /// <para>Note: The <c>border_inset_*</c> properties can be set by the application when client-side decorations such as shadows or invisible resize borders extend beyond the visible frame (see docs/README-wayland.md for details).</para>
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.WindowWaylandDisplayPointer">WindowWaylandDisplayPointer</see>: the wl_display associated with the window</description></item>
         /// <item><description><see cref="CSDL.Props.WindowWaylandSurfacePointer">WindowWaylandSurfacePointer</see>: the wl_surface associated with the window</description></item>
@@ -1085,6 +1088,10 @@ namespace CSDL.Internal.Docs {
         /// <item><description>'<see cref="CSDL.Props.WindowWaylandXdgToplevelExportHandleString">WindowWaylandXdgToplevelExportHandleString</see>': the export handle associated with the window</description></item>
         /// <item><description><see cref="CSDL.Props.WindowWaylandXdgPopupPointer">WindowWaylandXdgPopupPointer</see>: the xdg_popup role associated with the window</description></item>
         /// <item><description><see cref="CSDL.Props.WindowWaylandXdgPositionerPointer">WindowWaylandXdgPositionerPointer</see>: the xdg_positioner associated with the window, in popup mode</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowWaylandBorderInsetLeftNumber">WindowWaylandBorderInsetLeftNumber</see>: the left border inset of the visible window</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowWaylandBorderInsetTopNumber">WindowWaylandBorderInsetTopNumber</see>: the top border inset of the visible window</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowWaylandBorderInsetRightNumber">WindowWaylandBorderInsetRightNumber</see>: the right border inset of the visible window</description></item>
+        /// <item><description><see cref="CSDL.Props.WindowWaylandBorderInsetBottomNumber">WindowWaylandBorderInsetBottomNumber</see>: the bottom border inset of the visible window</description></item>
         /// </list>
         /// <para>On X11:</para>
         /// <list type="bullet">

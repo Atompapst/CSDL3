@@ -370,7 +370,7 @@ namespace CSDL.Internal.Docs {
         /// </list>
         /// <para>On HarmonyOS/OpenHarmony you can directly specify the input type:</para>
         /// <list type="bullet">
-        /// <item><description><c>SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER</c></description></item>
+        /// <item><description><see cref="CSDL.Props.TextinputOpenharmonyInputtypeNumber">TextinputOpenharmonyInputtypeNumber</see></description></item>
         /// <item><description>the text input type to use, overriding other properties. This is documented at https://developer.android.com/reference/android/text/InputType</description></item>
         /// </list>
         /// </remarks>

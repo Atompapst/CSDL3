@@ -60,6 +60,9 @@ namespace CSDL.Audio {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetAudioDeviceName"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<byte> GetAudioDeviceName(CSDL.Audio.AudioDeviceID devid);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetAudioDeviceProperties"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CSDL.PropertiesID GetAudioDeviceProperties(CSDL.Audio.AudioDeviceID devid);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetAudioDriver"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial NativePtr<byte> GetAudioDriver(int index);
 

@@ -62,6 +62,14 @@ namespace CSDL.Video {
         public NumberProperty VulkanTexture => PropNumber(Props.TextureCreateVulkanTextureNumber);
         /// <inheritdoc cref="CSDL.Props.TextureCreateVulkanLayoutNumber"/>
         public NumberProperty VulkanLayout => PropNumber(Props.TextureCreateVulkanLayoutNumber);
+        /// <inheritdoc cref="CSDL.Props.TextureCreateVulkanTextureUNumber"/>
+        public NumberProperty VulkanTextureU => PropNumber(Props.TextureCreateVulkanTextureUNumber);
+        /// <inheritdoc cref="CSDL.Props.TextureCreateVulkanTextureVNumber"/>
+        public NumberProperty VulkanTextureV => PropNumber(Props.TextureCreateVulkanTextureVNumber);
+        /// <inheritdoc cref="CSDL.Props.TextureCreateVulkanUsageNumber"/>
+        public NumberProperty VulkanUsage => PropNumber(Props.TextureCreateVulkanUsageNumber);
+        /// <inheritdoc cref="CSDL.Props.TextureCreateVulkanAndroidHardwareBufferPointer"/>
+        public PointerProperty VulkanAndroidHardwareBuffer => PropPointer(Props.TextureCreateVulkanAndroidHardwareBufferPointer);
         /// <inheritdoc cref="CSDL.Props.TextureCreatePalettePointer"/>
         public PointerProperty Palette => PropPointer(Props.TextureCreatePalettePointer);
         /// <inheritdoc cref="CSDL.Props.TextureCreateGPUTexturePointer"/>

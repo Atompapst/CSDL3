@@ -277,11 +277,11 @@ namespace CSDL.Internal.Docs {
         /// <para>With the vulkan renderer:</para>
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureNumber">TextureCreateVulkanTextureNumber</see>: the VkImage associated with the texture, if you want to wrap an existing texture. For NV12 style textures this is the single two plane VkImage holding both the Y and UV planes, and for YUV style textures it is the VkImage holding the Y plane.</description></item>
-        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_U_NUMBER</c>: the VkImage associated with the U plane of a YUV texture, if you want to wrap an existing texture.</description></item>
-        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_V_NUMBER</c>: the VkImage associated with the V plane of a YUV texture, if you want to wrap an existing texture.</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureUNumber">TextureCreateVulkanTextureUNumber</see>: the VkImage associated with the U plane of a YUV texture, if you want to wrap an existing texture.</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanTextureVNumber">TextureCreateVulkanTextureVNumber</see>: the VkImage associated with the V plane of a YUV texture, if you want to wrap an existing texture.</description></item>
         /// <item><description><see cref="CSDL.Props.TextureCreateVulkanLayoutNumber">TextureCreateVulkanLayoutNumber</see>: the VkImageLayout for the VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
-        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_USAGE_NUMBER</c>: additional VK_IMAGE_USAGE bits that should be used when creating the texture. VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
-        /// <item><description><c>SDL_PROP_TEXTURE_CREATE_VULKAN_ANDROID_HARDWARE_BUFFER_POINTER</c>: the AHardwareBuffer to sample from, if you want to use an existing Android hardware buffer as the texture. You must use <see cref="CSDL.Video.PixelFormat.ExternalOes">ExternalOes</see> for the texture format. You can't directly update the texture or use it as a render target. If the Android buffer contents change, you must recreate the texture to pick up the changes. The texture holds a reference to the buffer, so you can release your own reference once the texture has been created.</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanUsageNumber">TextureCreateVulkanUsageNumber</see>: additional VK_IMAGE_USAGE bits that should be used when creating the texture. VkImage, defaults to VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL.</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureCreateVulkanAndroidHardwareBufferPointer">TextureCreateVulkanAndroidHardwareBufferPointer</see>: the AHardwareBuffer to sample from, if you want to use an existing Android hardware buffer as the texture. You must use <see cref="CSDL.Video.PixelFormat.ExternalOes">ExternalOes</see> for the texture format. You can't directly update the texture or use it as a render target. If the Android buffer contents change, you must recreate the texture to pick up the changes. The texture holds a reference to the buffer, so you can release your own reference once the texture has been created.</description></item>
         /// </list>
         /// <para>With the GPU renderer:</para>
         /// <list type="bullet">
@@ -465,10 +465,28 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderClipRect">SDL_GetRenderClipRect</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.GetClipRectFloat">GetClipRectFloat</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see></seealso>
         public static extern void GetRenderClipRect();
+
+        /// <summary>
+        /// <para>Get the clip rectangle for the current target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Each render target has its own clip rectangle. This function gets the cliprect for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">an <see cref="CSDL.Video.FRect">FRect</see> structure filled in with the current clipping area or an empty rectangle if clipping is disabled.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderClipRectFloat">SDL_GetRenderClipRectFloat</seealso></SDLWiki>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipRectFloat">ClipRectFloat</see></seealso>
+        public static extern void GetRenderClipRectFloat();
 
         /// <summary>
         /// <para>Get the color scale used for render operations.</para>
@@ -820,10 +838,28 @@ namespace CSDL.Internal.Docs {
         /// <threadsafety>This function should only be called on the main thread.</threadsafety>
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderViewport">SDL_GetRenderViewport</seealso></SDLWiki>
-        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.GetViewportFloat">GetViewportFloat</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
         public static extern void GetRenderViewport();
+
+        /// <summary>
+        /// <para>Get the drawing area for the current target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Each render target has its own viewport. This function gets the viewport for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">an <see cref="CSDL.Video.FRect">FRect</see> structure filled in with the current drawing area.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetRenderViewportFloat">SDL_GetRenderViewportFloat</seealso></SDLWiki>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportFloat">ViewportFloat</see></seealso>
+        public static extern void GetRenderViewportFloat();
 
         /// <summary>
         /// <para>Get VSync of the given renderer.</para>
@@ -982,8 +1018,8 @@ namespace CSDL.Internal.Docs {
         /// <para>With the vulkan renderer:</para>
         /// <list type="bullet">
         /// <item><description><see cref="CSDL.Props.TextureVulkanTextureNumber">TextureVulkanTextureNumber</see>: the VkImage associated with the texture. For NV12 style textures this is the single two plane VkImage holding both the Y and UV planes, and for YUV style textures it is the VkImage holding the Y plane.</description></item>
-        /// <item><description><c>SDL_PROP_TEXTURE_VULKAN_TEXTURE_U_NUMBER</c>: the VkImage associated with the U plane of a YUV texture</description></item>
-        /// <item><description><c>SDL_PROP_TEXTURE_VULKAN_TEXTURE_V_NUMBER</c>: the VkImage associated with the V plane of a YUV texture</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureVulkanTextureUNumber">TextureVulkanTextureUNumber</see>: the VkImage associated with the U plane of a YUV texture</description></item>
+        /// <item><description><see cref="CSDL.Props.TextureVulkanTextureVNumber">TextureVulkanTextureVNumber</see>: the VkImage associated with the V plane of a YUV texture</description></item>
         /// </list>
         /// <para>With the opengl renderer:</para>
         /// <list type="bullet">
@@ -1121,9 +1157,9 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderClipEnabled">SDL_RenderClipEnabled</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetClipRect">GetClipRect</see></seealso>
-        /// <seealso><c>SDL_GetRenderClipRectFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.GetClipRectFloat">GetClipRectFloat</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see></seealso>
-        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipRectFloat">ClipRectFloat</see></seealso>
         public static extern void RenderClipEnabled();
 
         /// <summary>
@@ -1591,9 +1627,9 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RenderViewportSet">SDL_RenderViewportSet</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetViewport">GetViewport</see></seealso>
-        /// <seealso><c>SDL_GetRenderViewportFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.GetViewportFloat">GetViewportFloat</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.Viewport">Viewport</see></seealso>
-        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportFloat">ViewportFloat</see></seealso>
         public static extern void RenderViewportSet();
 
         /// <summary>
@@ -1714,8 +1750,26 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderClipRect">SDL_SetRenderClipRect</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetClipRect">GetClipRect</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
-        /// <seealso><c>SDL_SetRenderClipRectFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipRectFloat">ClipRectFloat</see></seealso>
         public static extern void SetRenderClipRect();
+
+        /// <summary>
+        /// <para>Set the clip rectangle for rendering on the specified target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Each render target has its own clip rectangle. This function sets the cliprect for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">an <see cref="CSDL.Video.FRect">FRect</see> structure representing the clip area, relative to the viewport, or NULL to disable clipping.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderClipRectFloat">SDL_SetRenderClipRectFloat</seealso></SDLWiki>
+        /// <seealso><see cref="CSDL.Video.Renderer.GetClipRectFloat">GetClipRectFloat</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ClipEnabled">ClipEnabled</see></seealso>
+        public static extern void SetRenderClipRectFloat();
 
         /// <summary>
         /// <para>Set the color scale used for render operations.</para>
@@ -1894,8 +1948,28 @@ namespace CSDL.Internal.Docs {
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderViewport">SDL_SetRenderViewport</seealso></SDLWiki>
         /// <seealso><see cref="CSDL.Video.Renderer.GetViewport">GetViewport</see></seealso>
         /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
-        /// <seealso><c>SDL_SetRenderViewportFloat</c></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportFloat">ViewportFloat</see></seealso>
         public static extern void SetRenderViewport();
+
+        /// <summary>
+        /// <para>Set the drawing area for rendering on the current target.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>Drawing will clip to this area (separately from any clipping done with <see cref="CSDL.Video.Renderer.ClipRect">ClipRect</see>), and the top left of the area will become coordinate (0, 0) for future drawing commands.</para>
+        /// <para>The area's width and height must be >= 0.</para>
+        /// <para>Each render target has its own viewport. This function sets the viewport for the current render target.</para>
+        /// </remarks>
+        /// <param name="renderer">the rendering context.</param>
+        /// <param name="rect">the <see cref="CSDL.Video.FRect">FRect</see> structure representing the drawing area, or NULL to set the viewport to the entire target.</param>
+        /// <returns>
+        /// <para>(bool) Returns true on success or false on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>This function should only be called on the main thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_SetRenderViewportFloat">SDL_SetRenderViewportFloat</seealso></SDLWiki>
+        /// <seealso><see cref="CSDL.Video.Renderer.GetViewportFloat">GetViewportFloat</see></seealso>
+        /// <seealso><see cref="CSDL.Video.Renderer.ViewportSet">ViewportSet</see></seealso>
+        public static extern void SetRenderViewportFloat();
 
         /// <summary>
         /// <para>Toggle VSync of the given renderer.</para>

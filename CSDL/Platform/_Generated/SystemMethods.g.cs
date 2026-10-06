@@ -45,6 +45,12 @@ namespace CSDL {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetDXGIOutputInfo"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool GetDXGIOutputInfo(CSDL.Video.DisplayID displayID, out int adapterIndex, out int outputIndex);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetOpenHarmonyInternalStoragePath"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial NativePtr<byte> GetOpenHarmonyInternalStoragePath();
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetOpenHarmonySDKVersion"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial int GetOpenHarmonySDKVersion();
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetSandbox"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CSDL.Sandbox GetSandbox();
 
@@ -92,6 +98,12 @@ namespace CSDL {
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_RequestAndroidPermission"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool RequestAndroidPermission(NativePtr<byte> permission, SDL_RequestAndroidPermissionCallbackNative cb, IntPtr userData);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RequestOpenHarmonyPermission"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RequestOpenHarmonyPermission([MarshalAs(UnmanagedType.LPUTF8Str)] string? permission, SDL_RequestOpenHarmonyPermissionCallbackNative cb, IntPtr userData);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_RequestOpenHarmonyPermission"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool RequestOpenHarmonyPermission(NativePtr<byte> permission, SDL_RequestOpenHarmonyPermissionCallbackNative cb, IntPtr userData);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SendAndroidBackButton"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial void SendAndroidBackButton();

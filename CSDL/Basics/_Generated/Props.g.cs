@@ -59,6 +59,12 @@ namespace CSDL {
         public const string AudiostreamAutoCleanupBoolean = "SDL.audiostream.auto_cleanup";
 
         /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Audio.PlaybackDeviceInfo.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_AUDIO_DEVICE_UNIQUE_ID_STRING">SDL_PROP_AUDIO_DEVICE_UNIQUE_ID_STRING</seealso></SDLWiki>
+        public const string AudioDeviceUniqueIDString = "SDL.audio.device.unique_id";
+
+        /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.DisplayItem.Properties">Properties</see> for details.</para>
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN">SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN</seealso></SDLWiki>
@@ -605,6 +611,12 @@ namespace CSDL {
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.File.IOStream(string,string)">IOStream(string,string)</see> for details.</para>
         /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_IOSTREAM_OPENHARMONY_RAWFILE64_POINTER">SDL_PROP_IOSTREAM_OPENHARMONY_RAWFILE64_POINTER</seealso></SDLWiki>
+        public const string IostreamOpenharmonyRAWFILE64Pointer = "SDL.iostream.openharmony.rawfile64";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.File.IOStream(string,string)">IOStream(string,string)</see> for details.</para>
+        /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_IOSTREAM_STDIO_FILE_POINTER">SDL_PROP_IOSTREAM_STDIO_FILE_POINTER</seealso></SDLWiki>
         public const string IostreamStdioFilePointer = "SDL.iostream.stdio.file";
 
@@ -1098,6 +1110,12 @@ namespace CSDL {
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Input.Keyboards.StartTextInput">StartTextInput</see> for details.</para>
         /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER">SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER</seealso></SDLWiki>
+        public const string TextinputOpenharmonyInputtypeNumber = "SDL.textinput.openharmony.inputtype";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Input.Keyboards.StartTextInput">StartTextInput</see> for details.</para>
+        /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTINPUT_PLACEHOLDER_STRING">SDL_PROP_TEXTINPUT_PLACEHOLDER_STRING</seealso></SDLWiki>
         public const string TextinputPlaceholderString = "SDL.textinput.placeholder";
 
@@ -1314,6 +1332,12 @@ namespace CSDL {
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
         /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_ANDROID_HARDWARE_BUFFER_POINTER">SDL_PROP_TEXTURE_CREATE_VULKAN_ANDROID_HARDWARE_BUFFER_POINTER</seealso></SDLWiki>
+        public const string TextureCreateVulkanAndroidHardwareBufferPointer = "SDL.texture.create.vulkan.android_hardware_buffer";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
+        /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER</seealso></SDLWiki>
         public const string TextureCreateVulkanLayoutNumber = "SDL.texture.create.vulkan.layout";
 
@@ -1322,6 +1346,24 @@ namespace CSDL {
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER</seealso></SDLWiki>
         public const string TextureCreateVulkanTextureNumber = "SDL.texture.create.vulkan.texture";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_U_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_U_NUMBER</seealso></SDLWiki>
+        public const string TextureCreateVulkanTextureUNumber = "SDL.texture.create.vulkan.texture_u";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_V_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_TEXTURE_V_NUMBER</seealso></SDLWiki>
+        public const string TextureCreateVulkanTextureVNumber = "SDL.texture.create.vulkan.texture_v";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_CREATE_VULKAN_USAGE_NUMBER">SDL_PROP_TEXTURE_CREATE_VULKAN_USAGE_NUMBER</seealso></SDLWiki>
+        public const string TextureCreateVulkanUsageNumber = "SDL.texture.create.vulkan.usage";
 
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Renderer.CreateTextureWithProperties">CreateTextureWithProperties</see> for details.</para>
@@ -1514,6 +1556,18 @@ namespace CSDL {
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER">SDL_PROP_TEXTURE_VULKAN_TEXTURE_NUMBER</seealso></SDLWiki>
         public const string TextureVulkanTextureNumber = "SDL.texture.vulkan.texture";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Texture.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_VULKAN_TEXTURE_U_NUMBER">SDL_PROP_TEXTURE_VULKAN_TEXTURE_U_NUMBER</seealso></SDLWiki>
+        public const string TextureVulkanTextureUNumber = "SDL.texture.vulkan.texture_u";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Texture.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_TEXTURE_VULKAN_TEXTURE_V_NUMBER">SDL_PROP_TEXTURE_VULKAN_TEXTURE_V_NUMBER</seealso></SDLWiki>
+        public const string TextureVulkanTextureVNumber = "SDL.texture.vulkan.texture_v";
 
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Texture.Properties">Properties</see> for details.</para>
@@ -1812,6 +1866,12 @@ namespace CSDL {
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Window(WindowCreateProperties)">Window(WindowCreateProperties)</see> for details.</para>
         /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_CREATE_WAYLAND_ENABLE_INSETS_BOOLEAN">SDL_PROP_WINDOW_CREATE_WAYLAND_ENABLE_INSETS_BOOLEAN</seealso></SDLWiki>
+        public const string WindowCreateWaylandEnableInsetsBoolean = "SDL.window.create.wayland.enable_insets";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window(WindowCreateProperties)">Window(WindowCreateProperties)</see> for details.</para>
+        /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN">SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN</seealso></SDLWiki>
         public const string WindowCreateWaylandSurfaceRoleCustomBoolean = "SDL.window.create.wayland.surface_role_custom";
 
@@ -1844,6 +1904,12 @@ namespace CSDL {
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER">SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER</seealso></SDLWiki>
         public const string WindowCreateWIN32PixelFormatHwndPointer = "SDL.window.create.win32.pixel_format_hwnd";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window(WindowCreateProperties)">Window(WindowCreateProperties)</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER">SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER</seealso></SDLWiki>
+        public const string WindowCreateWIN32StyleExNumber = "SDL.window.create.win32.style_ex";
 
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Window(WindowCreateProperties)">Window(WindowCreateProperties)</see> for details.</para>
@@ -1932,6 +1998,24 @@ namespace CSDL {
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
         /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER">SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER</seealso></SDLWiki>
+        public const string WindowOpenharmonySurfacePointer = "SDL.window.openharmony.surface";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_OPENHARMONY_WINDOW_POINTER">SDL_PROP_WINDOW_OPENHARMONY_WINDOW_POINTER</seealso></SDLWiki>
+        public const string WindowOpenharmonyWindowPointer = "SDL.window.openharmony.window";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_OPENHARMONY_XCOMPONENT_POINTER">SDL_PROP_WINDOW_OPENHARMONY_XCOMPONENT_POINTER</seealso></SDLWiki>
+        public const string WindowOpenharmonyXcomponentPointer = "SDL.window.openharmony.xcomponent";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER">SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER</seealso></SDLWiki>
         public const string WindowOpenvrOverlayIDNumber = "SDL.window.openvr.overlay_id";
 
@@ -2012,6 +2096,30 @@ namespace CSDL {
         /// </summary>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER">SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER</seealso></SDLWiki>
         public const string WindowVivanteWindowPointer = "SDL.window.vivante.window";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_BOTTOM_NUMBER">SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_BOTTOM_NUMBER</seealso></SDLWiki>
+        public const string WindowWaylandBorderInsetBottomNumber = "SDL.window.wayland.border_inset_bottom";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_LEFT_NUMBER">SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_LEFT_NUMBER</seealso></SDLWiki>
+        public const string WindowWaylandBorderInsetLeftNumber = "SDL.window.wayland.border_inset_left";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_RIGHT_NUMBER">SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_RIGHT_NUMBER</seealso></SDLWiki>
+        public const string WindowWaylandBorderInsetRightNumber = "SDL.window.wayland.border_inset_right";
+
+        /// <summary>
+        /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>
+        /// </summary>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_TOP_NUMBER">SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_TOP_NUMBER</seealso></SDLWiki>
+        public const string WindowWaylandBorderInsetTopNumber = "SDL.window.wayland.border_inset_top";
 
         /// <summary>
         /// <para>Please refer to <see cref="CSDL.Video.Window.Properties">Properties</see> for details.</para>

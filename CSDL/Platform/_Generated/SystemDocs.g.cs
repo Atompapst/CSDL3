@@ -242,6 +242,45 @@ namespace CSDL.Internal.Docs {
         public static extern void GetGDKTaskQueue();
 
         /// <summary>
+        /// <para>Get the path used for internal storage for this OpenHarmony application.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This path is unique to your application and cannot be written to by other applications.</para>
+        /// <para>Your internal storage path is typically: <c>/data/storage/el2/base/files</c>.</para>
+        /// </remarks>
+        /// <returns>
+        /// <para>(const char *) Returns the path used for internal storage or NULL on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetOpenHarmonyInternalStoragePath">SDL_GetOpenHarmonyInternalStoragePath</seealso></SDLWiki>
+        public static extern void GetOpenHarmonyInternalStoragePath();
+
+        /// <summary>
+        /// <para>Query OpenHarmony API level of the current device.</para>
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>API level 20: OpenHarmony 6.0.0</description></item>
+        /// <item><description>API level 18: OpenHarmony 5.1.0</description></item>
+        /// <item><description>API level 16: OpenHarmony 5.0.4</description></item>
+        /// <item><description>API level 15: OpenHarmony 5.0.3</description></item>
+        /// <item><description>API level 14: OpenHarmony 5.0.2</description></item>
+        /// <item><description>API level 13: OpenHarmony 5.0.1</description></item>
+        /// <item><description>API level 12: OpenHarmony 5.0.0</description></item>
+        /// <item><description>API level 11: OpenHarmony 4.1.0</description></item>
+        /// <item><description>API level 10: OpenHarmony 4.0.0</description></item>
+        /// <item><description>API level 9: OpenHarmony 3.2.0</description></item>
+        /// </list>
+        /// </remarks>
+        /// <returns>
+        /// <para>(int) Returns the OpenHarmony API level.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetOpenHarmonySDKVersion">SDL_GetOpenHarmonySDKVersion</seealso></SDLWiki>
+        public static extern void GetOpenHarmonySDKVersion();
+
+        /// <summary>
         /// <para>Get the application sandbox environment, if any.</para>
         /// </summary>
         /// <returns>
@@ -424,6 +463,28 @@ namespace CSDL.Internal.Docs {
         /// <since>This function is available since SDL 3.2.0</since>
         /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RequestAndroidPermission">SDL_RequestAndroidPermission</seealso></SDLWiki>
         public static extern void RequestAndroidPermission();
+
+        /// <summary>
+        /// <para>Request permissions at runtime, asynchronously.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>You do not need to call this for built-in functionality of SDL; recording from a microphone or reading images from a camera, using standard SDL APIs, will manage permission requests for you.</para>
+        /// <para>This function never blocks. Instead, the app-supplied callback will be called when a decision has been made. This callback may happen on a different thread, and possibly much later, as it might wait on a user to respond to a system dialog. If permission has already been granted for a specific entitlement, the callback will still fire, probably on the current thread and before this function returns.</para>
+        /// <para>If the request submission fails, this function returns false and the callback will NOT be called, but this should only happen in catastrophic conditions, like memory running out. Normally there will be a yes or no to the request through the callback.</para>
+        /// <para>For the <c>permission</c> parameter, choose a value from here:</para>
+        /// <para>https://developer.huawei.com/consumer/en/doc/harmonyos-guides/app-permissions</para>
+        /// <para>Strings should be in the form of "ohos.permission.PERMISSION_NAME".</para>
+        /// </remarks>
+        /// <param name="permission">the permission to request.</param>
+        /// <param name="cb">the callback to trigger when the request has a response.</param>
+        /// <param name="userdata">an app-controlled pointer that is passed to the callback.</param>
+        /// <returns>
+        /// <para>(bool) Returns true if the request was submitted, false if there was an error submitting. The result of the request is only ever reported through the callback, not this return value.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_RequestOpenHarmonyPermission">SDL_RequestOpenHarmonyPermission</seealso></SDLWiki>
+        public static extern void RequestOpenHarmonyPermission();
 
         /// <summary>
         /// <para>Trigger the Android system back button behavior.</para>

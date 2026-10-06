@@ -13,7 +13,9 @@ namespace CSDL {
     /// <para>A struct to provide locale data.</para>
     /// </summary>
     /// <remarks>
-    /// <para>Locale data is split into a spoken language, like English, and an optional country, like Canada. The language will be in ISO-639 format (so English would be "en"), and the country, if not NULL, will be an ISO-3166 country code (so Canada would be "CA").</para>
+    /// <para>Locale data is split into a spoken language, like English, and an optional country, like Canada.</para>
+    /// <para>Language strings are ISO-639 language specifiers (such as "en" for English, "de" for German, etc). Country strings are ISO-3166 country codes (such as "US" for the United States, "CA" for Canada, etc). The country might be NULL if there's no specific guidance on them (so you might have <c>{ "en", "US" }</c> for American English, but <c>{ "en", NULL }</c> means "English language, generically"). Language strings are never NULL.</para>
+    /// <para>Please note that not all of these strings are 2 characters; some are three or more.</para>
     /// </remarks>
     /// <since>This struct is available since SDL 3.2.0</since>
     /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_Locale">SDL_Locale</seealso></SDLWiki>

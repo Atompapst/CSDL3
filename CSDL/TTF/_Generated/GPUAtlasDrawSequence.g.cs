@@ -28,7 +28,7 @@ namespace CSDL.TTF {
         public nint Xy;
 
         /// <summary>
-        /// <para>An array of normalized texture coordinates for each vertex, or NULL for solid fill</para>
+        /// <para>An array of normalized texture coordinates for each vertex</para>
         /// </summary>
         public nint Uv;
 

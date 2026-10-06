@@ -115,5 +115,40 @@ namespace CSDL3.Tests.Files {
             Assert.Equal(1, closeCalls);
             Assert.Throws<ObjectDisposedException>(() => _ = stream.Size);
         }
+
+        [Fact]
+        public void IOStreamProperties_DynamicMemory_ExposesBufferAndCanBeHandedToTheApp() {
+            IOStream stream = IOStream.FromDynamicMem();
+            CSDL.IOStreamProperties props = stream.Properties;
+            try {
+                Assert.Equal(0, props.DynamicMemory.Get());
+
+                Assert.Equal(1UL, stream.WriteU8(0x2A) ? 1UL : 0UL);
+                nint buffer = props.DynamicMemory.Get();
+                Assert.NotEqual(IntPtr.Zero, buffer);
+                Assert.Equal(0x2A, System.Runtime.InteropServices.Marshal.ReadByte(buffer));
+
+                // Hands ownership to the app; the stream must only be closed afterwards.
+                Assert.True(props.DynamicMemory.Set(IntPtr.Zero));
+                stream.Dispose();
+                CSDL.Memory.Free(buffer);
+            } finally {
+                stream.Dispose();
+            }
+        }
+
+        [Fact]
+        public void IOStreamProperties_MemoryStream_ReportsPointerAndSize() {
+            nint mem = System.Runtime.InteropServices.Marshal.AllocHGlobal(16);
+            try {
+                using IOStream stream = new IOStream(mem, 16);
+                CSDL.IOStreamProperties props = stream.Properties;
+
+                Assert.Equal(mem, props.Memory.Get());
+                Assert.Equal(16, props.MemorySize.Get());
+            } finally {
+                System.Runtime.InteropServices.Marshal.FreeHGlobal(mem);
+            }
+        }
     }
 }

@@ -670,6 +670,10 @@ namespace CSDL.Input {
         /// </summary>
         Exsel = 0x400000a4,
         /// <summary>
+        /// <para>SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_FRONT)</para>
+        /// </summary>
+        Front = 0x400000a5,
+        /// <summary>
         /// <para>SDL_SCANCODE_TO_KEYCODE(SDL_SCANCODE_KP_00)</para>
         /// </summary>
         Kp00 = 0x400000b0,

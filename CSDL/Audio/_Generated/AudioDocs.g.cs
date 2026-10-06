@@ -266,6 +266,26 @@ namespace CSDL.Internal.Docs {
         public static extern void GetAudioDeviceName();
 
         /// <summary>
+        /// <para>Get the properties associated with an audio device.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This can be used with both logical and physical devices. Note that while apps can hang any data they want here, physical device IDs are global; it would be better to assign data to one's own logical device so it doesn't interfere with other parts of the program that might be using the same physical device ID.</para>
+        /// <para>Properties provided by SDL for physical devices will also be made available on their associated logical devices, unless otherwise noted.</para>
+        /// <para>The application can hang any data it wants here, but the following properties are understood by SDL:</para>
+        /// <list type="bullet">
+        /// <item><description><see cref="CSDL.Props.AudioDeviceUniqueIDString">AudioDeviceUniqueIDString</see>: This identifier can be used to locate a specific device. In optimal conditions, this identifier will not change between runs of an app, hardware disconnection, and system reboots. However, depending on the hardware, operating system, and other circumstances, a device's identifier may change, so if the app cannot find a device with a previously queried identifier, the user should be prompted to choose a new device (possibly the same device, now with a new identifier). Device identifier strings have no specific format, the format may change in the future without warning, and are likely different between different operating systems on the same hardware. If the system cannot reasonably provide a unique identifier, this property will not be set. Note that property is useful for finding specific hardware again on a later run of the app, but often times it's better to just open the default device (<see cref="CSDL.Audio.Macros.AudioDeviceDefaultPlayback">AudioDeviceDefaultPlayback</see> or <see cref="CSDL.Audio.Macros.AudioDeviceDefaultRecording">AudioDeviceDefaultRecording</see>), and let the user set this up globally on their platform.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <param name="devid">the audio device instance id to query.</param>
+        /// <returns>
+        /// <para>(<see cref="CSDL.PropertiesID">PropertiesID</see>) Returns a valid property ID on success or 0 on failure; call <see cref="CSDL.Error.GetError">GetError</see> for more information.</para>
+        /// </returns>
+        /// <threadsafety>It is safe to call this function from any thread.</threadsafety>
+        /// <since>This function is available since SDL 3.6.0</since>
+        /// <SDLWiki><seealso href="https://wiki.libsdl.org/SDL3/SDL_GetAudioDeviceProperties">SDL_GetAudioDeviceProperties</seealso></SDLWiki>
+        public static extern void GetAudioDeviceProperties();
+
+        /// <summary>
         /// <para>Use this function to get the name of a built in audio driver.</para>
         /// </summary>
         /// <remarks>

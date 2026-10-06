@@ -179,12 +179,12 @@ namespace CSDL.Input {
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Keyboard.StartTextInputWithProperties"/>
-        public static bool StartTextInput(Window window, uint properties) {
+        public static bool StartTextInputWithProperties(Window window, TextInputProperties properties) {
             if (window == null) {
                 throw new ArgumentNullException(nameof(window));
             }
-
-            return SDL.StartTextInputWithProperties(window.Handle, properties).LogIfFalse();
+            ArgumentNullException.ThrowIfNull(properties);
+            return SDL.StartTextInputWithProperties(window.Handle, properties.Handle).LogIfFalse();
         }
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Keyboard.TextInputActive"/>

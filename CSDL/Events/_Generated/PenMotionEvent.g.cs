@@ -55,5 +55,10 @@ namespace CSDL {
         /// <para>Y coordinate, relative to window</para>
         /// </summary>
         public float Y;
+
+        /// <summary>
+        /// <para>the device type of the pen, if known (added in 3.4.18).</para>
+        /// </summary>
+        public CSDL.Input.PenDeviceType DeviceType;
     }
 }

@@ -78,6 +78,9 @@ namespace CSDL.Video {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetRenderClipRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool GetRenderClipRect(NativePtr<CSDL.Opaque.SdlRenderer> renderer, out CSDL.Video.Rect rect);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetRenderClipRectFloat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool GetRenderClipRectFloat(NativePtr<CSDL.Opaque.SdlRenderer> renderer, out CSDL.Video.FRect rect);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetRenderColorScale"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool GetRenderColorScale(NativePtr<CSDL.Opaque.SdlRenderer> renderer, out float scale);
 
@@ -134,6 +137,9 @@ namespace CSDL.Video {
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetRenderViewport"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool GetRenderViewport(NativePtr<CSDL.Opaque.SdlRenderer> renderer, out CSDL.Video.Rect rect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetRenderViewportFloat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool GetRenderViewportFloat(NativePtr<CSDL.Opaque.SdlRenderer> renderer, out CSDL.Video.FRect rect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_GetRenderVSync"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool GetRenderVSync(NativePtr<CSDL.Opaque.SdlRenderer> renderer, out int vsync);
@@ -327,6 +333,12 @@ namespace CSDL.Video {
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderClipRect"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static unsafe partial CBool SetRenderClipRectNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, CSDL.Video.Rect* rect);
 
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderClipRectFloat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool SetRenderClipRectFloat(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.FRect rect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderClipRectFloat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static unsafe partial CBool SetRenderClipRectFloatNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, CSDL.Video.FRect* rect);
+
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderColorScale"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetRenderColorScale(NativePtr<CSDL.Opaque.SdlRenderer> renderer, float scale);
 
@@ -356,6 +368,12 @@ namespace CSDL.Video {
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderViewport"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static unsafe partial CBool SetRenderViewportNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, CSDL.Video.Rect* rect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderViewportFloat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static partial CBool SetRenderViewportFloat(NativePtr<CSDL.Opaque.SdlRenderer> renderer, in CSDL.Video.FRect rect);
+
+        [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderViewportFloat"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+        internal static unsafe partial CBool SetRenderViewportFloatNullable(NativePtr<CSDL.Opaque.SdlRenderer> renderer, CSDL.Video.FRect* rect);
 
         [LibraryImport(SDLLibrary, EntryPoint = "SDL_SetRenderVSync"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
         internal static partial CBool SetRenderVSync(NativePtr<CSDL.Opaque.SdlRenderer> renderer, int vsync);
