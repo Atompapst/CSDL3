@@ -74,7 +74,7 @@ namespace CSDL.File {
         public IOStatus Status => SDL.GetIOStatus(Handle);
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Iostream.GetIOProperties"/>
-        public uint Properties => SDL.GetIOProperties(Handle);
+        public IOStreamProperties Properties => new IOStreamProperties(SDL.GetIOProperties(Handle));
 
         /// <inheritdoc cref="CSDL.Internal.Docs.Iostream.SeekIO"/>
         public long Seek(long offset, IOWhence whence) {
