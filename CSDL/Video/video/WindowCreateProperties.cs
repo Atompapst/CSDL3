@@ -70,6 +70,8 @@ namespace CSDL.Video {
         public BooleanProperty WaylandCreateEGLWindow => PropBool(Props.WindowCreateWaylandCreateEGLWindowBoolean);
         /// <inheritdoc cref="CSDL.Props.WindowCreateWaylandWlSurfacePointer"/>
         public PointerProperty WaylandWLSurface => PropPointer(Props.WindowCreateWaylandWlSurfacePointer);
+        /// <inheritdoc cref="CSDL.Props.WindowCreateWaylandEnableInsetsBoolean"/>
+        public BooleanProperty WaylandEnableInsets => PropBool(Props.WindowCreateWaylandEnableInsetsBoolean);
         /// <inheritdoc cref="CSDL.Props.WindowWIN32HwndPointer"/>
         public PointerProperty Win32HWND => PropPointer(Props.WindowWIN32HwndPointer);
         /// <inheritdoc cref="CSDL.Props.WindowCreateWIN32PixelFormatHwndPointer"/>

@@ -108,6 +108,27 @@ namespace CSDL.Video {
         /// <inheritdoc cref="CSDL.Props.WindowWaylandXdgPositionerPointer"/>
         public PointerProperty WaylandXDgPositioner => PropPointer(Props.WindowWaylandXdgPositionerPointer);
 
+        /// <inheritdoc cref="CSDL.Props.WindowWaylandBorderInsetLeftNumber"/>
+        public NumberProperty WaylandBorderInsetLeft => PropNumber(Props.WindowWaylandBorderInsetLeftNumber);
+
+        /// <inheritdoc cref="CSDL.Props.WindowWaylandBorderInsetTopNumber"/>
+        public NumberProperty WaylandBorderInsetTop => PropNumber(Props.WindowWaylandBorderInsetTopNumber);
+
+        /// <inheritdoc cref="CSDL.Props.WindowWaylandBorderInsetRightNumber"/>
+        public NumberProperty WaylandBorderInsetRight => PropNumber(Props.WindowWaylandBorderInsetRightNumber);
+
+        /// <inheritdoc cref="CSDL.Props.WindowWaylandBorderInsetBottomNumber"/>
+        public NumberProperty WaylandBorderInsetBottom => PropNumber(Props.WindowWaylandBorderInsetBottomNumber);
+
+        /// <inheritdoc cref="CSDL.Props.WindowOpenharmonyWindowPointer"/>
+        public PointerProperty OpenHarmonyWindow => PropPointer(Props.WindowOpenharmonyWindowPointer);
+
+        /// <inheritdoc cref="CSDL.Props.WindowOpenharmonySurfacePointer"/>
+        public PointerProperty OpenHarmonySurface => PropPointer(Props.WindowOpenharmonySurfacePointer);
+
+        /// <inheritdoc cref="CSDL.Props.WindowOpenharmonyXcomponentPointer"/>
+        public PointerProperty OpenHarmonyXComponent => PropPointer(Props.WindowOpenharmonyXcomponentPointer);
+
         /// <inheritdoc cref="CSDL.Props.WindowX11DisplayPointer"/>
         public PointerProperty X11Display => PropPointer(Props.WindowX11DisplayPointer);
 

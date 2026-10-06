@@ -26,6 +26,9 @@ namespace CSDL.Audio {
         /// <inheritdoc cref="CSDL.Internal.Docs.Audio.IsAudioDevicePhysical"/>
         public bool IsPhysical => SDL.IsAudioDevicePhysical(Id);
 
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.GetAudioDeviceProperties"/>
+        public AudioDeviceProperties? Properties => GetProperties();
+
         public RecordingDevice Open() {
             return Open(PreferredSpec);
         }
@@ -63,6 +66,17 @@ namespace CSDL.Audio {
         /// <inheritdoc cref="CSDL.Internal.Docs.Audio.GetAudioDeviceFormat"/>
         private bool TryGetSpec(out AudioSpec spec, out int frames) {
             return SDL.GetAudioDeviceFormat(Id, out spec, out frames).LogIfFalse();
+        }
+
+        /// <inheritdoc cref="CSDL.Internal.Docs.Audio.GetAudioDeviceProperties"/>
+        private AudioDeviceProperties? GetProperties() {
+            uint props = SDL.GetAudioDeviceProperties(Id);
+            if (props == 0) {
+                Error.LogError(nameof(SDL.GetAudioDeviceProperties));
+                return null;
+            }
+
+            return new AudioDeviceProperties(props);
         }
 
         public override string ToString() {

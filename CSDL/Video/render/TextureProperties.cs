@@ -120,5 +120,11 @@ namespace CSDL.Video {
 
         /// <inheritdoc cref="CSDL.Props.TextureVulkanTextureNumber"/>
         public NumberProperty VulkanTexture => PropNumber(Props.TextureVulkanTextureNumber);
+
+        /// <inheritdoc cref="CSDL.Props.TextureVulkanTextureUNumber"/>
+        public NumberProperty VulkanTextureU => PropNumber(Props.TextureVulkanTextureUNumber);
+
+        /// <inheritdoc cref="CSDL.Props.TextureVulkanTextureVNumber"/>
+        public NumberProperty VulkanTextureV => PropNumber(Props.TextureVulkanTextureVNumber);
     }
 }
